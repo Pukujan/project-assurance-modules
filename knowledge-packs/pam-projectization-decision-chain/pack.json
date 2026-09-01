@@ -1,0 +1,20 @@
+{
+  "contract_version": "dkg.pack.v1",
+  "pack_id": "pack_pam_projectization_decisions_v1",
+  "name": "Project Assurance Modules Projectization Decision Chain",
+  "kind": "project",
+  "description": "Reviewed working decisions and proposed methodology claims for PAM projectization, build-vs-reuse, scope control, FOSSIL boundaries, structured handoff, and the blinded Research Assurance retrospective benchmark. Acceptance remains a separate review/promotion act.",
+  "schema_version": "dkg.event.v1",
+  "dependencies": [],
+  "read_mounts": ["pack_pam_projectization_decisions_v1"],
+  "write_targets": ["pack_pam_projectization_decisions_v1"],
+  "event_roots": ["events/"],
+  "artifact_manifests": [
+    "source/decision-record.index.json",
+    "claims.json"
+  ],
+  "placement_hint": "dedicated",
+  "projection_namespace": "pam-projectization-decisions-v1",
+  "source_policy_ref": "knowledge-packs/pam-projectization-decision-chain/REVIEW_POLICY.md",
+  "created_at": "2026-09-01T19:16:13Z"
+}
