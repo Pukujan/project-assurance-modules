@@ -18,7 +18,7 @@
     "references"
   ],
   "properties": {
-    "schema_version": {"const": "pam-module/0.1.0"},
+    "schema_version": {"enum": ["pam-module/0.1.0", "pam-module/0.2.0"]},
     "module_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)+$"},
     "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
     "title": {"type": "string", "minLength": 1},
@@ -39,6 +39,12 @@
       ]
     },
     "intent": {"type": "string", "minLength": 1},
+    "motivation": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
     "non_scope": {
       "type": "array",
       "items": {"type": "string", "minLength": 1},
@@ -60,11 +66,31 @@
       "items": {"$ref": "#/$defs/module_ref"},
       "uniqueItems": true
     },
+    "conflicts": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "compatibility": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["impact", "note"],
+      "properties": {
+        "impact": {"enum": ["additive", "behavioral", "breaking"]},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
     "references": {
       "type": "array",
       "items": {"$ref": "#/$defs/reference"}
     }
   },
+  "allOf": [
+    {
+      "if": {"properties": {"schema_version": {"const": "pam-module/0.2.0"}}},
+      "then": {"required": ["motivation", "conflicts", "compatibility"]}
+    }
+  ],
   "$defs": {
     "module_ref": {
       "type": "object",
