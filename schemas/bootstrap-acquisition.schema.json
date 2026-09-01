@@ -1,0 +1,118 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Pukujan/project-assurance-modules/schemas/bootstrap-acquisition.schema.json",
+  "title": "PAM fresh-workspace bootstrap and acquisition contract",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "source",
+    "acquisition",
+    "verification",
+    "start",
+    "content_identity",
+    "failure_behavior"
+  ],
+  "properties": {
+    "schema_version": {"const": "pam-bootstrap/0.1.0"},
+    "source": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "remote", "requested_revision", "resolved_commit"],
+      "properties": {
+        "repository": {"$ref": "#/$defs/repository"},
+        "remote": {"type": "string", "minLength": 1},
+        "requested_revision": {"$ref": "#/$defs/requested_revision"},
+        "resolved_commit": {"$ref": "#/$defs/git_sha"}
+      }
+    },
+    "acquisition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["mechanism", "fetch_scope", "checkout_mode"],
+      "properties": {
+        "mechanism": {"const": "git_fetch_exact_revision"},
+        "fetch_scope": {"enum": ["single_revision", "shallow_ref"]},
+        "checkout_mode": {"const": "detached"}
+      }
+    },
+    "verification": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required", "method", "expected_commit", "fail_on_mismatch"],
+      "properties": {
+        "required": {"const": true},
+        "method": {"const": "git_rev_parse_head"},
+        "expected_commit": {"$ref": "#/$defs/git_sha"},
+        "fail_on_mismatch": {"const": true}
+      }
+    },
+    "start": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "locator", "must_exist_before_routing"],
+      "properties": {
+        "kind": {"enum": ["document", "profile", "manifest"]},
+        "locator": {"type": "string", "minLength": 1},
+        "must_exist_before_routing": {"const": true}
+      }
+    },
+    "content_identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "authoritative_basis",
+        "working_tree_bytes_authoritative",
+        "line_ending_normalization_authoritative",
+        "note"
+      ],
+      "properties": {
+        "authoritative_basis": {"enum": ["git_object_id", "content_digest"]},
+        "working_tree_bytes_authoritative": {"const": false},
+        "line_ending_normalization_authoritative": {"const": false},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "failure_behavior": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "acquisition_unavailable",
+        "revision_unavailable",
+        "revision_mismatch",
+        "start_missing"
+      ],
+      "properties": {
+        "acquisition_unavailable": {"const": "stop_before_routing"},
+        "revision_unavailable": {"const": "stop_before_routing"},
+        "revision_mismatch": {"const": "stop_before_routing"},
+        "start_missing": {"const": "stop_before_routing"}
+      }
+    }
+  },
+  "$defs": {
+    "repository": {
+      "type": "string",
+      "pattern": "^[^/\\s]+/[^/\\s]+$"
+    },
+    "git_sha": {
+      "type": "string",
+      "pattern": "^[0-9a-f]{40}$"
+    },
+    "requested_revision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "value"],
+      "properties": {
+        "kind": {"enum": ["git_commit", "git_tag", "version"]},
+        "value": {"type": "string", "minLength": 1}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"kind": {"const": "git_commit"}}, "required": ["kind"]},
+          "then": {"properties": {"value": {"$ref": "#/$defs/git_sha"}}}
+        }
+      ]
+    }
+  }
+}
