@@ -1,0 +1,66 @@
+{
+  "schema_version": "pam-manifest/0.1.0",
+  "project": {
+    "name": "example-research-tool",
+    "repository": "Example/example-research-tool",
+    "phase": "preflight"
+  },
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "901f09f73ffca63ae628143b6c7f3d1cd29cd53d"
+  },
+  "project_facts": {
+    "software": true,
+    "agent_assisted": true,
+    "multi_session": true,
+    "empirical_quality_claims": false,
+    "multi_repository": false
+  },
+  "profiles": [],
+  "modules": [
+    {
+      "module_id": "continuity.structured-handoff",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The project is expected to span multiple human/agent sessions.",
+      "requirements": [
+        {
+          "requirement_id": "HANDOFF-001",
+          "state": "pending",
+          "evidence": [],
+          "rationale": null
+        },
+        {
+          "requirement_id": "HANDOFF-002",
+          "state": "pending",
+          "evidence": [],
+          "rationale": null
+        },
+        {
+          "requirement_id": "HANDOFF-003",
+          "state": "pending",
+          "evidence": [],
+          "rationale": null
+        },
+        {
+          "requirement_id": "HANDOFF-004",
+          "state": "pending",
+          "evidence": [],
+          "rationale": null
+        },
+        {
+          "requirement_id": "HANDOFF-005",
+          "state": "pending",
+          "evidence": [],
+          "rationale": null
+        },
+        {
+          "requirement_id": "HANDOFF-006",
+          "state": "not_applicable",
+          "evidence": [],
+          "rationale": "This example project declares no hidden or confirmatory evaluation material."
+        }
+      ]
+    }
+  ]
+}

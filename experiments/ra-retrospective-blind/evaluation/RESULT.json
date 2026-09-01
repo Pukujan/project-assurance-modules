@@ -1,0 +1,47 @@
+{
+  "schema_version": "pam-retrospective-evaluation/0.1.0",
+  "benchmark": "ra-retrospective-blind/v0",
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "reference_project": "Pukujan/research-assurance",
+  "classification": "development_conformance_only",
+  "runs": {
+    "condition_a_primary": {
+      "commit": "0da5a62529f7e665421b3389a941d1f70f895286",
+      "score": 90,
+      "contamination_status": "clean"
+    },
+    "condition_b_primary": {
+      "commit": "0d5b6f254dc199c2be5f552b77724f3dc966a44d",
+      "score": 96,
+      "contamination_status": "clean"
+    },
+    "condition_b_replication": {
+      "commit": "658e219e46b60a1a6fe954712cba94cc846394ab",
+      "score": 95,
+      "contamination_status": "clean"
+    }
+  },
+  "primary_effect_points": 6,
+  "replication_effect_points": 5,
+  "decision": "continue_with_bounded_expansion",
+  "interpretation": "PAM improved formal projectization, scope/reuse gating, multi-repository ownership, exact-state tracking, and structured continuity, while the strong research packet plus Sol already recovered most validation methodology without PAM.",
+  "confirmed_gaps": [
+    "generic_handoff_state_schema_missing",
+    "profile_definitions_missing",
+    "only_three_executable_modules",
+    "planning_swe_validation_benchmark_provenance_obligations_not_yet_versioned_as_modules"
+  ],
+  "next_priority": [
+    "generic_structured_handoff_schema_and_validator",
+    "profile_schema_and_selection",
+    "small_repeated_module_extraction",
+    "second_real_adopter_ra_plugin",
+    "unseen_project_transfer_benchmark_before_stable_v1"
+  ],
+  "nonclaims": [
+    "no_generalization_claim",
+    "no_stable_v1_claim",
+    "no_claim_that_every_project_needs_every_module",
+    "no_claim_that_a_new_promotion_runtime_core_is_required"
+  ]
+}

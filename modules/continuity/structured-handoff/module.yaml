@@ -1,0 +1,73 @@
+schema_version: pam-module/0.1.0
+module_id: continuity.structured-handoff
+version: 0.1.0
+title: Structured project and agent handoff
+category: continuity
+intent: >-
+  Preserve enough exact, machine-valid execution state that a new human or agent can resume
+  material project work without depending on the previous conversation, while still reconciling
+  cheap live facts before mutation.
+non_scope:
+  - Replace live GitHub/CI as the source of current execution truth.
+  - Record every trivial edit or tool call.
+  - Preserve hidden benchmark answers in agent-visible state.
+  - Act as a generic quality stamp or completion certificate.
+applies_when:
+  - Work spans multiple material sessions, agents, or humans.
+  - Context loss/compaction can interrupt execution.
+  - Work may transfer across repositories or harnesses.
+  - Exact issue/PR/revision/validation continuity matters.
+requirements:
+  - id: HANDOFF-001
+    title: Define handoff authority and trigger rules
+    description: >-
+      Agent/human instructions define when a material handoff is required, when it is not,
+      and that live repository state wins over a stale handoff.
+    evidence_kinds: [file]
+    closure_rule: Instructions are committed and identify material handoff boundaries plus stale-state reconciliation.
+    not_applicable_rule: Only projects with no material cross-session or responsibility-transfer risk may omit this.
+
+  - id: HANDOFF-002
+    title: Maintain a machine-readable current state packet
+    description: >-
+      The project stores current owner/repo/issue/PR/revision/validation/blocker/next-action state
+      in a versioned machine-readable artifact.
+    evidence_kinds: [file]
+    closure_rule: A current state artifact exists and validates against a pinned schema version.
+    not_applicable_rule: Not applicable only when the entire project is intentionally single-session and non-resumable.
+
+  - id: HANDOFF-003
+    title: Validate the handoff structure deterministically
+    description: The handoff schema and current state are checked by deterministic tooling.
+    evidence_kinds: [test, ci_run, file]
+    closure_rule: Positive and negative schema tests pass and the normal project check lane validates the current handoff.
+    not_applicable_rule: A purely non-code project may substitute another deterministic schema validator with equivalent evidence.
+
+  - id: HANDOFF-004
+    title: Reconcile referenced live state before mutation
+    description: >-
+      A resumed worker checks the small set of live objects named by the handoff (for example main SHA,
+      active issue/PR, relevant CI, child revision) before relying on it.
+    evidence_kinds: [file, test, human_review]
+    closure_rule: Resume instructions require reconciliation and define behavior when the handoff is stale.
+    not_applicable_rule: Not applicable only when all referenced execution state is immutable by design.
+
+  - id: HANDOFF-005
+    title: Separate current handoff from historical checkpoints
+    description: Current resumable state is replaceable; material historical checkpoints are append-only or otherwise immutable.
+    evidence_kinds: [file]
+    closure_rule: Project documentation identifies the current-state artifact and the historical-checkpoint policy.
+    not_applicable_rule: A project that intentionally keeps no historical checkpoints may omit history but must still preserve current resumable state if this module applies.
+
+  - id: HANDOFF-006
+    title: Exclude hidden evaluation material
+    description: Agent-visible handoffs must not contain hidden/confirmatory benchmark answers, seeds, or labels.
+    evidence_kinds: [file, test]
+    closure_rule: The project policy explicitly forbids hidden evaluation content in handoffs and fixtures test the boundary where practical.
+    not_applicable_rule: If the project has no hidden or confirmatory evaluation material, record that fact rather than inventing a holdout process.
+
+dependencies: []
+references:
+  - kind: repository
+    locator: Pukujan/research-assurance
+    note: First reference adopter and source of the initial structured handoff design.

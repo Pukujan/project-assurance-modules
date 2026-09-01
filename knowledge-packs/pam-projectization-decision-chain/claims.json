@@ -1,0 +1,66 @@
+{
+  "schema_version": "pam.reviewed-claim-drafts.v1",
+  "review_ref": "review:pam:projectization-bootstrap:2026-09-01",
+  "claims": [
+    {
+      "subject_ref": "pam_arch_000001",
+      "claim_text": "PAM should be a reusable, versioned methodology composition layer rather than a runtime assurance service or universal agent-control protocol.",
+      "reason": "Repeated boundary in the reviewed project-design discussion."
+    },
+    {
+      "subject_ref": "pam_arch_000002",
+      "claim_text": "Projectization should require an explicit build-vs-reuse assessment before bespoke implementation when plausible existing systems may satisfy the scoped capability.",
+      "reason": "Addresses the observed tendency of coding agents to build before evaluating maintained alternatives."
+    },
+    {
+      "subject_ref": "pam_arch_000003",
+      "claim_text": "A bespoke build_new decision should identify concrete unmet requirements or unacceptable trade-offs and should prefer cheap empirical probes over prose-only rejection where feasible.",
+      "reason": "Makes new implementation earn inclusion with evidence."
+    },
+    {
+      "subject_ref": "pam_arch_000004",
+      "claim_text": "Projectization should freeze current scope, explicit non-goals, deferred/rejected mechanisms and scope-admission criteria before large implementation backlogs are generated.",
+      "reason": "Prevents horizontal scope expansion and automatic roadmap conversion of red-team findings or attractive technologies."
+    },
+    {
+      "subject_ref": "pam_arch_000005",
+      "claim_text": "The adopting project's Project Assurance Manifest should be the authoritative operational methodology state; generated checkboxes are only human-readable views over evidence-backed requirement state.",
+      "reason": "Avoids self-attested checklist/stamp behavior."
+    },
+    {
+      "subject_ref": "pam_arch_000006",
+      "claim_text": "PAM/project Git state and FOSSIL should remain separate: PAM tracks current project methodology/evidence requirements while FOSSIL preserves durable lineage for consequential research/project decisions.",
+      "reason": "Prevents FOSSIL from becoming a live task tracker while preserving important decision provenance."
+    },
+    {
+      "subject_ref": "pam_arch_000007",
+      "claim_text": "Exploratory transcripts and scratch research should remain cheap; compact reviewed research handoffs and material projectization decisions are appropriate promotion points for durable Git/FOSSIL lineage.",
+      "reason": "Balances provenance value with workflow friction."
+    },
+    {
+      "subject_ref": "pam_arch_000008",
+      "claim_text": "The Research Assurance retrospective planning test is a development/conformance benchmark, not evidence of PAM generalization, because PAM was extracted from Research Assurance planning.",
+      "reason": "Prevents circular benchmark claims."
+    },
+    {
+      "subject_ref": "pam_arch_000009",
+      "claim_text": "The retrospective candidate planner must be blinded from the finished Research Assurance repository and evaluated only after its output is frozen.",
+      "reason": "Reduces direct outcome leakage and iterative benchmark overfitting."
+    },
+    {
+      "subject_ref": "pam_arch_000010",
+      "claim_text": "Retrospective planning quality should be scored for semantic equivalence of material obligations and boundaries rather than byte-for-byte reproduction of filenames, issue numbers or historical decomposition.",
+      "reason": "Separates substantive planning quality from incidental historical choices."
+    },
+    {
+      "subject_ref": "pam_arch_000011",
+      "claim_text": "A fresh cloud Sol session is an appropriate first blinded candidate planner, while weaker local models can later test planner/harness sensitivity as a separate experimental factor.",
+      "reason": "Avoids confounding initial methodology evaluation with known local planning-capability limitations."
+    },
+    {
+      "subject_ref": "pam_arch_000012",
+      "claim_text": "A later unseen project that did not shape the tested PAM modules is required before making a generalization claim.",
+      "reason": "Provides a non-retrospective test of transfer beyond the reference adopter."
+    }
+  ]
+}
