@@ -137,8 +137,7 @@ def _selection_for_profile(profile: JSONDict, project_facts: JSONDict) -> Profil
 def select_profiles(project_facts: JSONDict) -> list[ProfileSelection]:
     profiles = load_profiles()
     return [
-        _selection_for_profile(profile, project_facts)
-        for _, profile in sorted(profiles.items())
+        _selection_for_profile(profile, project_facts) for _, profile in sorted(profiles.items())
     ]
 
 
@@ -221,7 +220,9 @@ def validate_manifest_profile_refs(manifest: JSONDict) -> None:
         if key not in profiles:
             raise ValueError(f"unknown profile {profile_id}@{version}")
         if selections[key].disposition == "not_selected":
-            raise ValueError(f"profile {profile_id}@{version} is contradicted by declared project facts")
+            raise ValueError(
+                f"profile {profile_id}@{version} is contradicted by declared project facts"
+            )
         allowed_modules.update(_module_keys(profiles[key]))
 
     if not raw_refs:
