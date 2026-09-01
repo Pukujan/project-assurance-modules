@@ -1,0 +1,51 @@
+schema_version: pam-module/0.1.0
+module_id: projectization.scope-boundary
+version: 0.1.0
+title: Project scope boundary
+category: projectization
+intent: >-
+  Freeze the smallest justified project scope before implementation planning so
+  new mechanisms, red-team findings, technologies, and speculative capabilities
+  do not silently expand the current build.
+non_scope:
+  - Preventing exploration or future research.
+  - Treating every discovered risk as a current implementation requirement.
+  - Replacing project-specific product or architecture decisions.
+applies_when:
+  - A nontrivial project is transitioning from research into implementation planning.
+requirements:
+  - id: SCOPE_001
+    title: State current goal and claims
+    description: Define the outcome and current claims/capabilities the project is intended to deliver.
+    evidence_kinds: [file, rationale]
+    closure_rule: A durable scope artifact states the current goal and bounded claims/capabilities.
+    not_applicable_rule: Not applicable only for trivial work with no meaningful scope choice.
+  - id: SCOPE_002
+    title: State explicit non-goals
+    description: Record nearby attractive capabilities that are explicitly outside the current project or milestone.
+    evidence_kinds: [file, rationale]
+    closure_rule: Non-goals are explicit enough that an agent can reject obvious horizontal expansion without guessing.
+    not_applicable_rule: Not applicable only when there are no meaningful adjacent capabilities.
+  - id: SCOPE_003
+    title: Record deferred and rejected mechanisms
+    description: Preserve deferred/rejected ideas with reasons and reconsideration triggers so they do not repeatedly re-enter scope without new evidence.
+    evidence_kinds: [file, issue, rationale]
+    closure_rule: Material deferred/rejected mechanisms have a disposition, rationale, and trigger or future milestone where appropriate.
+    not_applicable_rule: Not applicable when no material alternative mechanism has been considered.
+  - id: SCOPE_004
+    title: Define scope-admission rule
+    description: State what evidence or current-claim impact is required before new work may enter the present assurance horizon.
+    evidence_kinds: [file, human_review, rationale]
+    closure_rule: A durable rule distinguishes mitigate-now/measure/defer/not-applicable or an equivalent project-specific disposition vocabulary.
+    not_applicable_rule: Not applicable only for work too small to have meaningful horizontal scope risk.
+  - id: SCOPE_005
+    title: Record repository and subsystem boundary
+    description: State whether the project is single-repo, multi-repo, plugin, library, application, or control plane and which responsibilities must remain elsewhere.
+    evidence_kinds: [file, rationale]
+    closure_rule: Ownership and must-not-own boundaries are explicit enough to guide issue generation and later agents.
+    not_applicable_rule: Not applicable only when no repository/component boundary decision exists.
+dependencies: []
+references:
+  - kind: repository
+    locator: Pukujan/research-assurance
+    note: Extracted from the assurance-horizon and scope-control discipline developed during Research Assurance planning.
