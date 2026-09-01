@@ -1,0 +1,17 @@
+schema_version: pam-profile/0.1.0
+profile_id: provenance.material-decisions
+version: 0.1.0
+title: Material decision lineage
+intent: >-
+  Surface durable decision-lineage methodology when consequential decisions or explicitly valuable
+  research/design lineage must remain replayable without moving live project state into an archive.
+selector:
+  all_of: []
+  any_of:
+    - fact: consequential_decisions
+      equals: true
+    - fact: durable_provenance_and_decision_lineage
+      equals: true
+modules:
+  - module_id: provenance.decision-lineage
+    version: 0.1.0
