@@ -1,0 +1,1 @@
+Candidate evidence normalization is being completed from frozen source blobs; identity-bearing manifests and attestations are intentionally excluded.
