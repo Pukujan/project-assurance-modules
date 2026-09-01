@@ -6,11 +6,15 @@ This repository defines reusable project-assurance methodology. It is not itself
 
 1. `specs/PDD.md`
 2. `docs/ARCHITECTURE.md`
-3. `docs/ROUTING.md`
-4. active GitHub issue/PR
-5. relevant schema(s)
-6. relevant module/profile definitions
-7. `docs/MODULE_ROADMAP.md` only as candidate future scope
+3. `docs/PROJECTIZATION_GATE.md`
+4. `docs/ROUTING.md`
+5. `docs/IMPLEMENTATION_PLAN.md`
+6. active GitHub issue/PR
+7. relevant schema(s)
+8. relevant module/profile definitions
+9. `docs/MODULE_ROADMAP.md` only as candidate future scope
+
+For the blinded Research Assurance retrospective, the experiment-specific handoff overrides the normal read order and defines a strict allowlist/denylist.
 
 ## Core rules
 
@@ -20,11 +24,15 @@ This repository defines reusable project-assurance methodology. It is not itself
 - Do not use agent self-report as closure evidence when objective evidence is available.
 - Markdown checkboxes may be generated views; authoritative requirement state belongs in a validated project manifest.
 - Do not silently turn uncertainty into `not_applicable`.
-- Do not generate a large repository/issue/project backlog before reviewed preflight.
-- Do not expose hidden benchmark answers through modules, fixtures, manifests, or handoffs.
+- Do not generate a large repository/issue/project backlog before reviewed projectization preflight.
+- For nontrivial software projectization, do not assume `build_new`; route/evaluate build-vs-reuse first when plausible existing systems may satisfy the requirement.
+- New scope, red-team findings, and attractive technologies require explicit admission/disposition; they do not automatically become current implementation work.
+- Do not expose hidden benchmark answers through modules, fixtures, manifests, handoffs, knowledge packs, or experiment prompts.
 - Do not collapse integrity, correctness, empirical quality, security, provenance, and review into one `verified` state.
 - Keep runtime systems (Research Assurance, FOSSIL, agent plugins) outside this repository; this repo may define methodology for using them.
+- FOSSIL is optional durable lineage for consequential decisions, not PAM's live checklist/task store.
 - New modules should be extracted from demonstrated repeated need, established methodology, or observed failure—not speculation alone.
+- Deterministic schemas/router/validators own structural consistency; humans still own consequential projectization and methodology-waiver judgments.
 
 ## Module change contract
 
@@ -48,6 +56,42 @@ Changing requirement semantics, applicability, or closure evidence requires an a
 An adopting project should pin an exact repository revision plus module/profile versions in its own `PROJECT_ASSURANCE` manifest. Historical manifests are not rewritten because this repository evolves.
 
 The adopting project's human/agent orchestrator owns project facts, reviewed routing, and evidence references. This repository owns the reusable methodology contract.
+
+Normal projectization sequence:
+
+```text
+research mature enough
+ -> research handoff
+ -> build-vs-reuse
+ -> scope boundary
+ -> route modules
+ -> reviewed/pinned PROJECT_ASSURANCE manifest
+ -> only then project/spec/repo/issue/CI/benchmark bootstrap
+```
+
+## Deterministic check lane
+
+Before claiming the current v0 substrate is green, run:
+
+```bash
+make check
+```
+
+The check lane covers lint, format, strict typing, module/manifest validation, and deterministic tests. Do not claim a check passed without current evidence.
+
+## Benchmark integrity
+
+The retrospective experiment under `experiments/ra-retrospective-blind/` is a development/conformance benchmark. PAM was extracted from Research Assurance, so a high score is not generalization evidence.
+
+For candidate runs:
+
+- obey the exact condition handoff;
+- never access the finished `Pukujan/research-assurance` reference project;
+- freeze task packet/methodology revision before paired baseline/PAM runs;
+- do not edit PAM methodology during a candidate run;
+- record access attestation;
+- freeze candidate output before evaluator/reference comparison;
+- improvements after evaluation require a new run/version.
 
 ## Bootstrap status
 
