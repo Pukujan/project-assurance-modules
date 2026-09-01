@@ -1,0 +1,10 @@
+{
+  "run_id": "condition-c-terra-20260901-141315",
+  "benchmark": "ra-retrospective-blind/v0",
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "task_packet_sha256": "209984875d36ed9749f7e20ccb05c053a1b0d0b70b64d0eaffff5b926b20082b",
+  "candidate": {"model": "gpt-5.6-terra", "provider": "OpenAI", "harness": "Codex local agent"},
+  "started_at": "2026-09-01T17:28:37-04:00",
+  "completed_at": "2026-09-01T17:33:04-04:00",
+  "status": "complete"
+}

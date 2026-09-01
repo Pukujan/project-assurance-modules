@@ -1,0 +1,117 @@
+program:
+  id: PA-EPIC-0
+  repository: promotion-assurance
+  objective: Deliver a bounded, replayable finance-domain promotion-assurance vertical slice without duplicating existing evidence or evaluation systems.
+  acceptance_evidence:
+    - Owner-approved PROJECT_ASSURANCE manifest and scope boundary.
+    - Version-pinned composition receipt and phase-gate evidence.
+  blocked_by:
+    - Owner review of preflight.
+  out_of_scope:
+    - Universal trust scoring and cross-domain platform work.
+issues:
+  - id: PA-0
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Approve first-slice facts, exact dependency identities, owner responsibilities, and policy authority before bootstrap.
+    acceptance_evidence:
+      - Reviewed manifest with immutable dependency references and explicit material exclusions.
+      - Selected finance promotion type, source authority, and review authority.
+    blocked_by:
+      - Owner-supplied component references and licenses.
+    out_of_scope:
+      - Creating production code or live issue trackers before review.
+  - id: PA-1
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Specify promotion states, typed per-dimension results, invariants, failure modes, and fail-closed transition semantics.
+    acceptance_evidence:
+      - Versioned specification and failure-mode register.
+      - State-transition table showing exploration remains possible while acceptance cannot be forged.
+    blocked_by:
+      - PA-0
+    out_of_scope:
+      - A universal verified flag or model-derived semantic oracle.
+  - id: PA-2
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Probe the pinned FOSSIL seam and record reuse/wrap/extend disposition with reproducible fixtures.
+    acceptance_evidence:
+      - Contract report for integrity, review reference, failed ingest, actor attribution, crash/replay, and rebuild.
+      - Exact FOSSIL revision and composition receipt.
+    blocked_by:
+      - PA-0
+    out_of_scope:
+      - Replacing or broad-forking FOSSIL.
+  - id: PA-3
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: "Establish project foundation: deterministic no-network CI, formatting/type/test lane, composition lock, and handoff schema/fixtures."
+    acceptance_evidence:
+      - Green deterministic local and CI checks.
+      - Positive and negative handoff-schema tests and resume reconciliation instructions.
+    blocked_by:
+      - PA-0
+    out_of_scope:
+      - Live-data CI or generic agent telemetry.
+  - id: PA-4
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Implement the thin policy/adapter vertical slice for one finance promotion type.
+    acceptance_evidence:
+      - End-to-end fixture from immutable evidence to proposed/reviewed promotion.
+      - Negative fixtures for altered root, missing citation, wrong time/version, wrong actor, missing/stale review, and unavailable dependency.
+      - Replay receipt with pinned policy and evidence references.
+    blocked_by:
+      - PA-1
+      - PA-2
+      - PA-3
+    out_of_scope:
+      - Generic claim verification, domain expansion, or runtime benchmarker coupling.
+  - id: PA-5
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Validate persistent-boundary resilience and adversarial failure behavior.
+    acceptance_evidence:
+      - Property/state-machine, metamorphic, mutation, and fault-injection reports.
+      - Residual-risk register with owner disposition.
+    blocked_by:
+      - PA-4
+    out_of_scope:
+      - Treating a passing happy path as boundary closure.
+  - id: PA-6
+    repository: retrieval-benchmarker
+    parent: PA-EPIC-0
+    objective: Admit and run a versioned finance retrieval evaluation independent of synthesis/semantic claims.
+    acceptance_evidence:
+      - Corpus/query/qrels manifest, baseline report, configuration/ablation report, and cost record.
+    blocked_by:
+      - PA-0
+      - Owner-approved dataset admission card.
+    out_of_scope:
+      - Becoming a runtime promotion dependency.
+  - id: PA-7
+    repository: promotion-assurance
+    parent: PA-EPIC-0
+    objective: Evaluate Source Ranker or semantic-support mechanism only as a separately scoped empirical claim.
+    acceptance_evidence:
+      - Frozen development protocol and result report with baseline/ablation.
+      - Hidden confirmatory protocol if adaptive tuning occurs.
+      - Explicit adopt, defer, or no-measurable-benefit decision.
+    blocked_by:
+      - PA-4
+      - PA-6
+    out_of_scope:
+      - Converting a quality score into integrity or review evidence.
+  - id: PA-8
+    repository: optional-continuity-experiment
+    parent: PA-EPIC-0
+    objective: Test the local research-state/HITL continuity hypothesis under forced restart and cross-model handoff.
+    acceptance_evidence:
+      - Deterministic state/restart/idempotency/review-binding tests before model spend.
+      - Fixed microworld protocol, friction/cost report, and explicit benefit or no-benefit conclusion.
+    blocked_by:
+      - PA-3
+      - Owner-approved experiment protocol and budget.
+    out_of_scope:
+      - Blocking or governing the core promotion slice.

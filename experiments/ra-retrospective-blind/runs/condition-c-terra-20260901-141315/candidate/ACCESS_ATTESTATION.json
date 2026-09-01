@@ -1,0 +1,14 @@
+{
+  "attestation_version": "1.0",
+  "candidate": {"condition": "C", "model": "gpt-5.6-terra", "provider": "OpenAI", "harness": "Codex local agent"},
+  "pam": {"repository": "Pukujan/project-assurance-modules", "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb", "acquisition": "git init; explicit single-revision fetch with --depth=1; detached checkout", "verified_head": "8f4737fc212e6b09f8066d90e178aa8760e619fb"},
+  "pre_run_bootstrap_event": {"status": "PRE_RUN_BOOTSTRAP_ABORT", "description": "The first attempt found an empty workspace and stopped before reading benchmark material or creating a run. The exact frozen PAM revision was then explicitly authorized and bootstrapped.", "contamination": false},
+  "intentional_reads": [
+    {"resource": "Pukujan/project-assurance-modules@8f4737fc212e6b09f8066d90e178aa8760e619fb", "paths": ["AGENTS.md", "specs/PDD.md", "docs/ARCHITECTURE.md", "docs/ROUTING.md", "modules/projectization/scope-boundary/module.yaml", "modules/projectization/build-vs-reuse/module.yaml", "modules/continuity/structured-handoff/module.yaml", "schemas/project-assurance-manifest.schema.json", "schemas/module.schema.json"]},
+    {"resource": "Pukujan/project-assurance-modules@8f4737fc212e6b09f8066d90e178aa8760e619fb", "paths": ["experiments/ra-retrospective-blind/CANDIDATE_HANDOFF.md", "experiments/ra-retrospective-blind/BENCHMARK_PROTOCOL.md", "experiments/ra-retrospective-blind/TASK_PACKET.md", "experiments/ra-retrospective-blind/OUTPUT_CONTRACT.md"]}
+  ],
+  "forbidden_reference": {"repository": "Pukujan/research-assurance", "accessed": false, "statement": "No repository, file, issue, pull request, CI record, commit history, project board, mirror, search result, summary, or remembered project-specific material from the forbidden reference was accessed or used."},
+  "live_web_or_github_search_outside_pam_used": false,
+  "other_repositories_accessed": [],
+  "accidental_exposure_or_uncertainty": "None. Permitted PAM files contain methodology references naming the forbidden repository; those references were not access to any finished-project artifact."
+}
