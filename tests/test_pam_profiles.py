@@ -22,8 +22,10 @@ def example_manifest() -> dict[str, object]:
 def test_shipped_profiles_validate_and_resolve_modules() -> None:
     profiles = load_profiles()
     assert set(profiles) == {
+        ("benchmark.empirical-work", "0.1.0"),
         ("continuity.material-work", "0.1.0"),
         ("projectization.software", "0.1.0"),
+        ("provenance.material-decisions", "0.1.0"),
     }
 
 
@@ -43,11 +45,18 @@ def test_profiles_select_from_declared_project_facts() -> None:
         "horizontal_scope_risk": False,
         "multi_session": True,
         "agent_assisted": False,
+        "empirical_quality_claims": False,
+        "benchmark_or_dataset_use": False,
+        "hidden_confirmatory_evaluation": False,
+        "consequential_decisions": False,
+        "durable_provenance_and_decision_lineage": False,
     }
     selected = {item.profile_id: item.disposition for item in select_profiles(facts)}
     assert selected == {
+        "benchmark.empirical-work": "not_selected",
         "continuity.material-work": "selected",
         "projectization.software": "selected",
+        "provenance.material-decisions": "not_selected",
     }
 
 
@@ -58,8 +67,10 @@ def test_missing_selector_facts_remain_conditional() -> None:
         "nontrivial": True,
     }
     selected = {item.profile_id: item.disposition for item in select_profiles(facts)}
+    assert selected["benchmark.empirical-work"] == "conditional"
     assert selected["continuity.material-work"] == "conditional"
     assert selected["projectization.software"] == "selected"
+    assert selected["provenance.material-decisions"] == "conditional"
 
 
 def test_declared_single_session_work_does_not_select_continuity_profile() -> None:
@@ -69,6 +80,11 @@ def test_declared_single_session_work_does_not_select_continuity_profile() -> No
         "nontrivial": True,
         "multi_session": False,
         "agent_assisted": False,
+        "empirical_quality_claims": False,
+        "benchmark_or_dataset_use": False,
+        "hidden_confirmatory_evaluation": False,
+        "consequential_decisions": False,
+        "durable_provenance_and_decision_lineage": False,
     }
     composed = compose_as_json(facts)
     profiles = composed["profiles"]
@@ -81,6 +97,8 @@ def test_declared_single_session_work_does_not_select_continuity_profile() -> No
     module_ids = {item["module_id"] for item in modules if isinstance(item, dict)}
     assert profile_states["continuity.material-work"] == "not_selected"
     assert "continuity.structured-handoff" not in module_ids
+    assert "benchmark.integrity" not in module_ids
+    assert "provenance.decision-lineage" not in module_ids
 
 
 def test_profile_selection_does_not_make_every_module_required() -> None:
@@ -92,6 +110,11 @@ def test_profile_selection_does_not_make_every_module_required() -> None:
         "horizontal_scope_risk": False,
         "multi_session": True,
         "agent_assisted": False,
+        "empirical_quality_claims": False,
+        "benchmark_or_dataset_use": False,
+        "hidden_confirmatory_evaluation": False,
+        "consequential_decisions": False,
+        "durable_provenance_and_decision_lineage": False,
     }
     composed = compose_as_json(facts)
     modules = composed["modules"]
@@ -101,8 +124,35 @@ def test_profile_selection_does_not_make_every_module_required() -> None:
     }
     assert dispositions == {
         "continuity.structured-handoff": "required",
+        "engineering.swe-ci-foundation": "required",
+        "planning.foundation": "required",
         "projectization.build-vs-reuse": "recommended",
         "projectization.scope-boundary": "recommended",
+    }
+
+
+def test_empirical_and_provenance_profiles_route_only_when_declared() -> None:
+    facts: dict[str, object] = {
+        "software": False,
+        "projectization": False,
+        "nontrivial": True,
+        "multi_session": False,
+        "agent_assisted": False,
+        "empirical_quality_claims": True,
+        "benchmark_or_dataset_use": True,
+        "hidden_confirmatory_evaluation": False,
+        "consequential_decisions": True,
+        "durable_provenance_and_decision_lineage": True,
+    }
+    composed = compose_as_json(facts)
+    modules = composed["modules"]
+    assert isinstance(modules, list)
+    dispositions = {
+        item["module_id"]: item["disposition"] for item in modules if isinstance(item, dict)
+    }
+    assert dispositions == {
+        "benchmark.integrity": "required",
+        "provenance.decision-lineage": "required",
     }
 
 
