@@ -1,0 +1,70 @@
+schema_version: pam-module/0.2.0
+module_id: provenance.decision-lineage
+version: 0.1.0
+title: Decision lineage and provenance boundary
+category: provenance
+intent: >-
+  Preserve durable lineage for consequential project, architecture, methodology, and evidence decisions
+  while keeping live routing/requirement state in the project and avoiding universal provenance machinery.
+motivation:
+  - The RA retrospective repeatedly found decision-lineage/provenance weaker than other planning dimensions even in otherwise strong candidates.
+  - PAM's existing FOSSIL-shaped decision pack exposed a recurring boundary: durable lineage may be valuable, but a stored pack is not equivalent to a successful runtime ingest, review, or promotion receipt.
+non_scope:
+  - Requiring FOSSIL or any particular provenance runtime for ordinary project state.
+  - Recording every thought, checklist transition, chat message, or trivial implementation choice as durable lineage.
+  - Treating provenance integrity as proof of semantic correctness.
+  - Moving live PAM requirement state, issue state, or routing authority into an archival lineage system.
+applies_when:
+  - Consequential project, architecture, methodology, release, or evidence decisions need durable replayable context.
+  - Research or design lineage is valuable enough that later workers must distinguish proposed, reviewed, accepted, superseded, and rejected decisions.
+requirements:
+  - id: PROV_LINEAGE_001
+    title: Define the lineage admission boundary
+    description: State which decision classes merit durable provenance and which routine state remains in ordinary project systems.
+    evidence_kinds: [file, human_review, rationale]
+    closure_rule: A durable policy names consequential decision classes and explicitly excludes ordinary checklist/task churn or an equivalent low-value state class.
+    not_applicable_rule: Not applicable when the project has no consequential or replay-worthy decision lineage beyond ordinary version control and issue history.
+  - id: PROV_LINEAGE_002
+    title: Bind decisions to exact sources and outcomes
+    description: Record immutable or otherwise exact references for the material evidence, component versions, artifacts, or prior decisions supporting each admitted lineage record.
+    evidence_kinds: [file, commit, artifact, receipt, pull_request, issue]
+    closure_rule: Each admitted decision can be traced to exact supporting identities and to the durable outcome or superseding record where applicable.
+    not_applicable_rule: Not applicable only when no admitted decision depends on external or versioned evidence/components.
+  - id: PROV_LINEAGE_003
+    title: Preserve decision status and authority
+    description: Distinguish proposed, reviewed, accepted, rejected, superseded, or equivalent states and record the human/system authority responsible for consequential acceptance.
+    evidence_kinds: [file, human_review, receipt, commit, pull_request]
+    closure_rule: A later worker can tell whether a record was merely proposed or actually accepted and by what authority, without inferring status from storage alone.
+    not_applicable_rule: Not applicable only when the admitted lineage has no review/acceptance state and is explicitly informational.
+  - id: PROV_LINEAGE_004
+    title: Keep live state separate from lineage storage
+    description: Define which system owns current project/module/issue state and how durable lineage references it without becoming a second live authority.
+    evidence_kinds: [file, rationale, human_review]
+    closure_rule: The project names the authoritative live state and the lineage store's role, including reconciliation or supersession semantics where the two reference the same decision.
+    not_applicable_rule: Not applicable when no separate lineage/provenance store or pack is used beyond the authoritative project repository itself.
+  - id: PROV_LINEAGE_005
+    title: Require receipts for external ingest or promotion claims
+    description: Do not claim an external provenance runtime accepted, ingested, reviewed, or promoted a record unless an actual receipt or authoritative state exists.
+    evidence_kinds: [receipt, artifact, file, rationale]
+    closure_rule: Every claim of external ingest/promotion is backed by the corresponding receipt/state identity; otherwise the record is explicitly labeled proposed, prepared, or not yet ingested.
+    not_applicable_rule: Not applicable when no external lineage/provenance runtime ingest or promotion is claimed.
+dependencies: []
+conflicts:
+  - Treating existence of a Git file or prepared knowledge pack as proof that an external provenance runtime accepted or promoted it.
+  - Using a lineage/archive store as the live task, requirement, or routing authority without an explicit project-specific design decision.
+  - Capturing every transient thought or checklist transition by default.
+compatibility:
+  impact: additive
+  note: >-
+    The module is storage-neutral and preserves the existing PAM/Git-versus-FOSSIL boundary. Projects that
+    already maintain decision records can satisfy it without adopting a new runtime; external provenance remains optional.
+references:
+  - kind: documentation
+    locator: knowledge-packs/pam-projectization-decision-chain/
+    note: Existing contract-shaped PAM decision-lineage pack demonstrating proposed lineage without claiming runtime ingest.
+  - kind: documentation
+    locator: experiments/ra-retrospective-blind/evaluation/EVALUATION_ROUND2_IDENTITY_AWARE.md
+    note: Cross-planner evaluation repeatedly identified decision-lineage/provenance as thinner than other planning dimensions.
+  - kind: repository
+    locator: Pukujan/fossil-core@92eb44c96c87a4b7d93ab3c8ba5e85c496ba44b8
+    note: Pinned optional lineage/provenance schema precedent; this module does not create a FOSSIL runtime dependency.
