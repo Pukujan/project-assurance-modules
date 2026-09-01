@@ -1,6 +1,6 @@
 {
   "blind_bundle_branch": "eval/blind-candidate-bundle-v1",
-  "blind_bundle_revision": "091c85b506aaeafe3f8128dee0dbc42f20677a76",
+  "blind_bundle_revision": "68b8ece1b28c1f6cbec3128872228bc83ab9d50d",
   "mapping_status": "withheld_until_blind_scores_frozen",
   "candidates": {
     "candidate-alpha": {
