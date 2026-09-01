@@ -1,0 +1,18 @@
+{
+  "schema_version": "pam.decision-record-index.v1",
+  "source_kind": "reviewed_project_decision_record",
+  "source_role": "local",
+  "media_type": "text/markdown",
+  "locator": {
+    "repository_ref": "Pukujan/project-assurance-modules:knowledge-packs/pam-projectization-decision-chain/source/decision-record.index.json"
+  },
+  "source_parts": [
+    "decision-record-001.md"
+  ],
+  "original_sha256": "14ade3625f12d7c634f62dac721de4d2e140f599fa9279e37daabd4c73debe1e",
+  "original_bytes": 4991,
+  "original_lines": 57,
+  "origin": "reviewed ChatGPT project-design discussion, 2026-09-01",
+  "reconstruction_rule": "concatenate source_parts in listed order as raw UTF-8 bytes",
+  "status": "complete"
+}
