@@ -1,0 +1,17 @@
+{
+  "run_id": "condition-b-20260901T154700-0400-gpt56sol",
+  "benchmark": "ra-retrospective-blind/v0",
+  "condition": "B",
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "task_packet_sha256": "fc1bfcf3d6c13fdd537fc9d52c7a78962746142d4c43cb1ce2887dde8b933f99",
+  "candidate": {
+    "model": "GPT-5.6 Sol",
+    "provider": "OpenAI",
+    "harness": "ChatGPT product harness with connected GitHub connector"
+  },
+  "started_at": "2026-09-01T15:47:00-04:00",
+  "completed_at": "2026-09-01T15:58:03-04:00",
+  "status": "complete",
+  "contamination_status": "clean",
+  "freeze_rule": "This file was written last. No candidate artifact may be changed under this run_id after completion."
+}
