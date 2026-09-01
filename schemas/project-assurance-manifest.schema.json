@@ -1,0 +1,113 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Pukujan/project-assurance-modules/schemas/project-assurance-manifest.schema.json",
+  "title": "Project Assurance Manifest",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["schema_version", "project", "methodology", "project_facts", "profiles", "modules"],
+  "properties": {
+    "schema_version": {"const": "pam-manifest/0.1.0"},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["name", "repository", "phase"],
+      "properties": {
+        "name": {"type": "string", "minLength": 1},
+        "repository": {"type": ["string", "null"]},
+        "phase": {"type": "string", "minLength": 1}
+      }
+    },
+    "methodology": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository", "revision"],
+      "properties": {
+        "repository": {"const": "Pukujan/project-assurance-modules"},
+        "revision": {"type": "string", "pattern": "^[0-9a-f]{40}$"}
+      }
+    },
+    "project_facts": {
+      "type": "object",
+      "additionalProperties": {
+        "type": ["string", "number", "integer", "boolean", "array", "null"]
+      }
+    },
+    "profiles": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/profile_ref"},
+      "uniqueItems": true
+    },
+    "modules": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/module_selection"}
+    }
+  },
+  "$defs": {
+    "profile_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["profile_id", "version"],
+      "properties": {
+        "profile_id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      }
+    },
+    "evidence_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "locator", "note"],
+      "properties": {
+        "kind": {
+          "enum": [
+            "file",
+            "test",
+            "ci_run",
+            "commit",
+            "pull_request",
+            "issue",
+            "benchmark",
+            "artifact",
+            "receipt",
+            "human_review",
+            "rationale"
+          ]
+        },
+        "locator": {"type": "string", "minLength": 1},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "requirement_state": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["requirement_id", "state", "evidence", "rationale"],
+      "properties": {
+        "requirement_id": {"type": "string", "minLength": 1},
+        "state": {"enum": ["pending", "satisfied", "not_applicable", "deferred", "blocked"]},
+        "evidence": {"type": "array", "items": {"$ref": "#/$defs/evidence_ref"}},
+        "rationale": {"type": ["string", "null"]}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"state": {"const": "satisfied"}}},
+          "then": {"properties": {"evidence": {"minItems": 1}}}
+        },
+        {
+          "if": {"properties": {"state": {"enum": ["not_applicable", "deferred", "blocked"]}}},
+          "then": {"properties": {"rationale": {"type": "string", "minLength": 1}}}
+        }
+      ]
+    },
+    "module_selection": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "version", "disposition", "rationale", "requirements"],
+      "properties": {
+        "module_id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+        "disposition": {"enum": ["required", "recommended", "conditional", "not_applicable"]},
+        "rationale": {"type": "string", "minLength": 1},
+        "requirements": {"type": "array", "items": {"$ref": "#/$defs/requirement_state"}}
+      }
+    }
+  }
+}
