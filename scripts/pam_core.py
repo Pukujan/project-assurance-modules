@@ -146,7 +146,7 @@ def validate_manifest(manifest: JSONDict) -> None:
 
 
 def route_project(project_facts: JSONDict) -> list[RouteResult]:
-    """Route only the v0 extracted modules from explicit declared project facts."""
+    """Route shipped PAM modules from explicit declared project facts."""
 
     software = project_facts.get("software")
     nontrivial = project_facts.get("nontrivial")
@@ -155,6 +155,11 @@ def route_project(project_facts: JSONDict) -> list[RouteResult]:
     multi_session = project_facts.get("multi_session")
     agent_assisted = project_facts.get("agent_assisted")
     horizontal_scope_risk = project_facts.get("horizontal_scope_risk")
+    empirical_quality_claims = project_facts.get("empirical_quality_claims")
+    benchmark_or_dataset_use = project_facts.get("benchmark_or_dataset_use")
+    hidden_confirmatory_evaluation = project_facts.get("hidden_confirmatory_evaluation")
+    consequential_decisions = project_facts.get("consequential_decisions")
+    durable_lineage = project_facts.get("durable_provenance_and_decision_lineage")
 
     results: list[RouteResult] = []
 
@@ -253,6 +258,144 @@ def route_project(project_facts: JSONDict) -> list[RouteResult]:
                 "0.1.0",
                 "conditional",
                 "Projectization complexity is not fully declared.",
+            )
+        )
+
+    if projectization is True and nontrivial is True:
+        results.append(
+            RouteResult(
+                "planning.foundation",
+                "0.1.0",
+                "required",
+                "Nontrivial projectization needs durable product/design, invariants, and failure boundaries.",
+            )
+        )
+    elif projectization is False or nontrivial is False:
+        results.append(
+            RouteResult(
+                "planning.foundation",
+                "0.1.0",
+                "not_applicable",
+                "Declared work is not a nontrivial projectization boundary.",
+            )
+        )
+    else:
+        results.append(
+            RouteResult(
+                "planning.foundation",
+                "0.1.0",
+                "conditional",
+                "Projectization/nontrivial facts are incomplete; planning-foundation applicability remains unresolved.",
+            )
+        )
+
+    if software is True and nontrivial is True:
+        results.append(
+            RouteResult(
+                "engineering.swe-ci-foundation",
+                "0.1.0",
+                "required",
+                "Nontrivial maintained software needs a reproducible local quality lane and automated gate.",
+            )
+        )
+    elif software is True and nontrivial is False:
+        results.append(
+            RouteResult(
+                "engineering.swe-ci-foundation",
+                "0.1.0",
+                "recommended",
+                "Small maintained software still benefits from a lightweight reproducible check lane.",
+            )
+        )
+    elif software is False:
+        results.append(
+            RouteResult(
+                "engineering.swe-ci-foundation",
+                "0.1.0",
+                "not_applicable",
+                "The declared project contains no maintained software implementation.",
+            )
+        )
+    else:
+        results.append(
+            RouteResult(
+                "engineering.swe-ci-foundation",
+                "0.1.0",
+                "conditional",
+                "Software/complexity facts are incomplete; do not assume a CI foundation is irrelevant.",
+            )
+        )
+
+    if (
+        empirical_quality_claims is True
+        or benchmark_or_dataset_use is True
+        or hidden_confirmatory_evaluation is True
+    ):
+        results.append(
+            RouteResult(
+                "benchmark.integrity",
+                "0.1.0",
+                "required",
+                "The project declares empirical evaluation, benchmark/dataset use, or a confirmatory boundary.",
+            )
+        )
+    elif (
+        empirical_quality_claims is False
+        and benchmark_or_dataset_use is False
+        and hidden_confirmatory_evaluation is False
+    ):
+        results.append(
+            RouteResult(
+                "benchmark.integrity",
+                "0.1.0",
+                "not_applicable",
+                "The project explicitly declares no empirical benchmark, dataset, or confirmatory-evaluation use.",
+            )
+        )
+    else:
+        results.append(
+            RouteResult(
+                "benchmark.integrity",
+                "0.1.0",
+                "conditional",
+                "Empirical/benchmark/confirmatory facts are incomplete; evaluation integrity remains unresolved.",
+            )
+        )
+
+    if consequential_decisions is True:
+        results.append(
+            RouteResult(
+                "provenance.decision-lineage",
+                "0.1.0",
+                "required",
+                "Consequential decisions require durable status, authority, and exact supporting identities.",
+            )
+        )
+    elif durable_lineage is True:
+        results.append(
+            RouteResult(
+                "provenance.decision-lineage",
+                "0.1.0",
+                "recommended",
+                "The project explicitly values durable decision/research lineage without declaring a consequential acceptance boundary.",
+            )
+        )
+    elif consequential_decisions is False and durable_lineage is False:
+        results.append(
+            RouteResult(
+                "provenance.decision-lineage",
+                "0.1.0",
+                "not_applicable",
+                "The project explicitly declares no consequential or replay-worthy decision-lineage need.",
+            )
+        )
+    else:
+        results.append(
+            RouteResult(
+                "provenance.decision-lineage",
+                "0.1.0",
+                "conditional",
+                "Decision consequence/lineage facts are incomplete; do not silently route provenance to N/A.",
             )
         )
 
