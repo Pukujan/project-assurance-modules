@@ -1,0 +1,65 @@
+schema_version: pam-module/0.2.0
+module_id: engineering.swe-ci-foundation
+version: 0.1.0
+title: Software engineering and CI foundation
+category: engineering
+intent: >-
+  Establish a reproducible local quality lane and automated repository gate appropriate
+  to the implementation ecosystem before software changes become difficult to validate consistently.
+motivation:
+  - Every strong RA retrospective candidate independently treated deterministic lint, formatting, typing/static checks, tests, and CI as foundational rather than optional release polish.
+  - Cross-session and multi-repository evidence is unreliable when local commands and CI do not reproduce the same bounded validation contract.
+non_scope:
+  - Requiring Python, TypeScript, GitHub Actions, or any other specific language or CI vendor.
+  - Requiring every possible static-analysis or testing technique regardless of project risk.
+  - Requiring network isolation when the repository's justified tests inherently need an external integration environment.
+  - Treating a green CI run as proof of semantic correctness beyond the checks it actually executes.
+applies_when:
+  - The project contains maintained software code with a repository-level build, test, or integration boundary.
+requirements:
+  - id: SWE_CI_001
+    title: Define reproducible local checks
+    description: Provide one documented local command or bounded command set that installs or resolves the declared validation environment and runs the project's required deterministic checks.
+    evidence_kinds: [file, test, artifact]
+    closure_rule: A fresh supported environment can discover and execute the required local quality lane from durable repository instructions.
+    not_applicable_rule: Not applicable only when the project contains no maintained software implementation.
+  - id: SWE_CI_002
+    title: Enforce ecosystem-appropriate static quality
+    description: Run formatting, linting, typing, compilation, or equivalent static checks where they materially reduce defects for the chosen ecosystem.
+    evidence_kinds: [file, test, ci_run, rationale]
+    closure_rule: Applicable static checks are automated, or each omitted common check has an explicit project-specific rationale.
+    not_applicable_rule: A specific check class may be not applicable when the language/ecosystem or generated nature of the code makes it irrelevant; the whole requirement is not applicable only when no meaningful static quality check exists.
+  - id: SWE_CI_003
+    title: Maintain executable software tests
+    description: Cover the current software boundaries with unit, contract, integration, or equivalent deterministic tests selected by risk and architecture.
+    evidence_kinds: [test, ci_run, artifact]
+    closure_rule: Tests execute the material current software contracts, including negative behavior for fail-closed or rejection boundaries where applicable.
+    not_applicable_rule: Not applicable only when there is no executable software behavior to validate.
+  - id: SWE_CI_004
+    title: Run the foundation in CI
+    description: Configure an automated repository gate to execute the same material foundation checks used locally and preserve a durable result identity.
+    evidence_kinds: [file, ci_run, commit, pull_request]
+    closure_rule: The repository has an automated check on the relevant change path and a passing run demonstrates the configured foundation lane at an exact revision.
+    not_applicable_rule: Not applicable only when the repository has no shared or reviewable change boundary where automated CI can reasonably run; the rationale must name the alternative closure mechanism.
+  - id: SWE_CI_005
+    title: Bound nondeterministic and external dependencies
+    description: Keep the ordinary change-validation lane deterministic where feasible and isolate live network, mutable data, model, or third-party dependencies behind explicit integration or scheduled evidence when they cannot be made deterministic.
+    evidence_kinds: [file, test, ci_run, rationale]
+    closure_rule: The normal gate either avoids mutable external dependencies or explicitly separates and labels the checks whose evidence depends on them.
+    not_applicable_rule: Not applicable only when the project has no external or nondeterministic validation dependency.
+dependencies: []
+conflicts:
+  - Using live mutable services or datasets as the sole ordinary pull-request correctness gate without an explicit reason and reproducibility boundary.
+  - Closing software-quality requirements by agent self-attestation instead of executable or repository evidence.
+compatibility:
+  impact: additive
+  note: >-
+    Adds a language- and CI-vendor-neutral module. It does not invalidate existing ecosystem-specific
+    tooling and can be satisfied by current project commands when they already meet the requirements.
+references:
+  - kind: documentation
+    locator: experiments/ra-retrospective-blind/evaluation/EVALUATION_ROUND2_IDENTITY_AWARE.md
+    note: All evaluated strong plans converged on an explicit SWE/CI foundation and deterministic validation lane.
+  - kind: documentation
+    locator: .github/workflows/ci.yml
+    note: PAM's own deterministic foundation demonstrates the portable local-check-to-CI pattern without making its Python tooling normative.
