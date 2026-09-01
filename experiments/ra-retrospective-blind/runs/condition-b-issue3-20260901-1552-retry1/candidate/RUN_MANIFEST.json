@@ -1,0 +1,14 @@
+{
+  "run_id": "condition-b-issue3-20260901-1552-retry1",
+  "benchmark": "ra-retrospective-blind/v0",
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "task_packet_sha256": "fc1bfcf3d6c13fdd537fc9d52c7a78962746142d4c43cb1ce2887dde8b933f99",
+  "candidate": {
+    "model": "GPT-5.6 Sol",
+    "provider": "OpenAI",
+    "harness": "ChatGPT"
+  },
+  "started_at": "2026-09-01T15:52:00-04:00",
+  "completed_at": "2026-09-01T16:04:22-04:00",
+  "status": "complete"
+}
