@@ -1,0 +1,43 @@
+{
+  "run_id": "condition-a-20260901t194100z",
+  "condition": "A",
+  "benchmark_role": "baseline candidate planner",
+  "repository": "Pukujan/project-assurance-modules",
+  "issue_context": 3,
+  "frozen_input_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "output_branch": "experiment/ra-retrospective-blind/condition-a-20260901t194100z",
+  "output_path": "experiments/ra-retrospective-blind/runs/condition-a-20260901t194100z/baseline/",
+  "model": {
+    "provider": "OpenAI",
+    "model": "GPT-5.6 Sol"
+  },
+  "harness": {
+    "name": "ChatGPT",
+    "execution_mode": "interactive",
+    "repository_transport": "GitHub connector"
+  },
+  "timestamps": {
+    "started_at": "2026-09-01T15:41:00-04:00",
+    "completed_at": "2026-09-01T15:41:00-04:00",
+    "precision": "minute",
+    "timezone": "America/New_York"
+  },
+  "inputs": [
+    "experiments/ra-retrospective-blind/BASELINE_HANDOFF.md",
+    "experiments/ra-retrospective-blind/TASK_PACKET.md",
+    "human launch instructions in the conversation"
+  ],
+  "artifacts": [
+    "RUN_MANIFEST.json",
+    "ACCESS_ATTESTATION.json",
+    "PLAN.md",
+    "ISSUES.md",
+    "HANDOFF.md"
+  ],
+  "contamination_status": "CLEAN",
+  "self_evaluation_performed": false,
+  "benchmark_modified": false,
+  "status": "complete",
+  "frozen": true,
+  "freeze_note": "This manifest is the final write for the run. Per the baseline handoff, the output is frozen after status becomes complete and must not be tuned against reference feedback within this run."
+}
