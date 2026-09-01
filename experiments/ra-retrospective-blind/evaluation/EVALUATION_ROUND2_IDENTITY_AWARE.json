@@ -1,0 +1,99 @@
+{
+  "schema_version": "pam-retrospective-evaluation/0.2.0",
+  "benchmark": "ra-retrospective-blind/v0",
+  "classification": "development_conformance_identity_aware",
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "evaluation_status": "frozen_identity_aware",
+  "vendor_blind_claim": false,
+  "candidate_scores": {
+    "A": {
+      "run": "condition-a-20260901t194100z",
+      "commit": "0da5a62529f7e665421b3389a941d1f70f895286",
+      "methodology": "no_pam",
+      "score": 90
+    },
+    "B1": {
+      "run": "condition-b-20260901T154700-0400-gpt56sol",
+      "commit": "0d5b6f254dc199c2be5f552b77724f3dc966a44d",
+      "methodology": "pam",
+      "score": 96,
+      "role": "primary_matched_treatment"
+    },
+    "B2": {
+      "run": "condition-b-issue3-20260901-1552-retry1",
+      "commit": "658e219e46b60a1a6fe954712cba94cc846394ab",
+      "methodology": "pam",
+      "score": 95,
+      "role": "treatment_replication"
+    },
+    "C": {
+      "run": "condition-c-terra-20260901-141315",
+      "commit": "7be21dbd6735c84bd500ce4c4d5bb531d07582b4",
+      "methodology": "pam",
+      "model": "gpt-5.6-terra",
+      "harness": "Codex local agent",
+      "score": 94,
+      "dimensions": {
+        "scope_non_goals": 8,
+        "build_vs_reuse": 8,
+        "ownership_boundaries": 11,
+        "milestones_dependencies": 9,
+        "issue_decomposition_closure": 9,
+        "swe_ci": 8,
+        "invariants_failures_fail_closed": 11,
+        "benchmark_dataset_holdout": 10,
+        "scope_entry_kill": 7,
+        "provenance_fossil_lineage": 4,
+        "multi_repo_exact_identity": 5,
+        "structured_handoff": 4
+      }
+    },
+    "D": {
+      "run": "condition-d-grok-4.6-opencode-20260901-174255",
+      "commit": "017a2c5516fb98e0ae40ad6bed1e3d7f2876df5e",
+      "methodology": "no_pam",
+      "model": "grok-4.6",
+      "vendor": "xAI",
+      "harness": "OpenCode",
+      "score": 95,
+      "dimensions": {
+        "scope_non_goals": 8,
+        "build_vs_reuse": 8,
+        "ownership_boundaries": 10,
+        "milestones_dependencies": 10,
+        "issue_decomposition_closure": 10,
+        "swe_ci": 8,
+        "invariants_failures_fail_closed": 12,
+        "benchmark_dataset_holdout": 10,
+        "scope_entry_kill": 7,
+        "provenance_fossil_lineage": 4,
+        "multi_repo_exact_identity": 5,
+        "structured_handoff": 3
+      }
+    }
+  },
+  "valid_causal_contrasts": {
+    "B1_minus_A": 6,
+    "B2_minus_A_replication": 5
+  },
+  "invalid_causal_contrasts": [
+    "C_minus_D because planner and harness differ",
+    "D_minus_A because planner and harness differ",
+    "C_minus_B because planner and harness differ"
+  ],
+  "findings": [
+    "Terra plus frozen PAM retained high planning quality at 94/100, close to Sol plus PAM at 95-96.",
+    "Grok 4.6 without PAM scored 95/100 on the methodology-rich task packet.",
+    "The RA retrospective is low-sensitivity for proving broad PAM necessity because the task packet already contains substantial methodology.",
+    "The attempted vendor-blind evaluator test produced no valid scores and does not resolve same-vendor evaluator preference.",
+    "Fresh-workspace acquisition and blind-evaluation packaging are newly observed methodology/benchmark infrastructure gaps."
+  ],
+  "decision": "close_ra_retrospective_and_move_to_bounded_pam_revision_then_second_adopter_and_unseen_project",
+  "do_not_claim": [
+    "PAM adds a fixed number of points for every planner",
+    "C-D is a PAM causal effect",
+    "vendor preference was disproven",
+    "RA retrospective establishes generalization",
+    "stable v1 is justified"
+  ]
+}
