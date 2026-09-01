@@ -1,0 +1,54 @@
+{
+  "run_id": "condition-b-20260901T154700-0400-gpt56sol",
+  "candidate": {
+    "model": "GPT-5.6 Sol",
+    "provider": "OpenAI",
+    "harness": "ChatGPT product harness with connected GitHub connector"
+  },
+  "pam_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "intentional_reads": [
+    {
+      "repository": "Pukujan/project-assurance-modules",
+      "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+      "files": [
+        "AGENTS.md",
+        "experiments/ra-retrospective-blind/CANDIDATE_HANDOFF.md",
+        "experiments/ra-retrospective-blind/BENCHMARK_PROTOCOL.md",
+        "experiments/ra-retrospective-blind/TASK_PACKET.md",
+        "experiments/ra-retrospective-blind/OUTPUT_CONTRACT.md",
+        "specs/PDD.md",
+        "docs/ARCHITECTURE.md",
+        "docs/PROJECTIZATION_GATE.md",
+        "docs/ROUTING.md",
+        "schemas/module.schema.json",
+        "schemas/project-assurance-manifest.schema.json",
+        "modules/projectization/build-vs-reuse/module.yaml",
+        "modules/projectization/scope-boundary/module.yaml",
+        "modules/continuity/structured-handoff/module.yaml"
+      ],
+      "directory_metadata": [
+        "modules/",
+        "modules/projectization/",
+        "modules/projectization/build-vs-reuse/",
+        "modules/projectization/scope-boundary/",
+        "modules/continuity/",
+        "modules/continuity/structured-handoff/"
+      ]
+    }
+  ],
+  "forbidden_reference": {
+    "repository": "Pukujan/research-assurance",
+    "accessed": false,
+    "searched": false,
+    "inferred_from_external_summaries": false
+  },
+  "live_web_or_github_search_outside_pam": false,
+  "external_repository_reads": [],
+  "accidental_exposure": false,
+  "uncertainty": null,
+  "notes": [
+    "No issue, pull request, documentation, CI, history, knowledge pack, mirror, search result, or derived summary from the forbidden reference repository was accessed.",
+    "A direct raw fetch attempt for the already-allowlisted TASK_PACKET.md was rejected by the tool before content retrieval; the packet bytes used for hashing came from the allowed GitHub file read and were verified against its Git blob SHA.",
+    "No live web search was used."
+  ]
+}
