@@ -1,0 +1,126 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Pukujan/project-assurance-modules/schemas/module.schema.json",
+  "title": "Project Assurance Module",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "module_id",
+    "version",
+    "title",
+    "category",
+    "intent",
+    "non_scope",
+    "applies_when",
+    "requirements",
+    "dependencies",
+    "references"
+  ],
+  "properties": {
+    "schema_version": {"const": "pam-module/0.1.0"},
+    "module_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)+$"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "category": {
+      "enum": [
+        "planning",
+        "engineering",
+        "validation",
+        "benchmark",
+        "governance",
+        "provenance",
+        "continuity",
+        "security",
+        "release",
+        "other"
+      ]
+    },
+    "intent": {"type": "string", "minLength": 1},
+    "non_scope": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "uniqueItems": true
+    },
+    "applies_when": {
+      "type": "array",
+      "items": {"type": "string", "minLength": 1},
+      "minItems": 1,
+      "uniqueItems": true
+    },
+    "requirements": {
+      "type": "array",
+      "minItems": 1,
+      "items": {"$ref": "#/$defs/requirement"}
+    },
+    "dependencies": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/module_ref"},
+      "uniqueItems": true
+    },
+    "references": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/reference"}
+    }
+  },
+  "$defs": {
+    "module_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "version_constraint"],
+      "properties": {
+        "module_id": {"type": "string", "minLength": 1},
+        "version_constraint": {"type": "string", "minLength": 1}
+      }
+    },
+    "reference": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "locator", "note"],
+      "properties": {
+        "kind": {"enum": ["repository", "standard", "paper", "documentation", "incident", "other"]},
+        "locator": {"type": "string", "minLength": 1},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "requirement": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "id",
+        "title",
+        "description",
+        "evidence_kinds",
+        "closure_rule",
+        "not_applicable_rule"
+      ],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[A-Z0-9][A-Z0-9_-]+$"},
+        "title": {"type": "string", "minLength": 1},
+        "description": {"type": "string", "minLength": 1},
+        "evidence_kinds": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {
+            "enum": [
+              "file",
+              "test",
+              "ci_run",
+              "commit",
+              "pull_request",
+              "issue",
+              "benchmark",
+              "artifact",
+              "receipt",
+              "human_review",
+              "rationale"
+            ]
+          }
+        },
+        "closure_rule": {"type": "string", "minLength": 1},
+        "not_applicable_rule": {"type": "string", "minLength": 1}
+      }
+    }
+  }
+}
