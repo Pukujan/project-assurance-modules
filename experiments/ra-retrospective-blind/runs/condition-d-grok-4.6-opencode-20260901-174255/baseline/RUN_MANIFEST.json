@@ -1,0 +1,33 @@
+{
+  "run_id": "condition-d-grok-4.6-opencode-20260901-174255",
+  "condition": "D",
+  "role": "blinded-baseline-planner",
+  "benchmark": "ra-retrospective-blind",
+  "model": {
+    "id": "litellm/grok-4.6",
+    "vendor": "xAI",
+    "reported_name": "grok-4.6"
+  },
+  "harness": {
+    "name": "opencode",
+    "session_seat": "orchestrator"
+  },
+  "frozen_input": {
+    "repository": "https://github.com/Pukujan/project-assurance-modules.git",
+    "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+    "verified_head": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+    "allowed_files_read": [
+      "experiments/ra-retrospective-blind/BASELINE_HANDOFF.md",
+      "experiments/ra-retrospective-blind/TASK_PACKET.md",
+      "human launch instructions in the user message"
+    ]
+  },
+  "output_path": "experiments/ra-retrospective-blind/runs/condition-d-grok-4.6-opencode-20260901-174255/baseline/",
+  "started_at": "2026-09-01T17:42:55-04:00",
+  "completed_at": "2026-09-01T17:55:00-04:00",
+  "status": "complete",
+  "frozen": true,
+  "contamination_status": "clean",
+  "self_scored": false,
+  "notes": "Baseline condition. Plan produced from the frozen research packet only. No post-completion revision is permitted for this run_id."
+}

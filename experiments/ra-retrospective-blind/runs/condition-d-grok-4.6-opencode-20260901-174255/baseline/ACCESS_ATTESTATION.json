@@ -1,0 +1,49 @@
+{
+  "run_id": "condition-d-grok-4.6-opencode-20260901-174255",
+  "attestation_time": "2026-09-01T17:55:00-04:00",
+  "contamination_status": "clean",
+  "forbidden_reference": "Pukujan/research-assurance",
+  "sources_intentionally_read": [
+    {
+      "path": "experiments/ra-retrospective-blind/BASELINE_HANDOFF.md",
+      "purpose": "baseline role, output location, freeze rule, forbidden-reference rule"
+    },
+    {
+      "path": "experiments/ra-retrospective-blind/TASK_PACKET.md",
+      "purpose": "sole research packet used for project planning"
+    },
+    {
+      "path": "human launch instructions",
+      "purpose": "bootstrap revision, allowed/denied file list, run_id pattern, output minimums"
+    }
+  ],
+  "bootstrap_actions": [
+    "git init in workspace",
+    "git remote add origin https://github.com/Pukujan/project-assurance-modules.git",
+    "git fetch --depth=1 origin 8f4737fc212e6b09f8066d90e178aa8760e619fb",
+    "git checkout --detach FETCH_HEAD",
+    "git rev-parse HEAD verified equal to 8f4737fc212e6b09f8066d90e178aa8760e619fb"
+  ],
+  "sources_not_read": [
+    "PAM AGENTS.md (not opened as a planning file)",
+    "PAM PDD / architecture / routing / implementation-plan documents",
+    "PAM modules, schemas, validators, profiles",
+    "experiments/ra-retrospective-blind/OUTPUT_CONTRACT.md",
+    "any candidate/B/C run outputs",
+    "evaluator results",
+    "any branch, tag, or commit other than the frozen revision",
+    "live web search",
+    "live GitHub search, issues, PRs, or project boards"
+  ],
+  "forbidden_repo": {
+    "name": "Pukujan/research-assurance",
+    "cloned": false,
+    "searched": false,
+    "fetched": false,
+    "inspected": false,
+    "remembered_project_specific_details_used": false
+  },
+  "harness_injection_note": "The OpenCode workspace may inject a root AGENTS.md into the system prompt. That file was not opened, not used as a planning template, and not treated as an allowed research source. This planner did not copy module/profile/manifest/router structure from it. No finished-project issues, milestones, repository layout, or CI of the forbidden reference were inspected.",
+  "live_network_beyond_bootstrap": false,
+  "planner_commitment": "Planning artifacts in this directory are derived from TASK_PACKET.md, BASELINE_HANDOFF.md, and the human launch instructions. They are not an attempt to reconstruct an unseen reference project."
+}
