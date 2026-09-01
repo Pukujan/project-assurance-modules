@@ -5,7 +5,7 @@ from pathlib import Path
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from scripts.pam_core import JSONDict, ROOT, load_json
+from scripts.pam_core import ROOT, JSONDict, load_json
 
 HANDOFF_SCHEMA_PATH = ROOT / "schemas" / "structured-handoff.schema.json"
 
