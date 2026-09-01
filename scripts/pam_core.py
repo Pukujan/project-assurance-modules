@@ -94,7 +94,9 @@ def validate_manifest(manifest: JSONDict) -> None:
         module = modules[key]
         module_requirements = module.get("requirements")
         selection_requirements = selection.get("requirements")
-        if not isinstance(module_requirements, list) or not isinstance(selection_requirements, list):
+        if not isinstance(module_requirements, list) or not isinstance(
+            selection_requirements, list
+        ):
             raise TypeError(f"invalid requirements for {module_id}@{version}")
 
         expected_ids = {
@@ -232,7 +234,9 @@ def route_project(project_facts: JSONDict) -> list[RouteResult]:
                 "Nontrivial projectization requires an explicit scope boundary; uncertainty cannot "
                 "silently remove the boundary."
             )
-        results.append(RouteResult("projectization.scope-boundary", "0.1.0", disposition, rationale))
+        results.append(
+            RouteResult("projectization.scope-boundary", "0.1.0", disposition, rationale)
+        )
     elif nontrivial is False:
         results.append(
             RouteResult(
