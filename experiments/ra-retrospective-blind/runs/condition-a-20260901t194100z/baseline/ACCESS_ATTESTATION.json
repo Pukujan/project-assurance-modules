@@ -1,0 +1,39 @@
+{
+  "run_id": "condition-a-20260901t194100z",
+  "condition": "A",
+  "frozen_input_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "sources_read": [
+    {
+      "kind": "repository_file",
+      "repository": "Pukujan/project-assurance-modules",
+      "path": "experiments/ra-retrospective-blind/BASELINE_HANDOFF.md",
+      "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+      "blob_sha": "ff7e7275c6d5bb3a3d70e3e0f0d5b364109e693d"
+    },
+    {
+      "kind": "repository_file",
+      "repository": "Pukujan/project-assurance-modules",
+      "path": "experiments/ra-retrospective-blind/TASK_PACKET.md",
+      "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+      "blob_sha": "b87354299533d8f8f3c7ab331b297a98b34a82e8"
+    },
+    {
+      "kind": "human_launch_instructions",
+      "description": "Condition A launch instruction for Pukujan/project-assurance-modules issue #3, frozen revision 8f4737fc212e6b09f8066d90e178aa8760e619fb, with explicit forbidden-access and output-freeze constraints. The issue itself was not read."
+    }
+  ],
+  "repository_content_not_read": {
+    "Pukujan/research-assurance": "No access in any form.",
+    "PAM_methodology_files": "No PDD, architecture, routing, modules, schemas, validators, methodology files, or PAM-condition OUTPUT_CONTRACT.md were read.",
+    "Pukujan/project-assurance-modules_issue_3": "Not read; only the human-supplied issue number was used as launch context.",
+    "other_project_assurance_modules_content": "No repository content beyond the two explicitly permitted files was read."
+  },
+  "external_research": {
+    "live_web_search": false,
+    "github_content_search": false,
+    "other_repository_research": false
+  },
+  "finished_project_details_encountered": false,
+  "contamination_status": "CLEAN",
+  "attestation": "The baseline plan was produced only from the explicitly permitted frozen handoff, frozen task packet, and human launch instructions. No forbidden finished-project/reference material was accessed or used."
+}
