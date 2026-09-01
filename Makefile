@@ -10,7 +10,7 @@ type:
 	mypy scripts tests
 
 test:
-	pytest -q
+	python -m pytest -q
 
 validate:
 	python -m scripts.pam_validate examples/PROJECT_ASSURANCE.example.json
