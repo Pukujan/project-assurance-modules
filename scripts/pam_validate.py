@@ -4,6 +4,7 @@ import argparse
 from pathlib import Path
 
 from scripts.pam_core import load_json, load_modules, validate_manifest
+from scripts.pam_profiles import validate_manifest_profile_refs
 
 
 def main() -> None:
@@ -18,7 +19,9 @@ def main() -> None:
 
     if args.manifest:
         path = Path(args.manifest)
-        validate_manifest(load_json(path))
+        manifest = load_json(path)
+        validate_manifest(manifest)
+        validate_manifest_profile_refs(manifest)
         print(f"validated manifest: {path}")
 
 
