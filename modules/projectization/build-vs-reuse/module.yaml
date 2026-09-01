@@ -1,0 +1,57 @@
+schema_version: pam-module/0.1.0
+module_id: projectization.build-vs-reuse
+version: 0.1.0
+title: Build vs reuse decision
+category: projectization
+intent: >-
+  Require a project to evaluate plausible maintained OSS, standards, libraries,
+  services, frameworks, adapters, forks, or compositions before authorizing a
+  bespoke implementation when reuse is realistically possible.
+non_scope:
+  - Proving that an existing system is universally best.
+  - Requiring live-web research for every tiny project.
+  - Preventing bespoke implementation when existing options fail scoped requirements.
+applies_when:
+  - A nontrivial software capability is about to be implemented and plausible existing solutions may exist.
+requirements:
+  - id: REUSE_001
+    title: Define required capability and constraints
+    description: State the capability, must-have constraints, non-goals, and decision criteria before comparing implementations.
+    evidence_kinds: [file, rationale]
+    closure_rule: A durable artifact states the required capability and comparison criteria without naming a preferred implementation as a foregone conclusion.
+    not_applicable_rule: Not applicable only when no implementation decision exists, such as a documentation-only change.
+  - id: REUSE_002
+    title: Search serious existing candidates
+    description: Identify plausible maintained OSS, standards, libraries, services, frameworks, adapters, or prior internal systems relevant to the capability.
+    evidence_kinds: [file, artifact, rationale]
+    closure_rule: A durable candidate register records what was considered and enough identity/version information to revisit the assessment.
+    not_applicable_rule: Not applicable only with explicit rationale that the capability has no plausible reusable implementation class.
+  - id: REUSE_003
+    title: Compare material trade-offs
+    description: Compare serious candidates against fitness, maintenance, license, security, extensibility, integration cost, performance, and other scoped criteria that materially affect the project.
+    evidence_kinds: [file, benchmark, test, artifact, rationale]
+    closure_rule: Serious candidates have explicit dispositions and material reasons; untested claims are labelled as such.
+    not_applicable_rule: Not applicable only when REUSE_002 found no serious candidate.
+  - id: REUSE_004
+    title: Test plausible candidates where cheap evidence is available
+    description: Prefer a spike, compatibility probe, contract test, or benchmark over prose-only rejection when the comparison can be run cheaply and safely.
+    evidence_kinds: [test, benchmark, artifact, file, rationale]
+    closure_rule: Either empirical/probe evidence exists for material uncertain candidates or a rationale explains why testing was disproportionate or impossible.
+    not_applicable_rule: Not applicable when no material uncertainty is cheaply testable.
+  - id: REUSE_005
+    title: Record the implementation disposition
+    description: Choose reuse, configure, wrap, extend, compose, fork, build_new, or more_research and record why.
+    evidence_kinds: [file, human_review, rationale]
+    closure_rule: A reviewed durable artifact records one disposition, candidate identities, decisive evidence, residual uncertainty, and reconsideration triggers where relevant.
+    not_applicable_rule: This requirement is not optional when the module applies.
+  - id: REUSE_006
+    title: Make bespoke implementation earn itself
+    description: A build_new disposition must name concrete unmet requirements or unacceptable trade-offs in existing candidates.
+    evidence_kinds: [file, benchmark, test, human_review, rationale]
+    closure_rule: If build_new is selected, at least one concrete unmet scoped requirement or unacceptable trade-off is recorded with supporting evidence where feasible.
+    not_applicable_rule: Not applicable when the disposition is not build_new.
+dependencies: []
+references:
+  - kind: repository
+    locator: Pukujan/research-assurance
+    note: Extracted from the mechanism entry/kill and build-vs-reuse discipline developed during Research Assurance planning.
