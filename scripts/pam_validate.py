@@ -7,7 +7,9 @@ from scripts.pam_core import load_json, load_modules, validate_manifest
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(description="Validate PAM methodology modules and a project manifest")
+    parser = argparse.ArgumentParser(
+        description="Validate PAM methodology modules and a project manifest"
+    )
     parser.add_argument("manifest", nargs="?", help="Optional Project Assurance manifest JSON path")
     args = parser.parse_args()
 
