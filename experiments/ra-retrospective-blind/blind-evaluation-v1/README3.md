@@ -1,0 +1,1 @@
+Blind evaluation is designed to test planning quality without model/vendor/harness awareness. It is not a cryptographic anonymization mechanism; the evaluator must honor the branch/path allowlist and avoid Git metadata/other branches.
