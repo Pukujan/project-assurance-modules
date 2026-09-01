@@ -5,7 +5,7 @@ from typing import cast
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from scripts.pam_core import JSONDict, ROOT, load_modules, load_yaml, route_as_json
+from scripts.pam_core import ROOT, JSONDict, load_json, load_modules, load_yaml, route_as_json
 
 PROFILE_SCHEMA_PATH = ROOT / "schemas" / "profile.schema.json"
 
@@ -18,13 +18,7 @@ class ProfileSelection:
     rationale: str
 
 
-def profile_paths() -> list[object]:
-    return sorted(ROOT.glob("profiles/**/profile.yaml"))
-
-
 def _validator() -> Draft202012Validator:
-    from scripts.pam_core import load_json
-
     schema = load_json(PROFILE_SCHEMA_PATH)
     Draft202012Validator.check_schema(schema)
     return Draft202012Validator(schema, format_checker=FormatChecker())
