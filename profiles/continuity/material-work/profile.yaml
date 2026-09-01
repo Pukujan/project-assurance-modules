@@ -1,0 +1,17 @@
+schema_version: pam-profile/0.1.0
+profile_id: continuity.material-work
+version: 0.1.0
+title: Material continuity
+intent: >-
+  Surface structured-handoff methodology when work is expected to cross material sessions or use
+  agent-assisted execution, without imposing handoff ceremony on declared single-session work.
+selector:
+  all_of: []
+  any_of:
+    - fact: multi_session
+      equals: true
+    - fact: agent_assisted
+      equals: true
+modules:
+  - module_id: continuity.structured-handoff
+    version: 0.1.0
