@@ -70,7 +70,7 @@ def _condition_result(condition: JSONDict, project_facts: JSONDict) -> bool | No
         raise TypeError("profile fact condition must name a string fact")
     if fact not in project_facts:
         return None
-    return project_facts[fact] == condition.get("equals")
+    return bool(project_facts[fact] == condition.get("equals"))
 
 
 def _selection_for_profile(profile: JSONDict, project_facts: JSONDict) -> ProfileSelection:
