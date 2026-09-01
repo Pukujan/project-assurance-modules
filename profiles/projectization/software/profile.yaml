@@ -1,0 +1,19 @@
+schema_version: pam-profile/0.1.0
+profile_id: projectization.software
+version: 0.1.0
+title: Software projectization
+intent: >-
+  Surface the bounded projectization modules for software work once a project is explicitly entering
+  projectization, while leaving each module's required/recommended/conditional disposition to the router.
+selector:
+  all_of:
+    - fact: software
+      equals: true
+    - fact: projectization
+      equals: true
+  any_of: []
+modules:
+  - module_id: projectization.build-vs-reuse
+    version: 0.1.0
+  - module_id: projectization.scope-boundary
+    version: 0.1.0
