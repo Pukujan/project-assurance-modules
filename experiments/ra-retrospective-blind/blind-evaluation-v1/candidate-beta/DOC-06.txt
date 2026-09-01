@@ -1,0 +1,303 @@
+program: Evidence Promotion Assurance Program
+status: proposed_after_preflight_owner_review
+repositories:
+  assurance-coordinator: new thin coordinator repository; name/location TBD
+  fossil-core: existing independently owned system; exact repository/revision to resolve
+  retrieval-benchmarker: existing independently owned evaluation system; exact repository/revision to resolve
+  source-ranker: existing optional system; exact repository/revision to resolve if experiment is admitted
+  financial-application: existing independently owned domain application; exact repository/revision to resolve
+parents:
+- id: M0
+  objective: Contract and engineering foundation
+- id: M1
+  objective: Deterministic promotion vertical slice
+- id: M2
+  objective: Empirical evaluation and layer separation
+- id: M3
+  objective: Confirmatory, adversarial, and release evidence
+- id: M4
+  objective: Optional mechanism experiments
+issues:
+- id: EPA-001
+  repository: assurance-coordinator
+  parent: M0
+  objective: Write and review the coordinator PDD/SDD with explicit ownership, promotion lifecycle, dimension model, and non-goals.
+  acceptance_evidence:
+  - Committed PDD and SDD paths referenced from the issue.
+  - Reviewed decision record resolving promotion lifecycle and coordinator must-not-own boundaries.
+  blocked_by:
+  - Project-owner approval of candidate preflight
+  out_of_scope:
+  - FOSSIL implementation internals
+  - Source Ranker algorithm design
+  - GraphRAG
+  - agent transports
+- id: EPA-002
+  repository: assurance-coordinator
+  parent: M0
+  objective: Define invariants and failure-mode register for promotion, evidence identity, replay, authorization, hidden-evaluation separation, and exploration-vs-acceptance behavior.
+  acceptance_evidence:
+  - Committed invariant register with testable identifiers.
+  - Failure-mode register mapping each material failure to detect/prevent/recover/accept disposition.
+  blocked_by:
+  - EPA-001
+  out_of_scope:
+  - Treating every red-team finding as implementation scope
+- id: EPA-003
+  repository: assurance-coordinator
+  parent: M0
+  objective: Define machine-valid evidence-dimension, promotion-state, and replay/component-identity schemas without a universal verification field.
+  acceptance_evidence:
+  - Schema files plus positive and negative fixtures.
+  - Negative fixture rejects missing exact identity for a claimed replayable promotion.
+  - Negative fixture rejects forbidden universal verification state.
+  blocked_by:
+  - EPA-001
+  - EPA-002
+  out_of_scope:
+  - Semantic correctness oracle
+- id: EPA-004
+  repository: assurance-coordinator
+  parent: M0
+  objective: Bootstrap deterministic local/PR check lane and reproducible development environment.
+  acceptance_evidence:
+  - Clean-environment CI run for format/lint/static typing/unit/schema tests.
+  - Documented no-network PR test policy and explicit exceptions if unavoidable.
+  blocked_by:
+  - EPA-001
+  out_of_scope:
+  - Network-dependent hidden benchmark execution in ordinary PR CI
+- id: EPA-005
+  repository: assurance-coordinator
+  parent: M0
+  objective: Implement and test the promotion state machine with fail-open exploration and fail-closed acceptance.
+  acceptance_evidence:
+  - Unit/property tests for legal transitions.
+  - Negative tests prove missing/invalid/stale/unauthorized evidence cannot produce accepted state.
+  - Test proves exploration path remains usable after gate failure.
+  blocked_by:
+  - EPA-002
+  - EPA-003
+  - EPA-004
+  out_of_scope:
+  - Model-based semantic verification
+- id: EPA-006
+  repository: assurance-coordinator
+  parent: M0
+  objective: Define structured handoff schema, current-state policy, stale-state reconciliation, and hidden-evaluation exclusion.
+  acceptance_evidence:
+  - Versioned handoff schema with positive/negative tests in the normal check lane.
+  - Resume test detects stale referenced revision/CI state before mutation.
+  - Negative fixture rejects hidden-confirmatory result-bearing fields.
+  blocked_by:
+  - EPA-003
+  - EPA-004
+  out_of_scope:
+  - Checkpoint after every trivial action
+  - generic completion stamp
+- id: EPA-010
+  repository: fossil-core
+  parent: M1
+  objective: Resolve and pin the candidate FOSSIL revision and run contract probes for the exact integrity/authority/recovery behaviors the coordinator intends to rely on.
+  acceptance_evidence:
+  - Exact repository revision recorded.
+  - Contract report covering whole-artifact integrity, review-reference authority, failed-ingest/orphan behavior, crash/partial batch, actor attribution, metadata binding, redaction/rebuild/replay as applicable.
+  - Objective failing evidence recorded for any unsupported behavior; no bug is assumed in advance.
+  blocked_by:
+  - EPA-002
+  out_of_scope:
+  - Coordinator feature work inside FOSSIL unless a separate FOSSIL-owned issue is justified by probe evidence
+- id: EPA-011
+  repository: financial-application
+  parent: M1
+  objective: Resolve and pin the financial-application revision and define the thin integration contract for exact source/time/version/restatement/numeric evidence identity.
+  acceptance_evidence:
+  - Exact repository revision recorded.
+  - Contract fixtures for as-of time, wrong version, restatement, evidence-root identity, and numeric evidence.
+  - Domain-policy ownership documented in the application.
+  blocked_by:
+  - EPA-001
+  out_of_scope:
+  - Moving finance business logic into the coordinator
+- id: EPA-012
+  repository: assurance-coordinator
+  parent: M1
+  objective: Implement the FOSSIL adapter and exact replay descriptor against the pinned, empirically supported contract.
+  acceptance_evidence:
+  - Contract/integration tests reference the exact FOSSIL revision.
+  - Replay descriptor round-trip test preserves exact evidence and component identity.
+  - Negative tests reject unresolved or mismatched receipts/revisions.
+  blocked_by:
+  - EPA-003
+  - EPA-005
+  - EPA-010
+  out_of_scope:
+  - Reimplementing FOSSIL storage/event model
+- id: EPA-013
+  repository: assurance-coordinator
+  parent: M1
+  objective: Implement the financial-application adapter and deterministic finance validation interface.
+  acceptance_evidence:
+  - Integration tests against exact financial-application revision.
+  - Wrong-version/restatement/as-of-time/numeric corruption cases fail closed at promotion.
+  - Domain-specific policy remains externally owned and versioned.
+  blocked_by:
+  - EPA-003
+  - EPA-005
+  - EPA-011
+  out_of_scope:
+  - Universal legal/medical/domain policy
+- id: EPA-014
+  repository: assurance-coordinator
+  parent: M1
+  objective: Bind consequential human review to an exact claim/evidence/component tuple and prevent stale review reuse.
+  acceptance_evidence:
+  - Integration test accepts review only for the exact bound tuple.
+  - Negative tests reject changed claim, evidence, policy, or component identity after review.
+  blocked_by:
+  - EPA-003
+  - EPA-005
+  - EPA-012
+  - EPA-013
+  out_of_scope:
+  - Human approval for trivial deterministic checks
+- id: EPA-015
+  repository: assurance-coordinator
+  parent: M1
+  objective: Run end-to-end deterministic finance promotion/rejection/replay vertical slice.
+  acceptance_evidence:
+  - Persisted fixture artifacts for accepted and rejected cases.
+  - CI/integration run demonstrates fail-closed promotion and continued exploration.
+  - Replay report records exact coordinator, FOSSIL, financial-application, policy, and evidence identities.
+  blocked_by:
+  - EPA-012
+  - EPA-013
+  - EPA-014
+  out_of_scope:
+  - Retrieval/source-ranker improvement claims
+- id: EPA-020
+  repository: retrieval-benchmarker
+  parent: M2
+  objective: Resolve/pin Retrieval Benchmarker and prove compatibility on a small immutable finance retrieval fixture.
+  acceptance_evidence:
+  - Exact benchmarker revision recorded.
+  - Persisted ranking/report artifact for a fixed corpus/query/qrel fixture.
+  - Repeated-run equality or explained nondeterminism.
+  blocked_by:
+  - EPA-015
+  out_of_scope:
+  - Making the benchmarker a production promotion runtime dependency
+- id: EPA-021
+  repository: assurance-coordinator
+  parent: M2
+  objective: Create versioned public development dataset manifests and task-specific metric definitions for finance retrieval/reasoning evaluation.
+  acceptance_evidence:
+  - Dataset manifests include identity/hash/version/split and usage notes.
+  - Metrics are assigned per task/layer; no universal aggregate score.
+  - Hidden/confirmatory data are stored outside implementation-agent-visible state.
+  blocked_by:
+  - EPA-020
+  out_of_scope:
+  - Claiming finance results generalize to other domains
+- id: EPA-022
+  repository: assurance-coordinator
+  parent: M2
+  objective: Run public development retrieval/composition baselines and layer ablations.
+  acceptance_evidence:
+  - Persisted reports from exact benchmarker/dataset/config revisions.
+  - Baselines and composition/ablation deltas reported per layer.
+  - Residual uncertainty and no-benefit outcomes recorded.
+  blocked_by:
+  - EPA-021
+  out_of_scope:
+  - Using confirmatory results for tuning
+- id: EPA-023
+  repository: source-ranker
+  parent: M2
+  objective: Conditionally test Source Ranker incremental benefit against a simpler source-policy baseline.
+  acceptance_evidence:
+  - Predeclared finance source-suitability task and metric.
+  - Exact Source Ranker revision if run.
+  - Ablation report with cost/friction and either admission evidence or NO_MEASURABLE_BENEFIT.
+  blocked_by:
+  - EPA-021
+  - Owner admission of Source Ranker experiment
+  out_of_scope:
+  - Universal trust score
+  - Automatic runtime inclusion regardless of result
+- id: EPA-030
+  repository: assurance-coordinator
+  parent: M3
+  objective: Strengthen critical deterministic gates with mutation-sensitive tests and fault/retry/replay campaigns.
+  acceptance_evidence:
+  - Mutation report shows selected critical gate mutations are killed.
+  - Fault-injection/retry/replay tests cover partial failure and idempotency at persistent boundaries.
+  - Known surviving mutations are dispositioned as residual risk or fixed.
+  blocked_by:
+  - EPA-015
+  out_of_scope:
+  - Mutation testing stochastic model outputs
+- id: EPA-031
+  repository: assurance-coordinator
+  parent: M3
+  objective: Freeze a candidate release composition and run hidden confirmatory evaluation through a separated evaluator.
+  acceptance_evidence:
+  - Frozen release-candidate manifest pins all component/dataset/policy/config revisions.
+  - Confirmatory report references hidden evaluator artifact identity without exposing result-bearing data to implementation agents.
+  - Evidence of separation controls and no post-result tuning in the same candidate.
+  blocked_by:
+  - EPA-022
+  - EPA-030
+  out_of_scope:
+  - Exposing hidden answers/labels/seeds in agent handoffs
+- id: EPA-032
+  repository: assurance-coordinator
+  parent: M3
+  objective: Perform adversarial review independent from the ordinary validation lane.
+  acceptance_evidence:
+  - Adversarial report covers stale refs, forged receipts, bypass attempts, wrong actor, replay mismatch, partial failure, holdout leakage, and misleading aggregation.
+  - Every material finding has mitigate-now/measure/defer/not-applicable disposition with evidence.
+  blocked_by:
+  - EPA-031
+  out_of_scope:
+  - Automatically admitting every finding as new implementation scope
+- id: EPA-033
+  repository: assurance-coordinator
+  parent: M3
+  objective: Freeze bounded release evidence and residual-risk decision, or block/narrow the release claim.
+  acceptance_evidence:
+  - Release evidence bundle links exact CI, benchmark, component, dataset, policy, and review identities.
+  - Residual-risk register and human approval for consequential non-deterministic judgments.
+  - If evidence is insufficient, an objective blocked/narrowed-release decision instead of a success self-attestation.
+  blocked_by:
+  - EPA-031
+  - EPA-032
+  out_of_scope:
+  - Generalization claim beyond the tested finance composition
+- id: EPA-040
+  repository: assurance-coordinator
+  parent: M4
+  objective: Design the optional local research-state/HITL continuity microworld and deterministic restart/idempotency/review-binding tests with zero model spend.
+  acceptance_evidence:
+  - Frozen microworld fixtures and success/friction metrics.
+  - Deterministic restart/idempotency/review-binding test results.
+  - Explicit go/no-go decision for model experiment.
+  blocked_by:
+  - M3 complete
+  - Owner admission of continuity experiment
+  out_of_scope:
+  - Core coordinator dependency
+  - Harness transports before semantic-state benefit is established
+- id: EPA-041
+  repository: assurance-coordinator
+  parent: M4
+  objective: Conditionally run forced-interruption/cross-model continuity experiment and measure protocol-induced failure.
+  acceptance_evidence:
+  - Predeclared experiment protocol and model/harness identities.
+  - Result report with benefit metric and protocol-induced failure/friction metric.
+  - Admission decision or NO_MEASURABLE_BENEFIT.
+  blocked_by:
+  - EPA-040 green
+  - Owner approval of model spend
+  out_of_scope:
+  - Changing core architecture to rescue a failed experiment

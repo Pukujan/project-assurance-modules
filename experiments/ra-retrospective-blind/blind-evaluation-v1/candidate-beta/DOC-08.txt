@@ -1,0 +1,52 @@
+{
+  "schema_version": "candidate-handoff/0.1.0",
+  "run_id": "condition-b-issue3-20260901-1552-retry1",
+  "project": "Evidence Promotion Assurance Program",
+  "current_phase": "projectization_preflight_complete_awaiting_owner_review",
+  "current_proposed_work_unit": "PREFLIGHT-REVIEW",
+  "unresolved_blockers": [
+    "Project owner has not yet reviewed/approved the proposed build-vs-reuse, scope, and PAM dispositions for implementation.",
+    "Exact repository identities/revisions for FOSSIL Core, Retrieval Benchmarker, Source Ranker, and the financial application are intentionally absent from the frozen packet and must be resolved before integration evidence is accepted.",
+    "Coordinator implementation language/toolchain is not specified in the frozen packet.",
+    "FOSSIL candidate integrity/authority/recovery properties remain hypotheses until contract probes are run.",
+    "Source Ranker runtime value remains unproven and is not admitted."
+  ],
+  "validation_status": {
+    "candidate_planning_bundle": "complete",
+    "project_implementation": "not_started",
+    "deterministic_ci": "not_started",
+    "fossil_contract_probe": "not_started",
+    "finance_integration_contract": "not_started",
+    "public_development_benchmarks": "not_started",
+    "hidden_confirmatory_evaluation": "not_started",
+    "adversarial_review": "not_started"
+  },
+  "exact_next_action": "Project owner reviews PROJECT_ASSURANCE.json, BUILD_VS_REUSE.md, and SCOPE.md. If approved without material scope expansion, authorize M0/EPA-001 and create only the thin coordinator repository; then resolve exact existing-system revisions before adapter implementation.",
+  "scope_exclusions": [
+    "finished/reference project inspection",
+    "universal agent stamp/compliance layer",
+    "universal verified/trust score",
+    "reimplementation of existing FOSSIL/Retrieval Benchmarker/Source Ranker/financial application",
+    "GraphRAG as first-slice prerequisite",
+    "claim verification as first-slice prerequisite",
+    "ontology/meta-system and cross-domain packs",
+    "agent/harness transport adapters as core dependency",
+    "hidden confirmatory data in agent-visible handoffs"
+  ],
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+    "modules": [
+      "projectization.build-vs-reuse@0.1.0",
+      "projectization.scope-boundary@0.1.0",
+      "continuity.structured-handoff@0.1.0"
+    ]
+  },
+  "resume_reconciliation_required": [
+    "coordinator repository revision once created",
+    "active issue/work unit",
+    "referenced child repository revisions/PRs",
+    "relevant CI/evaluation artifact identities"
+  ],
+  "hidden_evaluation_material_present": false
+}

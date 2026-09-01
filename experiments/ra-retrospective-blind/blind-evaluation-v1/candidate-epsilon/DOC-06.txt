@@ -1,0 +1,376 @@
+schema_version: ra-candidate-issue-plan/0.1.0
+run_id: condition-b-20260901T154700-0400-gpt56sol
+
+milestones:
+  - id: M0
+    title: Reviewed project foundation
+    exit_gate: Owner-approved preflight, frozen core contracts/invariants, deterministic check lane and handoff schema fixtures green.
+  - id: M1
+    title: Provenance contract and minimal promotion core
+    exit_gate: Exact-revision FOSSIL probe complete and deterministic accepted/rejected promotion fixture replayable without duplicated provenance storage.
+  - id: M2
+    title: Finance-first vertical slice
+    exit_gate: End-to-end finance promotion/rejection paths pass deterministic temporal, numeric, identity, citation and authorization checks against pinned revisions.
+  - id: M3
+    title: Layered empirical evaluation and hidden confirmation
+    exit_gate: Layer-specific public and confirmatory reports are pinned, uncontaminated and do not promote optional layers without measured benefit.
+  - id: M4
+    title: Resilience, adversarial review and release evidence
+    exit_gate: Critical fault/mutation/adversarial evidence, reproducibility, residual risk and release/handoff package are complete.
+
+epics:
+  - id: PA-EPIC-M0
+    milestone: M0
+    objective: Freeze owner-reviewed project/spec/assurance contracts before implementation.
+  - id: PA-EPIC-M1
+    milestone: M1
+    objective: Prove reuse boundaries and implement the minimal deterministic promotion core.
+  - id: PA-EPIC-M2
+    milestone: M2
+    objective: Prove one finance-domain vertical slice without claiming cross-domain validity.
+  - id: PA-EPIC-M3
+    milestone: M3
+    objective: Measure empirical layers independently with valid holdout discipline.
+  - id: PA-EPIC-M4
+    milestone: M4
+    objective: Establish resilience, adversarial, reproducibility and release evidence.
+
+issues:
+  - id: PA-001
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Obtain authorized owner review of build-vs-reuse, scope, repository boundary and routed PAM dispositions before implementation start.
+    acceptance_evidence:
+      - Human review record identifying approved, amended or blocked material dispositions.
+      - Updated project-owned preflight artifacts if review changes the candidate proposal; candidate benchmark files remain frozen.
+    blocked_by: []
+    out_of_scope:
+      - Treating candidate planner output as implicit human approval.
+      - Editing PAM methodology to obtain a pass.
+
+  - id: PA-002
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Freeze project PDD/SDD, promotion outcome, architecture boundary, invariants and failure-mode register for the first vertical slice.
+    acceptance_evidence:
+      - Reviewed PDD and SDD tied to the approved scope boundary.
+      - Invariant register separating integrity, semantic, temporal/numeric, authorization and review claims.
+      - Failure-mode register mapped to validation owners and evidence.
+    blocked_by: [PA-001]
+    out_of_scope:
+      - Universal agent governance.
+      - Cross-domain generalization claims.
+
+  - id: PA-003
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Define the promotion record schema and independent assurance-dimension result/evidence-reference model.
+    acceptance_evidence:
+      - Versioned schema with exact evidence, component, dataset/report and review identity fields.
+      - Positive and negative schema fixtures.
+      - Fixture proving no universal verified flag is required or accepted as a substitute for dimension results.
+    blocked_by: [PA-002]
+    out_of_scope:
+      - Persisting evidence artifacts inside the new core.
+      - Defining domain-specific semantic truth.
+
+  - id: PA-004
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Define promotion lifecycle, review authority, supersession/revocation and fail-closed state-transition contract.
+    acceptance_evidence:
+      - State-transition table and authorization rules.
+      - Negative fixtures for forbidden transitions and stale/mismatched review binding.
+      - Explicit rule that assurance failure blocks promotion but not exploration.
+    blocked_by: [PA-003]
+    out_of_scope:
+      - Generic workflow orchestration service.
+      - Per-action human approval.
+
+  - id: PA-005
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Establish deterministic no-network PR checks for schema, typing/linting, unit/contract tests and local reproducibility where feasible.
+    acceptance_evidence:
+      - Documented local check command.
+      - CI evidence that required deterministic checks run without live benchmark/network dependency.
+      - Negative test proving malformed current project state fails validation.
+    blocked_by: [PA-003, PA-004]
+    out_of_scope:
+      - Running expensive stochastic benchmarks on every PR.
+      - Treating CI success as proof of semantic correctness.
+
+  - id: PA-006
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M0
+    objective: Define a project-specific structured handoff schema, validator, trigger/reconciliation rules and current-versus-historical checkpoint policy.
+    acceptance_evidence:
+      - Versioned handoff schema and current-state example.
+      - Positive and negative validator tests in the normal check lane.
+      - Resume instructions requiring reconciliation of named live state before mutation.
+      - Policy excluding hidden confirmatory payloads from agent-visible handoffs.
+    blocked_by: [PA-001]
+    out_of_scope:
+      - Changing PAM's structured-handoff methodology.
+      - Checkpointing every trivial edit or tool call.
+
+  - id: PA-007
+    repository: fossil-core
+    parent: PA-EPIC-M1
+    objective: Run the cheap FOSSIL capability/integrity probe against an exact pinned revision before expanding bespoke provenance code.
+    acceptance_evidence:
+      - Probe report for whole-artifact verification, review-reference authority, failed-ingest orphan behavior, crash/partial batch, actor attribution, role/quality metadata binding, retry/replay/rebuild/redaction.
+      - Exact FOSSIL revision and fixture identities.
+      - Each research hypothesis recorded as observed pass, observed fail or unresolved; none converted into an assumed bug.
+    blocked_by: [PA-002, PA-003, PA-004]
+    out_of_scope:
+      - Reimplementing FOSSIL persistence/history during the probe.
+      - Prose-only rejection of cheap testable behavior.
+
+  - id: PA-008
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M1
+    objective: Freeze the FOSSIL adapter contract and shrink the new core wherever the probe shows FOSSIL already owns the required responsibility.
+    acceptance_evidence:
+      - Versioned adapter contract using public/pinned FOSSIL interfaces.
+      - Contract tests for supported and incompatible revisions.
+      - Recorded build-vs-reuse update for any responsibility changed by PA-007 evidence.
+    blocked_by: [PA-007]
+    out_of_scope:
+      - Direct dependency on FOSSIL internal storage schemas.
+      - Duplicating append-only history or durable artifact storage.
+
+  - id: PA-009
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M1
+    objective: Implement the minimal promotion schema/model and deterministic policy/state engine.
+    acceptance_evidence:
+      - Unit tests for independent dimension states and transition prerequisites.
+      - Negative tests for missing evidence, stale revision, invalid state and unauthorized transition.
+      - Exact deterministic outputs reproducible from frozen fixtures.
+    blocked_by: [PA-003, PA-004, PA-008]
+    out_of_scope:
+      - Model inference or claim verification.
+      - Persistent database or network service.
+
+  - id: PA-010
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M1
+    objective: Implement generic identity/reference/authorization validators and the fail-closed promotion versus fail-open exploration split.
+    acceptance_evidence:
+      - Tests for hash/revision/reference mismatch and unauthorized reviewer/actor.
+      - Fault test showing assurance dependency outage prevents acceptance but leaves exploratory work representable/usable.
+      - No code path that silently converts validator failure into accepted promotion.
+    blocked_by: [PA-009]
+    out_of_scope:
+      - Finance-specific temporal/numeric rules.
+      - Universal semantic-support verdict.
+
+  - id: PA-011
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M1
+    objective: Add state-machine/property and metamorphic tests for critical lifecycle and identity invariants.
+    acceptance_evidence:
+      - Property tests showing acceptance is unreachable without required prerequisites.
+      - Retry/idempotency and stale-review properties.
+      - Metamorphic fixtures for irrelevant ordering/metadata changes and identity changes that must invalidate binding.
+    blocked_by: [PA-009, PA-010]
+    out_of_scope:
+      - Distributed/concurrency properties not present in the implemented design.
+      - Generic formal verification mandate.
+
+  - id: PA-012
+    repository: financial-analysis-application
+    parent: PA-EPIC-M2
+    objective: Define the finance adopter adapter and preserve application ownership of SEC/financial domain semantics.
+    acceptance_evidence:
+      - Versioned adapter contract from application evidence/claim objects to promotion-assurance inputs.
+      - Exact application/core/FOSSIL revision composition manifest.
+      - Test proving the core does not require direct access to application-private storage internals.
+    blocked_by: [PA-010]
+    out_of_scope:
+      - Moving the financial product into the assurance-core repository.
+      - Cross-domain adapter abstraction beyond needs demonstrated by finance.
+
+  - id: PA-013
+    repository: financial-analysis-application
+    parent: PA-EPIC-M2
+    objective: Implement deterministic finance temporal/version, numeric, evidence-root/citation and authorization checks where objective oracles exist.
+    acceptance_evidence:
+      - Mechanically generated wrong-version, restatement, temporal, evidence-root and numeric fixtures.
+      - Golden deterministic results and documented normalization/tolerance policy.
+      - Explicit residual cases requiring human/domain judgment.
+    blocked_by: [PA-012]
+    out_of_scope:
+      - Treating deterministic arithmetic as proof of correct semantic interpretation.
+      - Claiming all financial research questions have deterministic oracles.
+
+  - id: PA-014
+    repository: financial-analysis-application
+    parent: PA-EPIC-M2
+    objective: Demonstrate an end-to-end accepted promotion and multiple rejected/blocked paths with replayable exact evidence and review identity.
+    acceptance_evidence:
+      - Integration report pinned to exact core, FOSSIL, application and fixture revisions.
+      - One valid reviewed promotion replayed from immutable evidence.
+      - Negative paths for wrong version, invalid numeric/citation binding, unauthorized review and assurance dependency failure.
+    blocked_by: [PA-011, PA-013]
+    out_of_scope:
+      - Source Ranker runtime requirement.
+      - Hidden confirmatory evaluation.
+      - Universal correctness claim.
+
+  - id: PA-015
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M3
+    objective: Freeze dataset/evaluation manifests, public development protocol, layer-specific metrics and pre-confirmatory decision thresholds.
+    acceptance_evidence:
+      - Dataset manifests with source/version/split/checksum/task mapping/preprocessing/metric identity.
+      - Separate metric definitions for retrieval, source suitability, temporal/numeric correctness and semantic support as applicable.
+      - Public-development versus hidden-confirmatory access policy.
+    blocked_by: [PA-014]
+    out_of_scope:
+      - One aggregate universal assurance score.
+      - Hidden labels in implementation-agent-visible fixtures.
+
+  - id: PA-016
+    repository: retrieval-benchmarker
+    parent: PA-EPIC-M3
+    objective: Establish independent retrieval baselines using immutable finance-oriented corpora/queries/qrels through the existing benchmarker.
+    acceptance_evidence:
+      - Persisted ranking/report artifacts with exact benchmarker revision/configuration and dataset manifest identities.
+      - Baselines for selected sparse/dense/hybrid/rerank configurations appropriate to the scoped queries.
+      - Retrieval results reported separately from synthesis/semantic-support outcomes.
+    blocked_by: [PA-015]
+    out_of_scope:
+      - Making Retrieval Benchmarker a runtime promotion dependency.
+      - Interpreting retrieval score as semantic correctness.
+
+  - id: PA-017
+    repository: source-ranker
+    parent: PA-EPIC-M3
+    objective: Run a bounded public-development experiment to determine whether Source Ranker adds measurable claim/source-suitability value over simpler baselines.
+    acceptance_evidence:
+      - Exact Source Ranker revision and task-specific evaluation set identity.
+      - Incremental quality/calibration, false-block/reject, latency/cost and error-slice comparison against baseline.
+      - Explicit disposition: admit via wrap/extend, keep research-only, or NO_MEASURABLE_BENEFIT/defer.
+    blocked_by: [PA-015, PA-016]
+    out_of_scope:
+      - Presuming runtime inclusion before results.
+      - Universal source-quality score.
+
+  - id: PA-018
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M3
+    objective: Run composition tests and ablations across deterministic/provenance baseline and any empirically admitted optional layers.
+    acceptance_evidence:
+      - Layer-by-layer report with exact revisions/configuration/dataset identities.
+      - Incremental benefit, false acceptance/rejection effect, cost/latency and protocol-induced failure measurements.
+      - Kill/defer result for layers that do not earn inclusion.
+    blocked_by: [PA-016, PA-017]
+    out_of_scope:
+      - Adding claim verification or GraphRAG merely to fill an architecture diagram.
+      - Combining heterogeneous metrics into one score.
+
+  - id: PA-019
+    repository: evaluation-authority
+    parent: PA-EPIC-M3
+    objective: Establish and dry-run the restricted hidden-confirmatory evaluation boundary without exposing secret payloads to implementation agents.
+    acceptance_evidence:
+      - Access/process test using non-secret dummy fixtures showing implementation identities cannot read evaluator-only payloads.
+      - Frozen protocol defining allowed manifest metadata and returned report fields.
+      - Audit evidence that agent-visible handoffs/repos do not contain hidden labels, answers or seeds.
+    blocked_by: [PA-015]
+    out_of_scope:
+      - Bespoke secrecy platform when existing repository/storage/CI access controls suffice.
+      - Runtime product dependency on evaluator infrastructure.
+
+  - id: PA-020
+    repository: evaluation-authority
+    parent: PA-EPIC-M3
+    objective: Execute hidden confirmatory evaluation only after the evaluated composition, metrics and thresholds are frozen.
+    acceptance_evidence:
+      - Frozen exact component/configuration/model/prompt identities as applicable.
+      - Hidden report tied to opaque dataset/protocol identity without exposing payloads to implementation agents.
+      - Record that post-result tuning requires a new valid confirmatory split/run rather than reusing the same hidden material.
+    blocked_by: [PA-018, PA-019]
+    out_of_scope:
+      - Adaptive tuning on hidden failures in the same confirmatory run.
+      - Hidden holdout for purely deterministic structural claims.
+
+  - id: PA-021
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M4
+    objective: Run mutation testing against critical deterministic guards and review surviving mutations.
+    acceptance_evidence:
+      - Mutation report covering authorization/review binding, state guards, identity/revision comparison and fail-closed error handling.
+      - Critical surviving mutations killed by tests or accepted with explicit rationale.
+    blocked_by: [PA-011, PA-014]
+    out_of_scope:
+      - Arbitrary universal mutation-score target.
+      - Mutating third-party systems whose source is not owned.
+
+  - id: PA-022
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M4
+    objective: Run fault injection, crash/retry/replay/rebuild/redaction campaigns across the core/FOSSIL persistent boundary.
+    acceptance_evidence:
+      - Fault report for before/after-ingest failures, partial batch/crash, ambiguous retry, orphan behavior, replay/rebuild, redaction and actor attribution.
+      - Exact FOSSIL/core revisions and fixtures.
+      - Evidence that no failure path forges an accepted promotion.
+    blocked_by: [PA-014]
+    out_of_scope:
+      - Converting unobserved research hypotheses into declared FOSSIL defects.
+      - Fault domains not present in the implemented architecture.
+
+  - id: PA-023
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M4
+    objective: Conduct adversarial review distinct from ordinary test execution and disposition findings through the scope-admission rule.
+    acceptance_evidence:
+      - Reviewed attack/failure scenarios for bypass, stale/mismatched binding, hidden leakage, provenance/correctness confusion and ownership boundary violations.
+      - Each finding assigned mitigate_now, measure, defer, not_applicable or reject with evidence/rationale.
+      - No automatic horizontal scope expansion from finding discovery alone.
+    blocked_by: [PA-020, PA-021, PA-022]
+    out_of_scope:
+      - Treating adversarial review as a generic completion stamp.
+
+  - id: PA-024
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M4
+    objective: Reproduce the release candidate from a clean environment and measure operational friction/protocol-induced failure.
+    acceptance_evidence:
+      - Clean-environment deterministic and applicable benchmark rerun tied to exact composition/data identities.
+      - Latency/cost/researcher-step/false-block/retry burden metrics where measurable.
+      - Documented nondeterminism and tolerances.
+    blocked_by: [PA-020, PA-022]
+    out_of_scope:
+      - Claiming reproducibility for unpinned future revisions.
+      - Hiding methodology-caused failures inside aggregate quality metrics.
+
+  - id: PA-025
+    repository: promotion-assurance-core
+    parent: PA-EPIC-M4
+    objective: Produce the milestone/release evidence package, residual-risk register and current/historical structured handoff checkpoint.
+    acceptance_evidence:
+      - Release decision tied to exact repository, dataset, report, methodology and receipt identities.
+      - Residual risks separated by integrity/provenance, semantic, empirical, temporal/numeric/domain, authorization/review, contamination, dependency drift and availability.
+      - Current handoff validates against the project-specific schema and names the exact next action; historical milestone checkpoint is immutable/append-only by policy.
+      - Human approval where release judgment is inherent.
+    blocked_by: [PA-023, PA-024]
+    out_of_scope:
+      - Universal certification or verified=true claim.
+      - Cross-domain validity not evidenced by this release.
+
+deferred_candidates:
+  - mechanism: claim-verification-layer
+    trigger: A measured unsupported/incorrect synthesis residual remains material after deterministic, provenance, domain and review layers, and a bounded offline ablation can test benefit.
+    terminal_outcome_allowed: NO_MEASURABLE_BENEFIT
+  - mechanism: graph-rag
+    trigger: A named graph-shaped retrieval failure class exists and an exact benchmark can compare against the current retrieval baseline.
+    terminal_outcome_allowed: NO_MEASURABLE_BENEFIT
+  - mechanism: cross-domain-assurance-pack
+    trigger: A second materially different domain presents a concrete adoption need and repeated portable obligations can be distinguished from domain-specific ones.
+    terminal_outcome_allowed: DEFER
+  - mechanism: agent-harness-continuity-experiment
+    trigger: Deterministic restart/idempotency/review-binding tests are green and frozen microworld interruption/cross-model evaluation can measure continuity benefit and protocol-induced failure.
+    terminal_outcome_allowed: NO_MEASURABLE_BENEFIT

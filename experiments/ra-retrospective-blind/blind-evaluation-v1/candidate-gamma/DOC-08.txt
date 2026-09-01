@@ -1,0 +1,24 @@
+{
+  "schema_version": "candidate-handoff-state/0.1.0",
+  "methodology_revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb",
+  "current_phase": "preflight complete; awaiting owner review",
+  "current_proposed_work_unit": "M0: bind exact component revisions and execute composition probes",
+  "unresolved_blockers": [
+    "Owner must approve the current scope, material exclusions, and build-vs-reuse dispositions.",
+    "Owner must provide or authorize exact versions, licenses, and integration contracts for FOSSIL Core, Source Ranker, Retrieval Benchmarker, and the financial analysis application.",
+    "The first finance promotion type, source-authority policy, and human-review authority are not selected.",
+    "Whether adaptive empirical tuning requires a hidden confirmatory split is conditional on the selected quality claim."
+  ],
+  "validation_status": {
+    "preflight_artifacts": "complete in this candidate bundle",
+    "deterministic_policy_tests": "not started",
+    "fossil_boundary_probes": "not started",
+    "finance_vertical_slice": "not started",
+    "benchmark_or_holdout": "not admitted",
+    "agent_harness_experiment": "deferred"
+  },
+  "exact_next_action": "Obtain owner review and immutable component references; then run the M0 compatibility and failure probes listed in ISSUE_PLAN.yaml before creating an implementation backlog.",
+  "scope_exclusions": ["universal trust score", "cross-domain packs", "graph/vector infrastructure", "generic claim verifier", "agent-control stamps", "runtime benchmarker coupling", "consequential external actions"],
+  "resume_rule": "Before a mutation, reconcile the owner-approved manifest, exact component revisions, selected first promotion type, active issue state, and current validation artifacts. Live immutable references supersede this planning checkpoint.",
+  "hidden_evaluation_rule": "Do not place hidden labels, answers, seeds, or confirmatory reports in agent-visible handoffs."
+}
