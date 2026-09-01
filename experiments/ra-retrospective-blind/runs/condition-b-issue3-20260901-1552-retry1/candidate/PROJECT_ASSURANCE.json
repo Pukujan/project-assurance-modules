@@ -1,0 +1,268 @@
+{
+  "schema_version": "pam-manifest/0.1.0",
+  "project": {
+    "name": "Evidence Promotion Assurance Program",
+    "repository": null,
+    "phase": "projectization-preflight-complete-awaiting-owner-review"
+  },
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb"
+  },
+  "project_facts": {
+    "project_kind": "mixed research and software",
+    "implementation_language": "not yet selected",
+    "expected_lifetime": "multi-session, multi-agent",
+    "agent_assisted_development": true,
+    "multi_repository_composition": true,
+    "persistent_state_in_composed_system": true,
+    "concurrency_or_distributed_execution": "possible in composed systems; not a first-slice coordinator claim",
+    "security_or_authorization_boundary": true,
+    "external_network_dependencies": "runtime/integration possible; deterministic PR CI should be no-network where feasible",
+    "empirical_quality_claims": true,
+    "stochastic_or_model_behavior": true,
+    "benchmark_or_dataset_use": true,
+    "hidden_confirmatory_evaluation_required": true,
+    "domain_specific_temporal_version_semantics": true,
+    "human_in_the_loop_decisions": true,
+    "consequential_promotion_actions": true,
+    "reproducibility_and_provenance_required": true,
+    "prior_research_lineage_worth_preserving": true,
+    "public_release_expectation": "not specified in frozen packet",
+    "migration_replay_rebuild_requirements": true
+  },
+  "profiles": [],
+  "modules": [
+    {
+      "module_id": "projectization.build-vs-reuse",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The program is nontrivial software/research composition and the packet names serious existing internal systems that may satisfy major capabilities.",
+      "requirements": [
+        {
+          "requirement_id": "REUSE_001",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Defines capabilities, constraints, non-goals, and decision criteria."
+            },
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Freezes current claims and non-goals before implementation planning."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "REUSE_002",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Registers all serious existing candidates supplied by the frozen research packet."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "REUSE_003",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Records material trade-offs, uncertainties, dispositions, and must-not-own boundaries."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "REUSE_004",
+          "state": "pending",
+          "evidence": [],
+          "rationale": "Cheap contract/integrity/benchmark probes are specified but cannot be executed from the frozen packet; they are entry gates before depending on uncertain behaviors."
+        },
+        {
+          "requirement_id": "REUSE_005",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Contains proposed dispositions and reconsideration triggers."
+            }
+          ],
+          "rationale": "The candidate records dispositions, but consequential implementation authorization still requires project-owner review."
+        },
+        {
+          "requirement_id": "REUSE_006",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "The only proposed build_new capability is a thin promotion coordinator; the unmet cross-system promotion semantics are explicitly identified."
+            }
+          ],
+          "rationale": null
+        }
+      ]
+    },
+    {
+      "module_id": "projectization.scope-boundary",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The project has multiple adjacent technologies, empirical mechanisms, repositories, and domain extensions that create material horizontal scope risk.",
+      "requirements": [
+        {
+          "requirement_id": "SCOPE_001",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "States current outcome and bounded claims."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "SCOPE_002",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Lists explicit current non-goals."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "SCOPE_003",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Records deferred/rejected mechanisms and reconsideration triggers."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "SCOPE_004",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Defines evidence-based scope admission and kill/defer rules."
+            }
+          ],
+          "rationale": null
+        },
+        {
+          "requirement_id": "SCOPE_005",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "States component boundaries."
+            },
+            {
+              "kind": "file",
+              "locator": "REPOSITORY_MAP.md",
+              "note": "Defines ownership and must-not-own boundaries across repositories."
+            }
+          ],
+          "rationale": null
+        }
+      ]
+    },
+    {
+      "module_id": "continuity.structured-handoff",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The program is expected to span sessions, agents, harnesses, and independently versioned repositories; exact revision and validation continuity matters.",
+      "requirements": [
+        {
+          "requirement_id": "HANDOFF-001",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "PROJECT_PLAN.md",
+              "note": "Specifies the target handoff policy and reconciliation behavior."
+            }
+          ],
+          "rationale": "The policy is planned but has not yet been committed in the adopting project."
+        },
+        {
+          "requirement_id": "HANDOFF-002",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Candidate checkpoint demonstrates required state fields."
+            }
+          ],
+          "rationale": "The adopting project still needs a versioned handoff schema and current-state artifact."
+        },
+        {
+          "requirement_id": "HANDOFF-003",
+          "state": "pending",
+          "evidence": [],
+          "rationale": "Deterministic positive/negative schema tests and normal check-lane enforcement do not yet exist."
+        },
+        {
+          "requirement_id": "HANDOFF-004",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "PROJECT_PLAN.md",
+              "note": "Requires live reconciliation of pinned repositories, active work, and CI before mutation."
+            }
+          ],
+          "rationale": "Resume instructions are specified for bootstrap but are not yet implemented."
+        },
+        {
+          "requirement_id": "HANDOFF-005",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "PROJECT_PLAN.md",
+              "note": "Separates replaceable current state from material immutable checkpoints."
+            }
+          ],
+          "rationale": "The adopting project has not yet established checkpoint storage/policy."
+        },
+        {
+          "requirement_id": "HANDOFF-006",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Explicitly excludes hidden confirmatory material from agent-visible state."
+            },
+            {
+              "kind": "file",
+              "locator": "VALIDATION_PLAN.md",
+              "note": "Requires negative tests for hidden-holdout leakage."
+            }
+          ],
+          "rationale": "The policy is defined, but fixtures/checks must be implemented before closure."
+        }
+      ]
+    }
+  ]
+}
