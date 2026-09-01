@@ -6,11 +6,15 @@ The main source for v0 candidates is the process developed manually in `Pukujan/
 
 | Family | Candidate module | Status | Typical applicability |
 | --- | --- | --- | --- |
+| Projectization | `projectization.build-vs-reuse` | **implemented candidate 0.1.0** | nontrivial software projectization where maintained existing systems may satisfy the need |
+| Projectization | `projectization.scope-boundary` | **implemented candidate 0.1.0** | nontrivial projects where horizontal expansion or premature subsystem creation is a material risk |
+| Projectization | `projectization.research-handoff` | planned | research-heavy projects needing a compact promotion boundary from exploration into engineering |
+| Projectization | `projectization.preflight-freeze` | planned | projects that should freeze routed methodology before repository/issue/bootstrap generation |
 | Planning | `planning.product-definition` | planned | nontrivial projects with explicit goals/non-goals/success criteria |
 | Planning | `planning.system-design` | planned | projects with architectural boundaries/interfaces/state |
 | Planning | `planning.invariants` | planned | systems making durable correctness claims |
 | Planning | `planning.failure-register` | planned | systems with meaningful failure surface |
-| Planning | `planning.scope-control` | planned | research/assurance/meta systems prone to horizontal expansion |
+| Planning | `planning.scope-control` | superseded for v0 projectization | deeper milestone/runtime scope-control after the initial `projectization.scope-boundary` |
 | Engineering | `engineering.swe-foundation.python` | planned | Python software projects |
 | Engineering | `engineering.swe-foundation.typescript` | planned | TypeScript software projects |
 | Engineering | `engineering.ci-foundation` | planned | software with automated repository gates |
@@ -31,7 +35,7 @@ The main source for v0 candidates is the process developed manually in `Pukujan/
 | Continuity | `continuity.structured-handoff` | **implemented candidate 0.1.0** | multi-session/agent/harness work |
 | Provenance | `provenance.fossil-decision-lineage` | planned | substantial research/design lineage worth replaying |
 | Provenance | `provenance.exact-versioning` | planned | projects where artifact/component identity matters |
-| Research | `research.external-precedent-reuse` | planned | projects that should test build-vs-reuse / standards / OSS precedent |
+| Research | `research.external-precedent-reuse` | folded into projectization for v0 | deeper external-methodology discovery beyond the initial build-vs-reuse gate |
 | Research | `research.dataset-selection` | planned | projects with external benchmark/dataset claims |
 | Release | `release.evidence-gate` | planned | releases/milestones requiring exact closure evidence |
 | Release | `release.migration-replay-rollback` | planned | persistent/stateful systems with upgrades |
@@ -50,20 +54,30 @@ Priority should come from:
 4. risk/benefit of omission;
 5. usefulness to the next adopter.
 
-The first extraction is structured handoff because it is currently needed in both Research Assurance and RA-plugin and has a clear machine-valid contract.
-
-Likely next extraction cluster from Research Assurance:
+The first implemented cluster is deliberately small:
 
 ```text
+projectization.build-vs-reuse
+projectization.scope-boundary
+continuity.structured-handoff
+```
+
+These address three high-cost repeated failures observed during Research Assurance work: agents building before testing reuse, horizontal scope expansion, and loss of execution state across sessions/harnesses.
+
+The next extraction cluster should be chosen from evidence produced by the first two adopters and the blinded retrospective benchmark, not copied mechanically from Research Assurance. Likely candidates remain:
+
+```text
+projectization.research-handoff
+projectization.preflight-freeze
 product-definition
 system-design
 invariants + failure-register
 SWE/CI foundation
 validation-strategy router
 benchmark-integrity / hidden-holdout
-scope-control + adversarial-review
+adversarial-review
 GitHub issue/project planning
 FOSSIL decision-lineage
 ```
 
-Each should get its own module contract rather than becoming one giant checklist.
+Each should get its own portable module contract rather than becoming one giant checklist.
