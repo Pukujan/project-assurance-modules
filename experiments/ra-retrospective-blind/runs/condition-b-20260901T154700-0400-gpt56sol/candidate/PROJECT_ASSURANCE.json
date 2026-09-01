@@ -1,0 +1,298 @@
+{
+  "schema_version": "pam-manifest/0.1.0",
+  "project": {
+    "name": "Research Promotion Assurance",
+    "repository": null,
+    "phase": "candidate_preflight_frozen_pending_owner_review"
+  },
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "8f4737fc212e6b09f8066d90e178aa8760e619fb"
+  },
+  "project_facts": {
+    "program_type": "mixed_research_software",
+    "implementation_language": "undecided",
+    "expected_lifetime": "multi_session_multi_agent",
+    "agent_assisted_development": true,
+    "repository_topology": "multi_repository_composition",
+    "persistent_state": true,
+    "concurrency_distributed_execution": "not assumed for the new core; must be reclassified if the selected dependency contracts require it",
+    "security_authorization_boundary": true,
+    "external_network_dependencies": "possible in adopter/runtime systems; deterministic PR CI should be no-network where feasible",
+    "empirical_quality_claims": true,
+    "stochastic_model_behavior": true,
+    "benchmark_dataset_use": true,
+    "hidden_confirmatory_evaluation_required": "yes for adaptively tuned empirical claims; not for purely deterministic structural claims",
+    "domain_specific_temporal_version_semantics": true,
+    "first_domain": "finance",
+    "human_in_the_loop_decisions": true,
+    "consequential_promotions": true,
+    "reproducibility_provenance_requirements": true,
+    "prior_research_lineage_worth_preserving": true,
+    "public_open_source_release_expectation": "undecided",
+    "migration_replay_rollback_requirements": true,
+    "research_continues_when_assurance_fails": true,
+    "promotion_fails_closed": true
+  },
+  "profiles": [],
+  "modules": [
+    {
+      "module_id": "projectization.build-vs-reuse",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "A nontrivial mixed research/software program has multiple plausible existing internal systems and standards; bespoke implementation is not defensible without explicit reuse disposition and cheap probes.",
+      "requirements": [
+        {
+          "requirement_id": "REUSE_001",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Defines capability boundaries, comparison criteria, non-goals, and decision criteria before implementation."
+            },
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Freezes current capabilities, non-goals, complexity budget, and scope-admission rule."
+            }
+          ],
+          "rationale": "The required capability and comparison criteria are explicit without treating one implementation as a foregone conclusion."
+        },
+        {
+          "requirement_id": "REUSE_002",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Records the serious candidate systems and standards available in the frozen packet."
+            }
+          ],
+          "rationale": "The frozen packet deliberately omits exact component pins. Candidate names and roles are known, but exact revisions/licenses/maintenance identities must be selected before the reusable-candidate register is fully closable."
+        },
+        {
+          "requirement_id": "REUSE_003",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Gives each serious capability a disposition, material trade-offs, uncertainty, and reconsideration trigger."
+            }
+          ],
+          "rationale": "Material trade-offs are compared at the level supported by the frozen packet and untested claims are explicitly routed to probes/research rather than asserted."
+        },
+        {
+          "requirement_id": "REUSE_004",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Specifies cheap FOSSIL, Source Ranker, Retrieval Benchmarker, finance-adapter, and hidden-boundary probes."
+            },
+            {
+              "kind": "file",
+              "locator": "ISSUE_PLAN.yaml",
+              "note": "Turns material cheap probes into dependency-ordered executable work."
+            }
+          ],
+          "rationale": "This planning run must not invent probe results; the empirical/contract evidence is future implementation work."
+        },
+        {
+          "requirement_id": "REUSE_005",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Records proposed dispositions and residual uncertainty."
+            }
+          ],
+          "rationale": "The module closure rule requires a reviewed durable disposition. The candidate planner cannot fabricate the authorized human/project-owner review; PA-001 is the implementation entry gate."
+        },
+        {
+          "requirement_id": "REUSE_006",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "BUILD_VS_REUSE.md",
+              "note": "Limits build_new to a thin promotion contract/policy layer and enumerates concrete unmet scoped responsibilities; persistence/retrieval/control-plane code is explicitly excluded."
+            }
+          ],
+          "rationale": "The only proposed bespoke layer has named unmet responsibilities and is required to shrink or convert to wrapping/configuration if the FOSSIL contract probe demonstrates equivalent existing behavior."
+        }
+      ]
+    },
+    {
+      "module_id": "projectization.scope-boundary",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The project has many adjacent attractive mechanisms and independently owned systems, so a frozen current horizon and explicit admission rule are necessary to prevent speculative expansion.",
+      "requirements": [
+        {
+          "requirement_id": "SCOPE_001",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "States the finance-first promotion-assurance goal and bounded current claims/capabilities."
+            }
+          ],
+          "rationale": "The current outcome and claims are explicit."
+        },
+        {
+          "requirement_id": "SCOPE_002",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Enumerates adjacent mechanisms and product/system responsibilities explicitly outside the current horizon."
+            }
+          ],
+          "rationale": "Non-goals are explicit enough to reject obvious horizontal expansion."
+        },
+        {
+          "requirement_id": "SCOPE_003",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Records deferred/rejected mechanisms with rationales and evidence-based reconsideration triggers."
+            },
+            {
+              "kind": "file",
+              "locator": "ISSUE_PLAN.yaml",
+              "note": "Keeps deferred mechanisms out of the executable issue set and preserves explicit triggers."
+            }
+          ],
+          "rationale": "Material alternatives are durably dispositioned rather than repeatedly re-entering scope."
+        },
+        {
+          "requirement_id": "SCOPE_004",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "SCOPE.md",
+              "note": "Defines the six-part scope-admission rule and mitigate/measure/defer/not-applicable/reject style dispositions."
+            }
+          ],
+          "rationale": "New technologies or findings require current-claim impact, reuse consideration, evidence, ownership, validation/kill criteria, and owner review before admission."
+        },
+        {
+          "requirement_id": "SCOPE_005",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "REPOSITORY_MAP.md",
+              "note": "Defines multi-repository ownership, must-not-own boundaries, dependency direction, runtime versus research/CI roles, and exact composition identity."
+            }
+          ],
+          "rationale": "Repository and subsystem responsibilities are explicit enough to guide issue generation without collapsing independent systems."
+        }
+      ]
+    },
+    {
+      "module_id": "continuity.structured-handoff",
+      "version": "0.1.0",
+      "disposition": "required",
+      "rationale": "The program is expected to span sessions, agents/humans, repositories, exact revisions, empirical evaluations, and review boundaries, so resumable exact execution state is material.",
+      "requirements": [
+        {
+          "requirement_id": "HANDOFF-001",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Defines material handoff triggers, trivial-action exclusions, stale-state reconciliation, and live-state precedence."
+            }
+          ],
+          "rationale": "Authority and trigger rules are explicit in the current candidate handoff state."
+        },
+        {
+          "requirement_id": "HANDOFF-002",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Provides a machine-readable current state packet with a declared local schema-version string."
+            },
+            {
+              "kind": "file",
+              "locator": "PAM_GAPS.md",
+              "note": "Records that the frozen PAM schema catalog does not supply the pinned handoff schema required for closure."
+            }
+          ],
+          "rationale": "A machine-readable packet exists, but this candidate cannot truthfully claim validation against a pinned PAM handoff schema that is absent from the frozen schema catalog. PA-006 defines a project-specific schema without modifying PAM."
+        },
+        {
+          "requirement_id": "HANDOFF-003",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "ISSUE_PLAN.yaml",
+              "note": "PA-006 requires deterministic positive/negative handoff-schema validation in the project check lane."
+            },
+            {
+              "kind": "file",
+              "locator": "PAM_GAPS.md",
+              "note": "Explains why the frozen candidate cannot close deterministic handoff-schema validation yet."
+            }
+          ],
+          "rationale": "No implementation check lane or project-specific handoff schema exists yet; validation evidence must not be fabricated."
+        },
+        {
+          "requirement_id": "HANDOFF-004",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Resume rule requires reconciling the small set of named live repository/issue/PR/CI objects before mutation and states that live state wins."
+            }
+          ],
+          "rationale": "The candidate has no implementation live objects yet, but the reconciliation behavior is explicit for resumed work."
+        },
+        {
+          "requirement_id": "HANDOFF-005",
+          "state": "satisfied",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Distinguishes replaceable current state from append-only/immutable material milestone and release checkpoints."
+            }
+          ],
+          "rationale": "Current versus historical checkpoint policy is explicit."
+        },
+        {
+          "requirement_id": "HANDOFF-006",
+          "state": "pending",
+          "evidence": [
+            {
+              "kind": "file",
+              "locator": "HANDOFF_STATE.json",
+              "note": "Policy explicitly forbids hidden confirmatory labels, answers, seeds and payloads in agent-visible handoffs."
+            },
+            {
+              "kind": "file",
+              "locator": "ISSUE_PLAN.yaml",
+              "note": "PA-006 and PA-019 require fixtures/process tests for the hidden-evaluation boundary."
+            }
+          ],
+          "rationale": "The policy exists, but practical negative fixtures/access-boundary tests are future work and are required before claiming closure."
+        }
+      ]
+    }
+  ]
+}
