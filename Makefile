@@ -13,6 +13,6 @@ test:
 	pytest -q
 
 validate:
-	python scripts/pam_validate.py examples/PROJECT_ASSURANCE.example.json
+	python -m scripts.pam_validate examples/PROJECT_ASSURANCE.example.json
 
 check: lint format type validate test
