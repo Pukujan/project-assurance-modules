@@ -10,12 +10,14 @@ Stable profile identity is the PAM repository revision plus `profile_id` and pro
 
 ## Shipped profiles
 
-The first bounded profiles are:
+The bounded profiles are:
 
-- `projectization.software@0.1.0` — surfaces build-vs-reuse and scope-boundary modules when software work is explicitly entering projectization;
-- `continuity.material-work@0.1.0` — surfaces structured handoff when material work spans sessions or uses agent-assisted execution.
+- `projectization.software@0.1.0` — surfaces build-vs-reuse, scope-boundary, planning-foundation, and SWE/CI modules when software work is explicitly entering projectization;
+- `continuity.material-work@0.1.0` — surfaces structured handoff when material work spans sessions or uses agent-assisted execution;
+- `benchmark.empirical-work@0.1.0` — surfaces benchmark integrity for empirical claims, dataset/benchmark use, or hidden/confirmatory evaluation;
+- `provenance.material-decisions@0.1.0` — surfaces decision-lineage methodology for consequential or explicitly replay-worthy decisions.
 
-These profiles only contain already-extracted v0 modules. They do not mass-extract the roadmap.
+These profiles contain only the frozen v0 modules and the small repeated v0.2 extraction cluster justified by the retrospective handoff. They do not mass-extract the roadmap.
 
 ## Selection states
 
@@ -33,7 +35,7 @@ A selector contains deterministic `all_of` and `any_of` equality conditions over
 
 `python -m scripts.pam_compose <facts.json>` returns both profile decisions and the routed candidate modules covered by selected or conditional profiles.
 
-Profiles choose the candidate module set. The existing module router still decides whether each candidate module is `required`, `recommended`, `conditional`, or `not_applicable` from the project facts. Selecting a profile therefore does not make all of its modules required.
+Profiles choose the candidate module set. The module router still decides whether each candidate module is `required`, `recommended`, `conditional`, or `not_applicable` from the project facts. Selecting a profile therefore does not make all of its modules required.
 
 ## Manifest validation
 
