@@ -105,9 +105,7 @@ def _selection_for_profile(profile: JSONDict, project_facts: JSONDict) -> Profil
         all_state = True
 
     any_state: bool | None
-    if not any_results:
-        any_state = True
-    elif any(result is True for result in any_results):
+    if not any_results or any(result is True for result in any_results):
         any_state = True
     elif any(result is None for result in any_results):
         any_state = None
