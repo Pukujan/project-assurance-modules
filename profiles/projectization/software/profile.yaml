@@ -3,8 +3,8 @@ profile_id: projectization.software
 version: 0.1.0
 title: Software projectization
 intent: >-
-  Surface the bounded projectization modules for software work once a project is explicitly entering
-  projectization, while leaving each module's required/recommended/conditional disposition to the router.
+  Surface bounded projectization, planning-foundation, and software-engineering modules when software
+  work explicitly enters projectization, while leaving each module disposition to the router.
 selector:
   all_of:
     - fact: software
@@ -16,4 +16,8 @@ modules:
   - module_id: projectization.build-vs-reuse
     version: 0.1.0
   - module_id: projectization.scope-boundary
+    version: 0.1.0
+  - module_id: planning.foundation
+    version: 0.1.0
+  - module_id: engineering.swe-ci-foundation
     version: 0.1.0
