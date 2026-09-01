@@ -1,0 +1,1 @@
+Preparation note: identity-bearing source metadata is not part of the evaluator-visible candidate evidence.
