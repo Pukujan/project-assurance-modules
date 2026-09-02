@@ -137,9 +137,7 @@ def discover_inventory(root: Path = ROOT) -> Inventory:
 
 
 def _item_lines(items: tuple[InventoryItem, ...]) -> list[str]:
-    return [
-        f"- `{item.identity}@{item.version}` — {item.title} (`{item.path}`)" for item in items
-    ]
+    return [f"- `{item.identity}@{item.version}` — {item.title} (`{item.path}`)" for item in items]
 
 
 def render_readme_block(state: RepositoryState, inventory: Inventory) -> str:
@@ -295,7 +293,9 @@ def main() -> None:
     )
     mode = parser.add_mutually_exclusive_group(required=True)
     mode.add_argument("--check", action="store_true", help="Fail when generated docs are stale.")
-    mode.add_argument("--write", action="store_true", help="Rewrite generated documentation blocks.")
+    mode.add_argument(
+        "--write", action="store_true", help="Rewrite generated documentation blocks."
+    )
     args = parser.parse_args()
     write = bool(args.write)
     stale = sync_documents(write=write)
