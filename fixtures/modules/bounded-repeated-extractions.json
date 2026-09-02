@@ -1,0 +1,56 @@
+{
+  "planning.foundation": {
+    "positive": {
+      "facts": {"projectization": true, "nontrivial": true},
+      "expected_disposition": "required"
+    },
+    "negative": {
+      "facts": {"projectization": false, "nontrivial": false},
+      "expected_disposition": "not_applicable"
+    }
+  },
+  "engineering.swe-ci-foundation": {
+    "positive": {
+      "facts": {"software": true, "nontrivial": true},
+      "expected_disposition": "required"
+    },
+    "negative": {
+      "facts": {"software": false, "nontrivial": true},
+      "expected_disposition": "not_applicable"
+    }
+  },
+  "benchmark.integrity": {
+    "positive": {
+      "facts": {
+        "empirical_quality_claims": true,
+        "benchmark_or_dataset_use": true,
+        "hidden_confirmatory_evaluation": true
+      },
+      "expected_disposition": "required"
+    },
+    "negative": {
+      "facts": {
+        "empirical_quality_claims": false,
+        "benchmark_or_dataset_use": false,
+        "hidden_confirmatory_evaluation": false
+      },
+      "expected_disposition": "not_applicable"
+    }
+  },
+  "provenance.decision-lineage": {
+    "positive": {
+      "facts": {
+        "consequential_decisions": true,
+        "durable_provenance_and_decision_lineage": true
+      },
+      "expected_disposition": "required"
+    },
+    "negative": {
+      "facts": {
+        "consequential_decisions": false,
+        "durable_provenance_and_decision_lineage": false
+      },
+      "expected_disposition": "not_applicable"
+    }
+  }
+}

@@ -1,0 +1,68 @@
+schema_version: pam-module/0.2.0
+module_id: benchmark.integrity
+version: 0.1.0
+title: Benchmark, dataset, and holdout integrity
+category: benchmark
+intent: >-
+  Make empirical quality or performance evidence reproducible and appropriately scoped by
+  binding claims to exact protocols/data, separating development from confirmatory evidence,
+  and failing closed on leakage or identity ambiguity.
+motivation:
+  - The RA retrospective repeatedly required explicit benchmark/dataset identities, public-development versus hidden-confirmatory separation, and claim-layer discipline.
+  - The attempted vendor-blind retrospective evaluation correctly aborted when packaging leaked identity-bearing material, demonstrating that evaluation-boundary integrity must be validated rather than assumed.
+non_scope:
+  - Requiring a hidden holdout for deterministic tests or non-adaptive empirical work with no meaningful contamination threat.
+  - Requiring any specific benchmark suite, dataset, metric, statistical test, or model evaluator across domains.
+  - Treating retrieval, citation, semantic correctness, safety, or other distinct quality layers as interchangeable scores.
+  - Making an LLM judge the sole oracle for release-significant claims when stronger deterministic or human-grounded evidence is available.
+applies_when:
+  - The project makes empirical quality or performance claims.
+  - Benchmarks, datasets, development sets, hidden holdouts, or confirmatory evaluation are used to justify project decisions or releases.
+requirements:
+  - id: BENCH_INT_001
+    title: Bind evaluation to a declared claim
+    description: State the exact empirical claim or decision the evaluation supports and distinguish it from adjacent quality dimensions that the benchmark does not establish.
+    evidence_kinds: [file, benchmark, human_review, rationale]
+    closure_rule: The protocol names the target claim, metric or decision rule, applicability limits, and the conclusions the evidence must not be used to make.
+    not_applicable_rule: Not applicable only when no empirical benchmark, dataset, performance, or model-quality claim is used.
+  - id: BENCH_INT_002
+    title: Pin protocol and data identity
+    description: Record exact benchmark protocol, dataset/corpus/query/qrels or equivalent data identities, transformations, configuration, and relevant component revisions.
+    evidence_kinds: [file, commit, artifact, receipt, benchmark]
+    closure_rule: Another worker can identify the exact protocol and data inputs used for the reported result without relying on mutable names such as latest or an unpinned working tree.
+    not_applicable_rule: Not applicable only when the evidence has no external or mutable protocol/data input.
+  - id: BENCH_INT_003
+    title: Define development and confirmatory boundaries
+    description: Separate tuning/development evidence from confirmatory or hidden evaluation when adaptation, repeated inspection, or contamination could materially bias the claimed result.
+    evidence_kinds: [file, test, human_review, rationale]
+    closure_rule: The protocol states which material is development-visible, what remains confirmatory or hidden when needed, who may access it, and when the boundary may be opened.
+    not_applicable_rule: Not applicable when no adaptive tuning, repeated evaluation, hidden material, or contamination-sensitive release claim exists; the rationale must state why.
+  - id: BENCH_INT_004
+    title: Validate leakage and packaging boundaries
+    description: Use deterministic scanning/checks and, where semantic leakage matters, an explicit review step before releasing blind or hidden evaluation material to an evaluator or implementer.
+    evidence_kinds: [test, file, artifact, human_review]
+    closure_rule: Evaluation packaging has a fail-closed leakage check appropriate to the declared blind/hidden boundary, plus semantic review when token scanning alone cannot establish anonymity or secrecy.
+    not_applicable_rule: Not applicable when the evaluation has no blind, hidden, or restricted-information boundary.
+  - id: BENCH_INT_005
+    title: Preserve reproducible results and limitations
+    description: Record result artifacts with exact identities, baseline/comparator context, protocol-induced failures or friction, and limitations that prevent over-generalization.
+    evidence_kinds: [benchmark, artifact, receipt, file, human_review]
+    closure_rule: The durable result can be traced to exact inputs and clearly separates valid comparisons from invalid causal contrasts or unsupported generalization claims.
+    not_applicable_rule: Not applicable only when no empirical result is retained or used for a decision.
+dependencies: []
+conflicts:
+  - Tuning against a confirmatory or hidden set and continuing to report it as untouched evidence.
+  - Mixing scores from materially different planners, harnesses, protocols, or data as a causal effect without a justified controlled contrast.
+  - Using platform-transformed working-tree bytes as the primary benchmark input identity when immutable object or content identities are available.
+compatibility:
+  impact: additive
+  note: >-
+    Adds a generic integrity module without prescribing a benchmark framework. Existing project protocols
+    can satisfy it by exposing exact identities, contamination boundaries, and result limitations.
+references:
+  - kind: documentation
+    locator: experiments/ra-retrospective-blind/evaluation/EVALUATION_ROUND2_IDENTITY_AWARE.md
+    note: Records repeated benchmark/holdout obligations and the failed blind-packaging attempts that motivated fail-closed leakage validation.
+  - kind: documentation
+    locator: experiments/ra-retrospective-blind/evaluation/NEXT_SESSION_HANDOFF.md
+    note: Identifies benchmark/dataset/holdout integrity as a bounded repeated extraction and recommends Git-object identity over transformed working-tree hashes.

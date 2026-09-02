@@ -1,0 +1,87 @@
+{
+  "schema_version": "pam-handoff/0.1.0",
+  "state_kind": "historical_checkpoint",
+  "project": {
+    "name": "Project Assurance Modules",
+    "repository": "Pukujan/project-assurance-modules",
+    "phase": "v0.2 bounded extraction: generic structured handoff contract"
+  },
+  "work": {
+    "owning_repository": "Pukujan/project-assurance-modules",
+    "issue": null,
+    "branch": "develop/v0.2-bounded-extractions",
+    "pr": null,
+    "state": "in_progress"
+  },
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "db47c9f0edf3c368ffbc340d1f425a40bd0abdb3",
+    "modules": [
+      {
+        "module_id": "continuity.structured-handoff",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Research Assurance structured handoff reference",
+      "role": "reference implementation only; no automatic migration",
+      "locator": "Pukujan/research-assurance#18",
+      "observed_identity": {
+        "kind": "git_commit",
+        "value": "4c1bb86b8d02dcf2a112092d69b9318712aaec0d"
+      },
+      "tested_identity": null
+    }
+  ],
+  "validation": {
+    "passed": [],
+    "failed": [],
+    "not_run": [
+      "PAM generic handoff schema positive and negative tests",
+      "consumer migration or parity validation"
+    ]
+  },
+  "next_action": {
+    "repository": "Pukujan/project-assurance-modules",
+    "issue": null,
+    "action": "Add positive and fail-closed tests for the generic handoff schema and validator.",
+    "acceptance": "The example validates, invalid schema versions and identities fail, live-state precedence cannot be disabled, hidden evaluation cannot be exposed, and unknown assurance fields fail closed."
+  },
+  "blockers": [],
+  "scope": {
+    "do_not_start": [
+      "Replace Research Assurance ra-handoff/1.0.0 before explicit parity and migration approval",
+      "Treat a handoff packet as live execution truth without reconciliation",
+      "Place hidden confirmatory evaluation content in agent-visible handoffs"
+    ]
+  },
+  "decisions_not_to_reverse": [
+    "Live repository and CI state supersede stale handoff observations.",
+    "Current resumable state and historical checkpoints are distinct state kinds.",
+    "Research Assurance keeps its local handoff contract until generic PAM parity is explicitly proven."
+  ],
+  "open_questions": [],
+  "reconciliation": {
+    "live_state_wins": true,
+    "checks": [
+      "Re-fetch the active branch or pull request head before mutation.",
+      "Re-fetch referenced CI or validation state when it can change the next action.",
+      "Reconcile component identities that are named as current rather than historical."
+    ],
+    "stale_state_behavior": "stop_and_reconcile"
+  },
+  "hidden_evaluation": {
+    "agent_visible_hidden_material": false,
+    "policy": "Hidden or confirmatory labels, answers, seeds, and reports are excluded from agent-visible handoff state; record only the existence and process boundary when applicable."
+  },
+  "handoff": {
+    "created_from_identity": {
+      "kind": "git_commit",
+      "value": "db47c9f0edf3c368ffbc340d1f425a40bd0abdb3"
+    },
+    "created_at": "2026-09-01T23:45:00Z",
+    "reason": "material_plan_change"
+  }
+}

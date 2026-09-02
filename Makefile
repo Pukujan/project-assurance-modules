@@ -14,5 +14,7 @@ test:
 
 validate:
 	python -m scripts.pam_validate examples/PROJECT_ASSURANCE.example.json
+	python -m scripts.pam_handoff examples/HANDOFF_STATE.example.json
+	python -m scripts.pam_bootstrap examples/BOOTSTRAP_ACQUISITION.example.json
 
 check: lint format type validate test

@@ -1,0 +1,19 @@
+schema_version: pam-profile/0.1.0
+profile_id: benchmark.empirical-work
+version: 0.1.0
+title: Empirical evaluation integrity
+intent: >-
+  Surface benchmark integrity when a project makes empirical claims, uses benchmarks or datasets,
+  or has a hidden/confirmatory evaluation boundary.
+selector:
+  all_of: []
+  any_of:
+    - fact: empirical_quality_claims
+      equals: true
+    - fact: benchmark_or_dataset_use
+      equals: true
+    - fact: hidden_confirmatory_evaluation
+      equals: true
+modules:
+  - module_id: benchmark.integrity
+    version: 0.1.0

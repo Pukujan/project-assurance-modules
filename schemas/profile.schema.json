@@ -1,0 +1,70 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Pukujan/project-assurance-modules/schemas/profile.schema.json",
+  "title": "PAM routing profile",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "profile_id",
+    "version",
+    "title",
+    "intent",
+    "selector",
+    "modules"
+  ],
+  "properties": {
+    "schema_version": {"const": "pam-profile/0.1.0"},
+    "profile_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+    "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"},
+    "title": {"type": "string", "minLength": 1},
+    "intent": {"type": "string", "minLength": 1},
+    "selector": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["all_of", "any_of"],
+      "properties": {
+        "all_of": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fact_condition"},
+          "uniqueItems": true
+        },
+        "any_of": {
+          "type": "array",
+          "items": {"$ref": "#/$defs/fact_condition"},
+          "uniqueItems": true
+        }
+      },
+      "anyOf": [
+        {"properties": {"all_of": {"minItems": 1}}},
+        {"properties": {"any_of": {"minItems": 1}}}
+      ]
+    },
+    "modules": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/module_ref"},
+      "minItems": 1,
+      "uniqueItems": true
+    }
+  },
+  "$defs": {
+    "fact_condition": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fact", "equals"],
+      "properties": {
+        "fact": {"type": "string", "minLength": 1},
+        "equals": {"type": ["string", "number", "integer", "boolean", "null"]}
+      }
+    },
+    "module_ref": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["module_id", "version"],
+      "properties": {
+        "module_id": {"type": "string", "minLength": 1},
+        "version": {"type": "string", "pattern": "^[0-9]+\\.[0-9]+\\.[0-9]+$"}
+      }
+    }
+  }
+}

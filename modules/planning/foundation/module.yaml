@@ -1,0 +1,62 @@
+schema_version: pam-module/0.2.0
+module_id: planning.foundation
+version: 0.1.0
+title: Planning foundation
+category: planning
+intent: >-
+  Require a bounded product definition, system-design boundary, explicit invariants,
+  and a failure register before nontrivial implementation expands into a large backlog.
+motivation:
+  - The RA retrospective repeatedly showed that strong plans converged on explicit product/scope, architecture, invariants, and failure-mode artifacts regardless of planner or harness.
+  - The Terra robustness evaluation lost precision where failure obligations were distributed across artifacts rather than captured in a comparably explicit failure register.
+non_scope:
+  - Requiring specific filenames such as PDD.md or SDD.md when equivalent durable artifacts exist.
+  - Requiring formal methods for ordinary software without a justified state or concurrency problem.
+  - Copying Research Assurance repository topology or architecture into unrelated projects.
+  - Treating a planning document as proof that implementation satisfies the plan.
+applies_when:
+  - Nontrivial work is entering projectization or implementation planning.
+  - Product boundaries, component ownership, state/interfaces, correctness claims, or meaningful failure modes must be made durable.
+requirements:
+  - id: PLAN_FOUNDATION_001
+    title: Define product outcome and success boundary
+    description: State the intended outcome, users or owners, goals, non-goals, assumptions, and success criteria at the current project horizon.
+    evidence_kinds: [file, human_review, rationale]
+    closure_rule: A durable reviewed artifact makes the current outcome and material exclusions explicit enough to guide architecture and issue generation.
+    not_applicable_rule: Not applicable only for trivial work with no meaningful product or project boundary.
+  - id: PLAN_FOUNDATION_002
+    title: Define system and ownership boundary
+    description: Describe components, responsibilities, interfaces, important state/data flows, external dependencies, and must-not-own boundaries at the level needed for the current build.
+    evidence_kinds: [file, human_review, rationale]
+    closure_rule: A durable design artifact identifies the current components and interfaces and assigns or explicitly leaves unresolved material ownership decisions.
+    not_applicable_rule: Not applicable only when the work has no meaningful component, interface, state, or ownership design choice.
+  - id: PLAN_FOUNDATION_003
+    title: Freeze material invariants
+    description: Record the properties that must remain true across normal and failure behavior, including fail-closed rules where the project makes integrity or correctness claims.
+    evidence_kinds: [file, test, human_review]
+    closure_rule: Material invariants are named and connected to a validation approach or explicit residual-risk disposition.
+    not_applicable_rule: Not applicable only when the work makes no durable behavioral, integrity, safety, or correctness claim beyond trivial execution.
+  - id: PLAN_FOUNDATION_004
+    title: Maintain a failure register
+    description: Record material failure modes with impact, detection, mitigation or containment, and residual risk rather than scattering failure knowledge only through prose and issues.
+    evidence_kinds: [file, test, human_review, rationale]
+    closure_rule: The current failure register covers the material project boundaries and records detection plus mitigation or an explicit accepted residual for each entry.
+    not_applicable_rule: Not applicable only for trivial work with no material failure surface.
+dependencies:
+  - module_id: projectization.scope-boundary
+    version_constraint: ">=0.1.0"
+conflicts:
+  - Treating a generic checklist or historical reference architecture as the project-specific design.
+  - Marking planning complete when material ownership, invariants, or failure behavior remain silently unspecified.
+compatibility:
+  impact: additive
+  note: >-
+    New module identity only. Existing v0 manifests remain valid; adopters opt into this module through
+    a later PAM revision/profile and retain project-specific artifact names and architecture.
+references:
+  - kind: documentation
+    locator: experiments/ra-retrospective-blind/evaluation/EVALUATION_ROUND2_IDENTITY_AWARE.md
+    note: Cross-planner retrospective evidence motivating explicit planning, invariants, and failure-register obligations.
+  - kind: repository
+    locator: Pukujan/research-assurance
+    note: Reference source for PDD/SDD, invariant, and failure-mode planning discipline; topology is not normative.
