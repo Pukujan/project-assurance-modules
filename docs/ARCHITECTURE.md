@@ -10,17 +10,24 @@ It stores reusable, versioned definitions that answer:
 - when it applies;
 - what evidence closes it;
 - how projects compose modules;
-- how a project pins the exact methodology it used.
+- how a project pins the exact methodology it used;
+- how a fresh workspace acquires/verifies that revision;
+- how material execution state is handed off without making stale prose authoritative.
 
-Project-specific state remains in the adopting project.
+Project-specific live state remains in the adopting project.
 
 ## Conceptual model
 
 ```text
+exact PAM revision
+       |
 project facts + intended claims
           |
           v
-      profile/router
+    profile selection
+          |
+          v
+       router
           |
           v
 module dispositions
@@ -36,37 +43,62 @@ PROJECT_ASSURANCE manifest
    |                         |
 project bootstrap         implementation
 specs/issues/CI           evidence closure
+   |                         |
+   +-----------+-------------+
+               |
+     machine-valid handoff
 ```
 
-## Repository layout
+The bootstrap acquisition contract proves the methodology revision being used. The project manifest records routing/requirement state. The structured handoff records resumable current execution state. None of these replaces live GitHub/CI truth.
 
-```text
-project-assurance-modules/
-├── specs/
-│   └── PDD.md
-├── docs/
-│   ├── ARCHITECTURE.md
-│   ├── ROUTING.md
-│   └── MODULE_ROADMAP.md
-├── schemas/
-│   ├── module.schema.json
-│   └── project-assurance-manifest.schema.json
-├── modules/
-│   ├── continuity/
-│   ├── planning/
-│   ├── engineering/
-│   ├── validation/
-│   ├── benchmark/
-│   ├── governance/
-│   ├── provenance/
-│   └── release/
-├── profiles/
-├── fixtures/
-├── scripts/
-└── tests/
-```
+## Repository organization
 
-Directories are organizational. A module's stable identity comes from `module_id` + module version, not its path alone.
+The repository deliberately separates:
+
+- `schemas/` — generic machine contracts;
+- `modules/` — independently versioned methodology obligations;
+- `profiles/` — reusable selection/composition entry points;
+- `scripts/` — deterministic validators, routing, profile composition, and documentation checks;
+- `examples/` — validating adopter examples;
+- `fixtures/` + `tests/` — positive/negative routing and contract evidence;
+- `docs/` + `specs/` — human architecture, routing, contract, and product documentation;
+- `experiments/` — frozen methodology-evaluation evidence, not current mutable project state;
+- `knowledge-packs/` — optional durable lineage artifacts that do not imply external-runtime ingest.
+
+Directories are organizational. Stable identities come from the contracts themselves plus exact Git revision, not paths alone.
+
+<!-- BEGIN PAM GENERATED INVENTORY -->
+## Current repository inventory
+
+> Generated from the shipped module/profile/schema files. This inventory describes landed repository state, not roadmap candidates or unmerged pull requests.
+
+Methodology status: **bounded PAM v0.2** (landed); frozen tested revision `a10ad56b7088c1e101e80914a9e00357dbef9120`.
+
+### Modules
+
+- `benchmark.integrity@0.1.0` — Benchmark, dataset, and holdout integrity (`modules/benchmark/integrity/module.yaml`)
+- `continuity.structured-handoff@0.1.0` — Structured project and agent handoff (`modules/continuity/structured-handoff/module.yaml`)
+- `engineering.swe-ci-foundation@0.1.0` — Software engineering and CI foundation (`modules/engineering/swe-ci-foundation/module.yaml`)
+- `planning.foundation@0.1.0` — Planning foundation (`modules/planning/foundation/module.yaml`)
+- `projectization.build-vs-reuse@0.1.0` — Build vs reuse decision (`modules/projectization/build-vs-reuse/module.yaml`)
+- `projectization.scope-boundary@0.1.0` — Project scope boundary (`modules/projectization/scope-boundary/module.yaml`)
+- `provenance.decision-lineage@0.1.0` — Decision lineage and provenance boundary (`modules/provenance/decision-lineage/module.yaml`)
+
+### Profiles
+
+- `benchmark.empirical-work@0.1.0` — Empirical evaluation integrity (`profiles/benchmark/empirical-work/profile.yaml`)
+- `continuity.material-work@0.1.0` — Material continuity (`profiles/continuity/material-work/profile.yaml`)
+- `projectization.software@0.1.0` — Software projectization (`profiles/projectization/software/profile.yaml`)
+- `provenance.material-decisions@0.1.0` — Material decision lineage (`profiles/provenance/material-decisions/profile.yaml`)
+
+### Schemas
+
+- `schemas/bootstrap-acquisition.schema.json`
+- `schemas/module.schema.json`
+- `schemas/profile.schema.json`
+- `schemas/project-assurance-manifest.schema.json`
+- `schemas/structured-handoff.schema.json`
+<!-- END PAM GENERATED INVENTORY -->
 
 ## Module
 
@@ -78,45 +110,37 @@ A module is intentionally narrow. It contains:
 - requirements;
 - acceptable evidence kinds;
 - closure rules;
-- dependencies/conflicts where unavoidable;
+- dependencies/conflicts where justified;
+- compatibility impact for newer module-contract revisions;
 - references to source methodology/precedent.
-
-Examples:
-
-```text
-continuity.structured-handoff
-planning.product-definition
-planning.system-design
-validation.metamorphic-testing
-validation.mutation-testing
-benchmark.hidden-holdout
-provenance.fossil-decision-lineage
-governance.github-project-bootstrap
-```
 
 Do not make one "complete engineering" module containing every practice.
 
+`pam-module/0.1.0` modules remain valid. The evolved `pam-module/0.2.0` contract adds portable motivation/conflict/compatibility metadata without rewriting older module identities.
+
 ## Profile
 
-A profile is a reusable starting composition, for example:
+A profile is a reusable composition selected from explicit project facts. The landed bounded profiles currently cover:
 
-```text
-python-library
-research-backed-software
-stateful-system
-empirical-ml-system
-multi-repository-program
-agent-assisted-project
-```
+- software projectization;
+- material continuity;
+- empirical/benchmark work;
+- consequential/material decisions.
 
-Profiles are hints/compositions, not unquestionable policy. Routing still evaluates project facts and allows explicit justified exclusion/defer decisions.
+Profile selection is three-state:
+
+- `selected`;
+- `conditional` when required facts are missing;
+- `not_selected` when declared facts contradict the selector.
+
+Profiles constrain/organize module consideration; the router still determines module disposition. Profiles do not turn every referenced module into an unconditional requirement.
 
 ## Routing
 
 Routing has two stages:
 
-1. **deterministic candidate routing** where rules can be expressed from declared project facts;
-2. **reviewed disposition** where project context requires judgment.
+1. **deterministic candidate routing** from explicit declared project facts;
+2. **reviewed requirement/evidence state** in the adopting project manifest.
 
 The router must never silently turn uncertainty into `not_applicable`.
 
@@ -127,7 +151,7 @@ Allowed module dispositions:
 - `conditional`
 - `not_applicable`
 
-A project manifest then tracks requirement execution state separately:
+A project manifest tracks requirement execution state separately:
 
 - `pending`
 - `satisfied`
@@ -159,32 +183,52 @@ Agents cannot satisfy a requirement solely by stating that it was completed.
 The adopting project owns its manifest. It records:
 
 - project identity and facts;
-- exact `project-assurance-modules` revision;
+- exact PAM revision;
 - selected profile versions;
 - module versions/dispositions;
 - per-requirement state and evidence;
 - explicit N/A/defer rationale;
 - current methodology phase.
 
-This repository never stores every adopter's live project state.
+PAM never stores every adopter's live project state.
+
+## Bootstrap acquisition
+
+A fresh workspace must be able to acquire the exact requested methodology revision, checkout detached, verify the resolved commit, and fail before routing if acquisition/revision/start-state verification fails.
+
+Git-object/content identities are authoritative; transformed working-tree bytes are not used as a substitute for exact repository identity.
+
+## Structured handoff
+
+The generic handoff contract preserves current resumable project/component/revision/validation/blocker/next-action state while enforcing:
+
+- live-state precedence over stale handoff state;
+- explicit current versus historical-checkpoint semantics;
+- exact methodology/component identities;
+- exclusion of hidden/confirmatory evaluation material from agent-visible state.
+
+An adopter may retain a project-local handoff contract until generic parity is explicitly proven and migration is separately approved.
 
 ## Versioning
 
-Three identities matter:
+Four identities matter:
 
 ```text
-methodology repo revision
+methodology repository revision
+schema contract version
 module semantic version
 profile semantic version
 ```
 
 Adopters should pin an exact repository SHA even when module/profile versions are present. A module version must change when its requirement semantics, applicability, or closure evidence materially changes.
 
-Historical project manifests are never rewritten merely because a newer methodology version exists.
+The Python package version is tooling metadata; it is not a methodology revision identifier.
+
+Historical manifests, handoffs, bootstrap records, and frozen benchmark artifacts are never rewritten merely because a newer PAM revision exists.
 
 ## Projectization gate
 
-Before automated project bootstrap (repositories, issue trees, GitHub Projects, milestone creation, generated CI plans), the project should have a reviewed preflight manifest.
+Before automated project bootstrap (repositories, issue trees, GitHub Projects, milestone creation, generated CI plans), a nontrivial project should have a reviewed preflight manifest.
 
 The methodology may generate a gap report before approval, but should not create large executable backlogs based on unreviewed routing.
 
@@ -197,8 +241,10 @@ New modules should preferably come from one of:
 - a failure repeatedly caused by absence of the process;
 - a project-specific mechanism that demonstrated portable value.
 
-A technique being interesting is not enough.
+A technique being interesting is not enough. Research Assurance is a reference source/adopter, not a universal architecture; extraction must preserve that boundary.
 
-## First extraction
+## Documentation inventory rule
 
-`continuity.structured-handoff` is the first reference extraction from `Pukujan/research-assurance`. Research Assurance remains the reference adopter while the generic contract is stabilized.
+`docs/repository-state.json` owns the small shared release-status facts. Module/profile/schema inventory is derived directly from the shipped files. `make docs-sync` regenerates the marked README/architecture blocks, and `make docs-check` fails when they drift.
+
+Roadmap candidates and unmerged pull requests are intentionally excluded from generated landed-state inventory.
