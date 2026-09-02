@@ -1,0 +1,112 @@
+{
+  "schema_version": "pam-handoff/0.2.0",
+  "state_kind": "historical_checkpoint",
+  "project": {
+    "name": "Research Assurance parity reference",
+    "repository": "Pukujan/research-assurance",
+    "phase": "M0 Foundations and walking skeleton",
+    "observed_identity": {
+      "kind": "git_commit",
+      "value": "8b5fa8f16dbc434126fa838e4e2eaff5a1b3e8f6"
+    },
+    "active_issue": 1
+  },
+  "work": {
+    "owning_repository": "Pukujan/research-assurance",
+    "issue": 17,
+    "branch": "docs/ra-program-assurance-plan",
+    "pr": 18,
+    "state": "in_review"
+  },
+  "methodology": {
+    "repository": "Pukujan/project-assurance-modules",
+    "revision": "e1286443678e1ff0f3f8f38f8445ade1623f4ff8",
+    "modules": [
+      {
+        "module_id": "continuity.structured-handoff",
+        "version": "0.1.0"
+      }
+    ]
+  },
+  "components": [
+    {
+      "name": "Pukujan/fossil-core",
+      "role": "evidence-provenance substrate",
+      "locator": "Pukujan/fossil-core",
+      "observed_identity": {
+        "kind": "git_commit",
+        "value": "92eb44c96c87a4b7d93ab3c8ba5e85c496ba44b8"
+      },
+      "tested_identity": {
+        "kind": "git_commit",
+        "value": "92eb44c96c87a4b7d93ab3c8ba5e85c496ba44b8"
+      },
+      "issue": null,
+      "pr": null
+    },
+    {
+      "name": "Pukujan/project-assurance-modules",
+      "role": "reusable project-methodology",
+      "locator": "Pukujan/project-assurance-modules",
+      "observed_identity": {
+        "kind": "git_commit",
+        "value": "66bd3e27f9241158da612f91f0204b6e4cd2855e"
+      },
+      "tested_identity": null,
+      "issue": 1,
+      "pr": null
+    }
+  ],
+  "validation": {
+    "passed": [
+      {
+        "name": "RA local structured handoff contract",
+        "evidence": "RA PR #18 CI is green at 4c1bb86b8d02dcf2a112092d69b9318712aaec0d"
+      }
+    ],
+    "failed": [],
+    "not_run": [
+      "Project-owner-approved migration from ra-handoff/1.0.0"
+    ]
+  },
+  "next_action": {
+    "repository": "Pukujan/research-assurance",
+    "issue": 17,
+    "action": "Complete explicit parity review before any authoritative RA handoff migration.",
+    "acceptance": "All machine-readable routing facts from ra-handoff/1.0.0 remain representable and migration requires explicit owner approval."
+  },
+  "blockers": [],
+  "scope": {
+    "do_not_start": [
+      "Replace Research Assurance ra-handoff/1.0.0 before explicit migration approval",
+      "Restart the frozen RA retrospective benchmark"
+    ]
+  },
+  "decisions_not_to_reverse": [
+    "Live repository and CI state supersede stale handoff observations.",
+    "Research Assurance remains the program/control plane rather than absorbing child implementations.",
+    "Hidden confirmatory evaluation material remains outside agent-visible handoffs."
+  ],
+  "open_questions": [],
+  "reconciliation": {
+    "live_state_wins": true,
+    "checks": [
+      "Re-fetch Research Assurance main, PR #18, and current CI before mutation.",
+      "Re-fetch component revisions named as current before relying on them.",
+      "Re-fetch PAM main and the exact methodology revision used for migration validation."
+    ],
+    "stale_state_behavior": "stop_and_reconcile"
+  },
+  "hidden_evaluation": {
+    "agent_visible_hidden_material": false,
+    "policy": "Agent-visible handoffs may record the existence and process boundary of hidden evaluation, but never hidden labels, answers, seeds, or reports."
+  },
+  "handoff": {
+    "created_from_identity": {
+      "kind": "git_commit",
+      "value": "4c1bb86b8d02dcf2a112092d69b9318712aaec0d"
+    },
+    "created_at": "2026-09-02T01:20:00Z",
+    "reason": "material_plan_change"
+  }
+}
