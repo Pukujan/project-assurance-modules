@@ -1,0 +1,17 @@
+{
+  "schema_version": "pam-repository-state/1.0.0",
+  "landed_methodology": {
+    "label": "bounded PAM v0.2",
+    "landing_merge_commit": "66bd3e27f9241158da612f91f0204b6e4cd2855e",
+    "frozen_tested_revision": "a10ad56b7088c1e101e80914a9e00357dbef9120",
+    "status": "landed"
+  },
+  "stability": {
+    "level": "pre-v1",
+    "consumer_rule": "Pin an exact Git commit. Do not treat mutable branch names or the Python package version as methodology identity."
+  },
+  "reference": {
+    "source_adopter": "Pukujan/research-assurance",
+    "boundary": "Research Assurance is a reference source/adopter, not a universal architecture. Portable requirements must remain project-neutral."
+  }
+}
