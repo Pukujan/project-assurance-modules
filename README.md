@@ -36,12 +36,13 @@ The core question is:
 - `projectization.software@0.1.0` — Software projectization (`profiles/projectization/software/profile.yaml`)
 - `provenance.material-decisions@0.1.0` — Material decision lineage (`profiles/provenance/material-decisions/profile.yaml`)
 
-### Contract schemas (5)
+### Contract schemas (6)
 
 - `schemas/bootstrap-acquisition.schema.json`
 - `schemas/module.schema.json`
 - `schemas/profile.schema.json`
 - `schemas/project-assurance-manifest.schema.json`
+- `schemas/structured-handoff-v0.2.schema.json`
 - `schemas/structured-handoff.schema.json`
 
 ### Reproducible quick start
