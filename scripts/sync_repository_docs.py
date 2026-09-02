@@ -45,14 +45,16 @@ class Inventory:
 
 def _mapping(value: object, name: str) -> dict[str, Any]:
     if not isinstance(value, dict):
-        raise ValueError(f"{name} must be an object")
+        raise TypeError(f"{name} must be an object")
     return cast(dict[str, Any], value)
 
 
 def _string(mapping: dict[str, Any], key: str, name: str) -> str:
     value = mapping.get(key)
-    if not isinstance(value, str) or not value.strip():
-        raise ValueError(f"{name}.{key} must be a non-empty string")
+    if not isinstance(value, str):
+        raise TypeError(f"{name}.{key} must be a string")
+    if not value.strip():
+        raise ValueError(f"{name}.{key} must be non-empty")
     return value
 
 
@@ -80,7 +82,7 @@ def load_state(root: Path = ROOT) -> RepositoryState:
 def _yaml_mapping(path: Path) -> dict[str, Any]:
     raw = yaml.safe_load(path.read_text(encoding="utf-8"))
     if not isinstance(raw, dict):
-        raise ValueError(f"{path} must contain a YAML object")
+        raise TypeError(f"{path} must contain a YAML object")
     return cast(dict[str, Any], raw)
 
 
@@ -141,13 +143,21 @@ def _item_lines(items: tuple[InventoryItem, ...]) -> list[str]:
 
 
 def render_readme_block(state: RepositoryState, inventory: Inventory) -> str:
+    generated_note = (
+        "> This section is generated from `docs/repository-state.json` and the live "
+        "module/profile/schema files. Run `make docs-sync` after changing those inputs; CI runs "
+        "`make docs-check` and fails on drift."
+    )
+    adopter_boundary = (
+        "An adopting project owns its project facts, selected profiles, requirement/evidence state, "
+        "bootstrap record, and current handoff. PAM supplies the versioned methodology contracts and "
+        "deterministic validators; it is not an adopter runtime dependency."
+    )
     lines = [
         README_START,
         "## Current shipped methodology",
         "",
-        "> This section is generated from `docs/repository-state.json` and the live "
-        "module/profile/schema files. Run `make docs-sync` after changing those inputs; CI runs "
-        "`make docs-check` and fails on drift.",
+        generated_note,
         "",
         f"- Landed methodology: **{state.label}** ({state.status}).",
         f"- v0.2 landing merge: `{state.landing_merge_commit}`.",
@@ -172,32 +182,36 @@ def render_readme_block(state: RepositoryState, inventory: Inventory) -> str:
         "Pin the exact tested methodology revision rather than relying on a mutable branch:",
         "",
         "```bash",
-        "git fetch origin a10ad56b7088c1e101e80914a9e00357dbef9120",
-        "git checkout --detach a10ad56b7088c1e101e80914a9e00357dbef9120",
+        f"git fetch origin {state.frozen_tested_revision}",
+        f"git checkout --detach {state.frozen_tested_revision}",
         "python -m pip install -e '.[dev]'",
         "python -m scripts.pam_validate examples/PROJECT_ASSURANCE.example.json",
         "python -m scripts.pam_handoff examples/HANDOFF_STATE.example.json",
         "python -m scripts.pam_bootstrap examples/BOOTSTRAP_ACQUISITION.example.json",
         "```",
         "",
-        "An adopting project owns its project facts, selected profiles, requirement/evidence state, "
-        "bootstrap record, and current handoff. PAM supplies the versioned methodology contracts and "
-        "deterministic validators; it is not an adopter runtime dependency.",
+        adopter_boundary,
         README_END,
     ]
     return "\n".join(lines)
 
 
 def render_architecture_block(state: RepositoryState, inventory: Inventory) -> str:
+    generated_note = (
+        "> Generated from the shipped module/profile/schema files. This inventory describes landed "
+        "repository state, not roadmap candidates or unmerged pull requests."
+    )
+    status_line = (
+        f"Methodology status: **{state.label}** ({state.status}); frozen tested revision "
+        f"`{state.frozen_tested_revision}`."
+    )
     lines = [
         ARCH_START,
         "## Current repository inventory",
         "",
-        "> Generated from the shipped module/profile/schema files. This inventory describes landed "
-        "repository state, not roadmap candidates or unmerged pull requests.",
+        generated_note,
         "",
-        f"Methodology status: **{state.label}** ({state.status}); frozen tested revision "
-        f"`{state.frozen_tested_revision}`.",
+        status_line,
         "",
         "### Modules",
         "",
@@ -287,10 +301,11 @@ def main() -> None:
     stale = sync_documents(write=write)
     if bool(args.check) and stale:
         paths = "\n- ".join(stale)
-        raise SystemExit(
+        message = (
             "PAM generated documentation is stale; run `make docs-sync` and commit the result:\n- "
             + paths
         )
+        raise SystemExit(message)
     if write:
         if stale:
             print("synchronized PAM documentation: " + ", ".join(stale))
