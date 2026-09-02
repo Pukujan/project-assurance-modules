@@ -8,7 +8,9 @@ intent: >-
   while keeping live routing/requirement state in the project and avoiding universal provenance machinery.
 motivation:
   - The RA retrospective repeatedly found decision-lineage/provenance weaker than other planning dimensions even in otherwise strong candidates.
-  - PAM's existing FOSSIL-shaped decision pack exposed a recurring boundary: durable lineage may be valuable, but a stored pack is not equivalent to a successful runtime ingest, review, or promotion receipt.
+  - >-
+    PAM's existing FOSSIL-shaped decision pack exposed a recurring boundary: durable lineage may be
+    valuable, but a stored pack is not equivalent to a successful runtime ingest, review, or promotion receipt.
 non_scope:
   - Requiring FOSSIL or any particular provenance runtime for ordinary project state.
   - Recording every thought, checklist transition, chat message, or trivial implementation choice as durable lineage.
