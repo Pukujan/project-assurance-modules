@@ -94,6 +94,7 @@ def validate_reuse_assessment(
 
     search_ids: set[str] = set()
     receipt_ids: set[str] = set()
+    receipt_scopes: dict[str, str] = {}
     scopes: set[str] = set()
     searched_asset_classes: set[str] = set()
 
@@ -116,6 +117,7 @@ def validate_reuse_assessment(
             if receipt_id in receipt_ids:
                 raise ValueError(f"duplicate receipt_id {receipt_id}")
             receipt_ids.add(receipt_id)
+            receipt_scopes[receipt_id] = scope
             kind = _as_string(receipt["kind"], "receipt.kind")
             locator = _as_string(receipt["locator"], "receipt.locator")
             if not _is_concrete_receipt_locator(kind, locator):
@@ -162,6 +164,7 @@ def validate_reuse_assessment(
         candidate_by_id[candidate_id] = candidate
 
         name = _as_string(candidate["name"], "candidate.name").strip().lower()
+        origin = _as_string(candidate["origin"], "candidate.origin")
         identity = _as_dict(candidate["identity"], "candidate.identity")
         locator = _as_string(identity["locator"], "candidate.identity.locator")
         serious = bool(candidate["serious"])
@@ -189,6 +192,10 @@ def validate_reuse_assessment(
         if unknown_receipts:
             raise ValueError(
                 f"candidate {candidate_id} references unknown receipts: {unknown_receipts}"
+            )
+        if serious and not any(receipt_scopes[receipt_id] == origin for receipt_id in evidence_receipts):
+            raise ValueError(
+                f"serious candidate {candidate_id} has no evidence receipt from its declared {origin} search scope"
             )
         if serious and candidate.get("coverage") == "full":
             serious_full_candidates.append(candidate)
