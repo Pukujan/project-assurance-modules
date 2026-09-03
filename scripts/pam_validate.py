@@ -5,6 +5,7 @@ from pathlib import Path
 
 from scripts.pam_core import load_json, load_modules, validate_manifest
 from scripts.pam_profiles import validate_manifest_profile_refs
+from scripts.pam_reuse import validate_manifest_reuse_assessments
 
 
 def main() -> None:
@@ -22,6 +23,7 @@ def main() -> None:
         manifest = load_json(path)
         validate_manifest(manifest)
         validate_manifest_profile_refs(manifest)
+        validate_manifest_reuse_assessments(manifest, path.parent)
         print(f"validated manifest: {path}")
 
 
