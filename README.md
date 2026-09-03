@@ -19,29 +19,32 @@ The core question is:
 - Stability: **pre-v1**. Pin an exact Git commit. Do not treat mutable branch names or the Python package version as methodology identity.
 - Reference source/adopter: `Pukujan/research-assurance`. Research Assurance is a reference source/adopter, not a universal architecture. Portable requirements must remain project-neutral.
 
-### Shipped modules (7)
+### Shipped modules (8)
 
 - `benchmark.integrity@0.1.0` — Benchmark, dataset, and holdout integrity (`modules/benchmark/integrity/module.yaml`)
 - `continuity.structured-handoff@0.1.0` — Structured project and agent handoff (`modules/continuity/structured-handoff/module.yaml`)
 - `engineering.swe-ci-foundation@0.1.0` — Software engineering and CI foundation (`modules/engineering/swe-ci-foundation/module.yaml`)
 - `planning.foundation@0.1.0` — Planning foundation (`modules/planning/foundation/module.yaml`)
 - `projectization.build-vs-reuse@0.1.0` — Build vs reuse decision (`modules/projectization/build-vs-reuse/module.yaml`)
+- `projectization.build-vs-reuse@0.2.0` — Build vs reuse decision with traceable discovery (`modules/projectization/build-vs-reuse/versions/0.2.0/module.yaml`)
 - `projectization.scope-boundary@0.1.0` — Project scope boundary (`modules/projectization/scope-boundary/module.yaml`)
 - `provenance.decision-lineage@0.1.0` — Decision lineage and provenance boundary (`modules/provenance/decision-lineage/module.yaml`)
 
-### Routing profiles (4)
+### Routing profiles (5)
 
 - `benchmark.empirical-work@0.1.0` — Empirical evaluation integrity (`profiles/benchmark/empirical-work/profile.yaml`)
 - `continuity.material-work@0.1.0` — Material continuity (`profiles/continuity/material-work/profile.yaml`)
 - `projectization.software@0.1.0` — Software projectization (`profiles/projectization/software/profile.yaml`)
+- `projectization.software@0.2.0` — Software projectization with traceable reuse discovery (`profiles/projectization/software/versions/0.2.0/profile.yaml`)
 - `provenance.material-decisions@0.1.0` — Material decision lineage (`profiles/provenance/material-decisions/profile.yaml`)
 
-### Contract schemas (6)
+### Contract schemas (7)
 
 - `schemas/bootstrap-acquisition.schema.json`
 - `schemas/module.schema.json`
 - `schemas/profile.schema.json`
 - `schemas/project-assurance-manifest.schema.json`
+- `schemas/reuse-assessment.schema.json`
 - `schemas/structured-handoff-v0.2.schema.json`
 - `schemas/structured-handoff.schema.json`
 
@@ -87,6 +90,8 @@ maintain machine-valid current handoff across material sessions
 
 A requirement is not satisfied because an agent says it is done. Closure should point to mechanically checkable evidence where possible: files, tests, CI runs, benchmark artifacts, exact revisions, reviewed decisions, receipts, or explicit justified `not_applicable` dispositions.
 
+For current software projectization, `projectization.build-vs-reuse@0.2.0` adds a machine-valid reuse-assessment contract so a self-authored decision file cannot stand in for traceable internal/external alternative and reusable-asset discovery.
+
 ## Contracts and documentation
 
 - `specs/PDD.md` — product problem, goals/non-goals, workflow, trust boundary, and kill criteria.
@@ -94,10 +99,11 @@ A requirement is not satisfied because an agent says it is done. Closure should 
 - `docs/ROUTING.md` — research-to-project preflight and routing semantics.
 - `docs/PROFILES.md` — profile selection/composition semantics.
 - `docs/PROJECTIZATION_GATE.md` — reviewed preflight boundary before executable project bootstrap.
+- `docs/BUILD_VS_REUSE_CONTRACT.md` — traceable discovery, candidate, reusable-asset, probe, and reviewed-disposition contract for build-vs-reuse v0.2.
 - `docs/STRUCTURED_HANDOFF_CONTRACT.md` — generic current-state handoff semantics.
 - `docs/BOOTSTRAP_ACQUISITION_CONTRACT.md` — fresh-workspace exact-revision acquisition/verification contract.
 - `docs/MODULE_ROADMAP.md` — candidate future module families; roadmap entries are not shipped requirements until extracted/versioned.
-- `examples/` — validating adopter examples for the manifest, handoff, and acquisition contracts.
+- `examples/` — validating adopter examples for the manifest, reuse assessment, handoff, and acquisition contracts.
 
 ## Validation and documentation consistency
 
@@ -115,6 +121,8 @@ make check
 ```
 
 `make docs-check` derives the public inventory from the actual repository files and fails if generated README/architecture blocks drift. CI checks; it does not auto-commit documentation.
+
+`make check` also validates `examples/REUSE_ASSESSMENT.example.json` and runs adversarial reuse-assessment tests, including the Interview OS shortcut regression.
 
 ## Reference boundary
 
