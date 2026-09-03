@@ -65,6 +65,18 @@ def _is_concrete_locator(locator: str) -> bool:
     )
 
 
+def _is_concrete_receipt_locator(kind: str, locator: str) -> bool:
+    if kind == "repository":
+        return bool(CONCRETE_REPOSITORY.fullmatch(locator))
+    if kind in {"url", "search_result", "catalog"}:
+        return "://" in locator
+    if kind == "package_registry":
+        return locator.startswith(("npm:", "pypi:", "cargo:")) or "://" in locator
+    if kind == "standard":
+        return locator.startswith("standard:") or "://" in locator
+    return False
+
+
 def validate_reuse_assessment(
     assessment: JSONDict,
     *,
@@ -104,10 +116,11 @@ def validate_reuse_assessment(
             if receipt_id in receipt_ids:
                 raise ValueError(f"duplicate receipt_id {receipt_id}")
             receipt_ids.add(receipt_id)
+            kind = _as_string(receipt["kind"], "receipt.kind")
             locator = _as_string(receipt["locator"], "receipt.locator")
-            if not _is_concrete_locator(locator):
+            if not _is_concrete_receipt_locator(kind, locator):
                 raise ValueError(
-                    f"search receipt {receipt_id} has non-concrete locator {locator!r}"
+                    f"search receipt {receipt_id} has non-concrete locator {locator!r} for kind {kind!r}"
                 )
 
     required_scopes = {
