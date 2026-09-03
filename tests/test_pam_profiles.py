@@ -30,6 +30,18 @@ def test_shipped_profiles_validate_and_resolve_modules() -> None:
     }
 
 
+def test_automatic_profile_selection_prefers_latest_version() -> None:
+    facts: dict[str, object] = {"software": True, "projectization": True}
+    software = [
+        selection
+        for selection in select_profiles(facts)
+        if selection.profile_id == "projectization.software"
+    ]
+    assert len(software) == 1
+    assert software[0].version == "0.2.0"
+    assert software[0].disposition == "selected"
+
+
 def test_unknown_profile_field_fails_closed() -> None:
     profile = copy.deepcopy(load_profiles()[("continuity.material-work", "0.1.0")])
     profile["verified"] = True
@@ -162,6 +174,20 @@ def test_unknown_manifest_profile_fails() -> None:
     manifest["profiles"] = [{"profile_id": "imaginary.profile", "version": "0.1.0"}]
     with pytest.raises(ValueError, match="unknown profile"):
         validate_manifest_profile_refs(manifest)
+
+
+def test_historical_software_profile_v01_still_resolves() -> None:
+    manifest: dict[str, object] = {
+        "project_facts": {"software": True, "projectization": True},
+        "profiles": [{"profile_id": "projectization.software", "version": "0.1.0"}],
+        "modules": [
+            {
+                "module_id": "projectization.build-vs-reuse",
+                "version": "0.1.0",
+            }
+        ],
+    }
+    validate_manifest_profile_refs(manifest)
 
 
 def test_manifest_profile_contradicted_by_facts_fails() -> None:
