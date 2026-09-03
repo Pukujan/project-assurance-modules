@@ -25,6 +25,11 @@ def test_interview_os_shortcut_regression_fails() -> None:
         validate_reuse_assessment(shortcut, project_facts={"benchmark_or_dataset_use": True})
 
 
+def test_interview_os_remediated_research_replay_passes() -> None:
+    assessment = load_json(ROOT / "fixtures" / "reuse" / "interview-os-remediated.json")
+    validate_reuse_assessment(assessment, project_facts={"benchmark_or_dataset_use": True})
+
+
 def test_adopting_project_cannot_be_its_own_candidate() -> None:
     assessment = copy.deepcopy(valid_assessment())
     candidates = assessment["candidates"]
@@ -74,6 +79,17 @@ def test_internal_only_discovery_cannot_satisfy_required_external_search() -> No
         if isinstance(search, dict) and search.get("scope") == "internal"
     ]
     with pytest.raises((ValidationError, ValueError)):
+        validate_reuse_assessment(assessment)
+
+
+def test_candidate_evidence_must_come_from_matching_search_scope() -> None:
+    assessment = copy.deepcopy(valid_assessment())
+    candidates = assessment["candidates"]
+    assert isinstance(candidates, list)
+    external_candidate = candidates[0]
+    assert isinstance(external_candidate, dict)
+    external_candidate["evidence_receipts"] = ["internal-repository-search-result"]
+    with pytest.raises(ValueError, match="declared external search scope"):
         validate_reuse_assessment(assessment)
 
 
