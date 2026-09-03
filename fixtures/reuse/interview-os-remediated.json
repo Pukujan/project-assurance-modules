@@ -1,0 +1,343 @@
+{
+  "schema_version": "pam-reuse-assessment/0.1.0",
+  "assessment_status": "reviewed",
+  "project": {
+    "repository": "Pukujan/interview-os-game"
+  },
+  "capability": {
+    "id": "interview-mission-engine",
+    "description": "Provide a mobile-first Applied AI interview mission loop with typed reasoning, progressive assistance, interactive scenarios, dataset-backed tasks, and Study OS-compatible evidence without rebuilding mature reusable systems or content unnecessarily.",
+    "constraints": [
+      "One application codebase must support iOS and Android.",
+      "The mission loop must support typed reasoning and progressive assistance rather than only multiple-choice quizzes.",
+      "Hidden evaluation answers and protected transfer material must not ship in the client.",
+      "Longitudinal learner-evidence semantics should integrate with Study OS rather than create a competing mastery authority.",
+      "V0 should stay narrower than a general LMS, coding judge, or universal RAG bench."
+    ],
+    "non_goals": [
+      "Build a general-purpose learning management system.",
+      "Build a complete system-design interview platform before the Applied AI/RAG vertical slice is validated.",
+      "Create a new retrieval corpus or system-design question bank when suitable reusable material can be legally and technically adapted."
+    ]
+  },
+  "search_plan": {
+    "required_scopes": ["internal", "external"],
+    "required_asset_classes": ["dataset", "question_bank"]
+  },
+  "searches": [
+    {
+      "search_id": "internal-owner-repositories",
+      "scope": "internal",
+      "surface": "Owner repository inventory",
+      "query": "existing learning, study, learner-evidence, and interview systems",
+      "target_classes": ["internal_system"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "internal-study-os",
+          "kind": "repository",
+          "locator": "Pukujan/Study-os",
+          "note": "Existing learner-evidence and capability-state system already identified by the adopter."
+        },
+        {
+          "receipt_id": "internal-private-study-log",
+          "kind": "repository",
+          "locator": "Pukujan/private-study-log",
+          "note": "Additional owner study repository surfaced during the internal repository search and considered for overlap."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "external-interactive-learning-and-interview-systems",
+      "scope": "external",
+      "surface": "GitHub and maintained open-source project discovery",
+      "query": "interactive learning branching scenario technical interview trainer system design interview practice",
+      "target_classes": ["application", "framework", "library"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "external-h5p-branching",
+          "kind": "repository",
+          "locator": "h5p/h5p-branching-scenario",
+          "note": "MIT-licensed branching-scenario engine with a long public history and explicit branching/feedback semantics."
+        },
+        {
+          "receipt_id": "external-oppia",
+          "kind": "repository",
+          "locator": "oppia/oppia",
+          "note": "Apache-2.0 interactive learning platform built around stateful explorations and learner feedback."
+        },
+        {
+          "receipt_id": "external-grillkit",
+          "kind": "repository",
+          "locator": "GrillKit/grillkit",
+          "note": "Apache-2.0 self-hosted technical interview trainer with question banks, interview flow, scoring, coding tasks, hidden tests, and optional voice."
+        },
+        {
+          "receipt_id": "external-loadout",
+          "kind": "repository",
+          "locator": "VC444/loadout",
+          "note": "MIT-licensed system-design interview practice project with an AI interviewer, staged interview flow, and real-time architecture diagramming."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "external-reusable-interview-and-rag-assets",
+      "scope": "external",
+      "surface": "GitHub content repositories and Hugging Face dataset catalog",
+      "query": "system design interview question bank retrieval question answering dataset BEIR HotpotQA",
+      "target_classes": ["dataset", "question_bank", "content_asset", "benchmark"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "external-system-design-primer",
+          "kind": "repository",
+          "locator": "donnemartin/system-design-primer",
+          "note": "Large CC BY 4.0 system-design interview resource containing practice questions, sample discussions, diagrams, and flashcard material."
+        },
+        {
+          "receipt_id": "external-beir-hotpotqa",
+          "kind": "catalog",
+          "locator": "https://huggingface.co/datasets/BeIR/hotpotqa",
+          "note": "BEIR retrieval benchmark packaging of HotpotQA with corpus/query relevance structure suitable for evaluating reusable RAG-style mission data."
+        }
+      ],
+      "rationale": null
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "study-os",
+      "name": "Study OS learner-evidence contracts",
+      "class": "internal_system",
+      "origin": "internal",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "Pukujan/Study-os",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "compose",
+      "evidence_receipts": ["internal-study-os"],
+      "tradeoffs": {
+        "fitness": "Strong fit for longitudinal learner evidence, assistance provenance, transfer/retention, and capability-state ownership, but it is not the mobile mission runtime.",
+        "maintenance": "Existing owner-maintained project and already treated as the preferred learner-state authority by Interview OS planning.",
+        "license": "Internal reuse terms remain under the project owner's control; exact repository license should be checked before external redistribution.",
+        "security": "Composition avoids introducing a second authority for learner state and narrows the data ownership boundary.",
+        "extensibility": "Can be integrated behind an adapter once the exact evidence contract is frozen.",
+        "integration_cost": "Moderate contract/adapter work, materially lower than designing a competing learner model.",
+        "performance": "Not expected to own the mobile rendering hot path.",
+        "material_reasons": [
+          "Reuse avoids duplicate mastery/evidence semantics.",
+          "It covers only learner evidence, so a separate bounded mission runtime remains necessary."
+        ]
+      }
+    },
+    {
+      "candidate_id": "h5p-branching-scenario",
+      "name": "H5P Branching Scenario",
+      "class": "framework",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "h5p/h5p-branching-scenario",
+        "version": "1.11.1"
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["external-h5p-branching"],
+      "tradeoffs": {
+        "fitness": "Provides mature branching, feedback, scoring, and composable interactive content, but does not directly provide the required mobile-native typed-reasoning, Study OS evidence, hidden-evaluation, and dataset-backed mission semantics.",
+        "maintenance": "Public repository has a long history and active issue/PR surface.",
+        "license": "MIT according to the repository metadata.",
+        "security": "The content model does not by itself solve Interview OS server-side hidden-evaluation and secret handling.",
+        "extensibility": "Highly composable inside the H5P ecosystem, but adapting it into the intended mobile game architecture would introduce a second content/runtime model.",
+        "integration_cost": "Material because Interview OS would need to embed or bridge H5P plus separately implement evidence and hidden-evaluation semantics.",
+        "performance": "Browser-oriented interactive content is plausible, but the desired mobile game feel would still require a representative integration spike before adoption.",
+        "material_reasons": [
+          "Useful precedent and possible content reuse, but not a complete substitute for the bounded mission/evidence runtime.",
+          "Adopting the H5P runtime would add substantial architecture not otherwise required by V0."
+        ]
+      }
+    },
+    {
+      "candidate_id": "oppia",
+      "name": "Oppia",
+      "class": "application",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "oppia/oppia",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["external-oppia"],
+      "tradeoffs": {
+        "fitness": "Mature interactive-learning explorations and feedback are relevant, but Oppia is a broad web learning platform rather than a narrow mobile technical-interview game.",
+        "maintenance": "Large established open-source project with thousands of stars/forks and an active contributor ecosystem.",
+        "license": "Apache-2.0 according to the repository documentation.",
+        "security": "Its full platform/security model is far broader than the personal V0 needs.",
+        "extensibility": "Extensible learning platform, but customization would occur inside Oppia's architecture rather than the intended bounded mobile app architecture.",
+        "integration_cost": "High because reuse would effectively adopt a large Python/Angular/App Engine platform.",
+        "performance": "No evidence that performance is the blocker; architecture/product-scope mismatch is decisive.",
+        "material_reasons": [
+          "The product scope and deployment topology are substantially broader than Interview OS V0.",
+          "Useful learning-state/interaction precedent does not justify adopting the complete platform."
+        ]
+      }
+    },
+    {
+      "candidate_id": "grillkit",
+      "name": "GrillKit",
+      "class": "application",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "GrillKit/grillkit",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["external-grillkit"],
+      "tradeoffs": {
+        "fitness": "Directly relevant technical-interview trainer with curated YAML question banks, structured Q&A, scoring, follow-ups, coding tasks, hidden tests, and optional voice, but it does not provide the intended mobile game progression and Study OS evidence boundary.",
+        "maintenance": "Public project with current documentation and security/contribution guidance; still much smaller than long-established learning platforms.",
+        "license": "Apache-2.0 according to the repository documentation.",
+        "security": "Self-hosted architecture and hidden-test support are relevant precedents, but adopting it would still require reconciling its server/session model with Interview OS.",
+        "extensibility": "Question-bank and interview-flow concepts are reusable precedents; direct code reuse would couple V0 to a different application architecture.",
+        "integration_cost": "Moderate to high because its web/FastAPI-style application would need major adaptation for the intended mobile product boundary.",
+        "performance": "No material performance blocker identified from repository-level review.",
+        "material_reasons": [
+          "This is a real interview-platform comparator the original preflight should have named.",
+          "Its flow/content ideas may be reusable even though the complete runtime is not selected."
+        ]
+      }
+    },
+    {
+      "candidate_id": "loadout",
+      "name": "Loadout",
+      "class": "application",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "VC444/loadout",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["external-loadout"],
+      "tradeoffs": {
+        "fitness": "Relevant system-design interview practice with staged requirements/API/architecture flow, AI interviewing, and live diagramming, but currently narrow in question coverage and not the Applied AI/RAG mobile mission product being built.",
+        "maintenance": "Small public repository with a concrete runnable system-design interview implementation.",
+        "license": "MIT according to the repository documentation.",
+        "security": "Its OpenAI Realtime and client/server choices provide useful precedent but do not establish the Interview OS hidden-evaluation boundary.",
+        "extensibility": "Excalidraw and staged interview flow are reusable ideas; the project is not a drop-in mission engine.",
+        "integration_cost": "Material because direct reuse would import a web-oriented voice/whiteboard product and still require the mobile learning/evidence layer.",
+        "performance": "No material performance blocker identified from repository-level review.",
+        "material_reasons": [
+          "Strong comparator for interactive interview flow and diagramming.",
+          "Does not eliminate the need for the bounded Applied AI/RAG mission/evidence layer."
+        ]
+      }
+    },
+    {
+      "candidate_id": "system-design-primer",
+      "name": "System Design Primer question and solution corpus",
+      "class": "question_bank",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "donnemartin/system-design-primer",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reuse",
+      "evidence_receipts": ["external-system-design-primer"],
+      "tradeoffs": {
+        "fitness": "Large, mature source of system-design interview questions, sample discussions, diagrams, and study material; useful for future content sourcing but not a runtime or Applied AI/RAG-specific evaluation set.",
+        "maintenance": "Very large established open-source repository with continuing community use.",
+        "license": "CC BY 4.0 according to the repository license, so attribution and transformation obligations must be preserved.",
+        "security": "Public content; it must not be mislabeled as hidden or unseen confirmatory evaluation after exposure.",
+        "extensibility": "Content can be transformed into mission variants with provenance while keeping source-vs-derived identity explicit.",
+        "integration_cost": "Low to moderate content normalization and provenance work.",
+        "performance": "Not a runtime performance concern.",
+        "material_reasons": [
+          "Demonstrates that bespoke system-design question creation should not start from zero.",
+          "Content is development-visible and therefore unsuitable as untouched hidden evidence once used for practice."
+        ]
+      }
+    },
+    {
+      "candidate_id": "beir-hotpotqa",
+      "name": "BEIR HotpotQA retrieval dataset",
+      "class": "dataset",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "dataset",
+        "locator": "https://huggingface.co/datasets/BeIR/hotpotqa",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reuse",
+      "evidence_receipts": ["external-beir-hotpotqa"],
+      "tradeoffs": {
+        "fitness": "Provides corpus/query/relevance structure for multi-hop retrieval and is a plausible source for a bounded RAG-style mission or retrieval evaluation fixture; it is not an interview curriculum by itself.",
+        "maintenance": "Distributed through the BEIR benchmark ecosystem and Hugging Face dataset catalog.",
+        "license": "Exact upstream dataset terms and the immutable revision must be reviewed and pinned before adopting any bytes.",
+        "security": "Public data is appropriate for practice/development but cannot serve as hidden evidence after agent exposure.",
+        "extensibility": "Can be transformed into bounded mission fixtures while retaining source and transformation provenance.",
+        "integration_cost": "Moderate because a small pinned subset and mission-specific transformation are preferable to shipping the full corpus.",
+        "performance": "Full corpus scale is inappropriate for the client; bounded fixtures or server-side retrieval are required.",
+        "material_reasons": [
+          "A mature reusable retrieval dataset exists, so bespoke RAG data creation is not justified by default.",
+          "Benchmark integrity still needs exact identity, contamination, and protocol controls before use as evidence."
+        ]
+      }
+    }
+  ],
+  "probes": [
+    {
+      "candidate_id": "h5p-branching-scenario",
+      "status": "not_run",
+      "evidence": [],
+      "rationale": "Repository/documentation review already establishes that H5P is an embedded branching-content ecosystem rather than the required complete mobile learner-evidence/runtime boundary; a direct integration spike is disproportionate before the existing Expo visual spike determines whether that architecture is needed."
+    },
+    {
+      "candidate_id": "grillkit",
+      "status": "not_run",
+      "evidence": [],
+      "rationale": "The project is a useful interview-flow comparator, but direct runtime adoption would first require replacing the already selected mobile application and Study OS boundaries; repository-level comparison is sufficient for the V0 disposition while its question-bank/flow concepts remain reusable precedent."
+    }
+  ],
+  "decision": {
+    "disposition": "build_new",
+    "selected_candidate_ids": ["study-os", "system-design-primer", "beir-hotpotqa"],
+    "build_new_unmet_requirements": [
+      "No searched candidate supplies the bounded mobile Applied AI/RAG mission runtime together with typed reasoning, progressive assistance, hidden-evaluation separation, and Study OS-compatible evidence without importing a substantially broader or differently scoped application architecture."
+    ],
+    "rationale": "Build only the narrow Interview OS mission/application layer. Compose Study OS for longitudinal learner evidence and reuse suitable external question/content and retrieval-data assets with provenance rather than inventing those assets from scratch. H5P, Oppia, GrillKit, and Loadout remain concrete architectural/product comparators and reconsideration sources rather than being replaced by an abstract 'generic quiz framework' dismissal.",
+    "residual_uncertainty": [
+      "The final Applied AI/RAG dataset subset and immutable revision still require benchmark-integrity review before becoming evidence.",
+      "A focused implementation spike may reveal reusable interaction components from one of the researched platforms that are cheaper than bespoke equivalents."
+    ],
+    "reconsideration_triggers": [
+      "A maintained mobile-first interview mission framework is found that satisfies the evidence and hidden-evaluation boundary with lower integration cost.",
+      "The Expo interaction spike demonstrates a blocking rendering or interaction constraint that makes a different runtime materially preferable.",
+      "The selected reusable datasets or question sources fail licensing, provenance, contamination, or pedagogical-fit review."
+    ],
+    "human_review": {
+      "status": "approved",
+      "evidence": "regression-review:PAM-issue-10"
+    }
+  }
+}
