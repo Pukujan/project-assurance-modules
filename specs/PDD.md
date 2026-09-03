@@ -6,6 +6,8 @@ Research-backed projects repeatedly depend on a human or capable agent rememberi
 
 That memory-based process is inconsistent across sessions, models, harnesses, and projects. It also encourages premature issue/repository creation before the project has frozen what it is trying to prove and how completion will be evidenced.
 
+A second failure mode is **evidence circularity**: an agent can sometimes author a convincing decision document and then cite that same document as proof that the underlying research or comparison was actually performed. PAM must distinguish durable conclusions from traceable source/search evidence where the methodology claim depends on work external to the conclusion itself.
+
 ## Product hypothesis
 
 A versioned registry of independent assurance-methodology modules, combined through routed profiles and frozen into a project-specific manifest, can make the transition from completed research to engineered project repeatable without turning the process into a universal agent-control protocol.
@@ -57,6 +59,7 @@ release/milestone claims refer to exact evidence
 6. Allow explicit `not_applicable`, `deferred`, and `blocked` states with rationale.
 7. Support humans, ChatGPT, Codex, OpenCode, BYOK harnesses, and other agents without model-specific semantics.
 8. Make project bootstrap (specs, GitHub issues/projects, CI plan, benchmark plan, handoff policy) an output of reviewed preflight rather than an ad-hoc first action.
+9. Use specialized machine-valid evidence contracts where structural manifest validation alone cannot prevent circular or self-referential closure.
 
 ## Non-goals
 
@@ -77,6 +80,7 @@ release/milestone claims refer to exact evidence
 - **Routing result** — required/recommended/conditional/not-applicable module dispositions with rationale.
 - **Project Assurance Manifest** — the reviewed, project-specific frozen methodology selection and requirement state.
 - **Evidence reference** — concrete artifact showing why a requirement may be considered satisfied.
+- **Specialized evidence contract** — a domain-specific machine-valid artifact used when a requirement must establish traceable underlying work, not merely the existence of an authored conclusion.
 
 ## Requirement state vocabulary
 
@@ -97,7 +101,8 @@ Models/agents may propose:
 - project facts;
 - module applicability;
 - N/A/defer rationales;
-- project artifacts and evidence references.
+- project artifacts and evidence references;
+- candidate searches, comparisons, and implementation dispositions.
 
 Deterministic tooling owns:
 
@@ -106,7 +111,10 @@ Deterministic tooling owns:
 - manifest structural consistency;
 - required evidence presence rules;
 - profile/module resolution;
-- generated checklist consistency.
+- generated checklist consistency;
+- specialized fail-closed invariants that can be established mechanically, such as forbidding self-referential reuse candidates, requiring traceable search receipts, and resolving referenced evidence contracts.
+
+Deterministic validation does not prove that every human judgment is true. It should, however, reject evidence structures that are known to permit circular closure or that contradict a versioned contract.
 
 Humans/project owners own:
 
@@ -131,6 +139,7 @@ Redesign or reject the approach if:
 
 - most projects require extensive bespoke exceptions that defeat routing;
 - agents optimize for checklist completion rather than project outcomes;
+- self-authored conclusions can repeatedly pass as proof of the research or comparison they claim to summarize;
 - the methodology creates substantial work with no decision/quality/continuity benefit;
 - module boundaries become a second architecture monolith;
 - the system requires a runtime service merely to maintain planning state;
@@ -139,3 +148,5 @@ Redesign or reject the approach if:
 ## Reference precedent
 
 `Pukujan/research-assurance` is the first reference source because its planning was developed manually before this methodology existed: PDD/SDD/invariants, failure register, validation strategy, SWE/CI foundation, benchmark integrity, scope control, adversarial review, FOSSIL decision lineage, GitHub issue hierarchy, multi-repository orchestration, and structured handoff. Those patterns are candidates for extraction, not automatically universal requirements.
+
+`Pukujan/interview-os-game` exposed the first concrete build-vs-reuse evidence-circularity defect: a plausible free-form candidate register could satisfy the older requirement without demonstrating sufficiently concrete alternative and reusable-asset discovery. That defect is tracked as PAM issue #10 and motivates the versioned build-vs-reuse hardening rather than a silent rewrite of historical methodology.
