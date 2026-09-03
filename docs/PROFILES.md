@@ -12,12 +12,19 @@ Stable profile identity is the PAM repository revision plus `profile_id` and pro
 
 The bounded profiles are:
 
-- `projectization.software@0.1.0` — surfaces build-vs-reuse, scope-boundary, planning-foundation, and SWE/CI modules when software work is explicitly entering projectization;
+- `projectization.software@0.1.0` — historical software-projectization profile referencing build-vs-reuse v0.1.0;
+- `projectization.software@0.2.0` — current software-projectization profile referencing traceable build-vs-reuse v0.2.0 plus the existing scope-boundary, planning-foundation, and SWE/CI modules;
 - `continuity.material-work@0.1.0` — surfaces structured handoff when material work spans sessions or uses agent-assisted execution;
 - `benchmark.empirical-work@0.1.0` — surfaces benchmark integrity for empirical claims, dataset/benchmark use, or hidden/confirmatory evaluation;
 - `provenance.material-decisions@0.1.0` — surfaces decision-lineage methodology for consequential or explicitly replay-worthy decisions.
 
-These profiles contain only the frozen v0 modules and the small repeated v0.2 extraction cluster justified by the retrospective handoff. They do not mass-extract the roadmap.
+These profiles contain only the bounded shipped modules. They do not mass-extract the roadmap.
+
+## Current-version selection
+
+Automatic profile selection/composition uses the highest shipped semantic version for each `profile_id`. Therefore new software projectization resolves to `projectization.software@0.2.0` rather than emitting both software profile versions simultaneously.
+
+Historical manifests are different: when a manifest explicitly cites `projectization.software@0.1.0`, PAM resolves and validates that exact historical profile and its original module references. Shipping a newer profile does not silently rewrite an adopter's frozen methodology identity.
 
 ## Selection states
 
@@ -33,9 +40,11 @@ A selector contains deterministic `all_of` and `any_of` equality conditions over
 
 ## Composition
 
-`python -m scripts.pam_compose <facts.json>` returns both profile decisions and the routed candidate modules covered by selected or conditional profiles.
+`python -m scripts.pam_compose <facts.json>` returns both current profile decisions and the routed candidate modules covered by selected or conditional profiles.
 
 Profiles choose the candidate module set. The module router still decides whether each candidate module is `required`, `recommended`, `conditional`, or `not_applicable` from the project facts. Selecting a profile therefore does not make all of its modules required.
+
+For current software projectization, the router and profile agree on `projectization.build-vs-reuse@0.2.0`; that version requires a machine-valid reuse assessment when its traceable-discovery requirements are satisfied.
 
 ## Manifest validation
 
@@ -43,8 +52,8 @@ For backward compatibility, a v0-style manifest may still contain an empty `prof
 
 Once a manifest cites profiles:
 
-1. each profile identity must resolve at the pinned PAM revision;
+1. each exact profile identity must resolve at the pinned PAM revision;
 2. declared project facts must not contradict the selected profile;
 3. each selected module must be covered by at least one cited profile.
 
-This is a bounded migration path: adopters can move from manual module enumeration to profile-backed composition without invalidating frozen v0 manifests.
+This is a bounded migration path: adopters can move from historical or manual module enumeration to current profile-backed composition without invalidating frozen prior manifests.
