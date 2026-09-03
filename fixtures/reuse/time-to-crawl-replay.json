@@ -1,0 +1,154 @@
+{
+  "schema_version": "pam-reuse-assessment/0.1.0",
+  "assessment_status": "reviewed",
+  "project": {
+    "repository": "Pukujan/time-to-crawl"
+  },
+  "capability": {
+    "id": "crawler-engine",
+    "description": "Provide the bounded crawl execution engine behind Time to Crawl's CrawlerEnginePort without building a generic crawler from scratch.",
+    "constraints": [
+      "Preserve TTC policy and scheduler authority outside the engine.",
+      "Support HTTP crawling and a bounded browser/dynamic path through adapters.",
+      "Keep live engine selection blocked until the isolation and matched bakeoff gates are satisfied."
+    ],
+    "non_goals": [
+      "Build a custom crawler, queue, or browser pool when a mature engine can be adapted."
+    ]
+  },
+  "search_plan": {
+    "required_scopes": ["internal", "external"],
+    "required_asset_classes": []
+  },
+  "searches": [
+    {
+      "search_id": "internal-crawler-search",
+      "scope": "internal",
+      "surface": "Owner repository inventory",
+      "query": "Pukujan repositories containing an existing reusable crawler engine or crawler runtime",
+      "target_classes": ["internal_system"],
+      "outcome": "no_candidates",
+      "receipts": [
+        {
+          "receipt_id": "pukujan-crawler-repository-search",
+          "kind": "search_result",
+          "locator": "https://github.com/Pukujan?tab=repositories&q=crawl",
+          "note": "Owner repository inventory was searched for an existing internal crawler engine before considering bespoke implementation."
+        }
+      ],
+      "rationale": "No separate internal crawler engine was identified that could replace the external-engine bakeoff."
+    },
+    {
+      "search_id": "external-crawler-search",
+      "scope": "external",
+      "surface": "GitHub/open-source crawler ecosystem",
+      "query": "maintained Python crawler framework HTTP Playwright request queue scheduler robots retries",
+      "target_classes": ["framework", "library"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "crawlee-python-repository",
+          "kind": "repository",
+          "locator": "apify/crawlee-python",
+          "note": "Concrete Crawlee for Python candidate used by Time to Crawl issue #8 and candidate engine pins."
+        },
+        {
+          "receipt_id": "scrapy-repository",
+          "kind": "repository",
+          "locator": "scrapy/scrapy",
+          "note": "Concrete mature Scrapy baseline used by Time to Crawl issue #8 and candidate engine pins."
+        }
+      ],
+      "rationale": null
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "crawlee-python",
+      "name": "Crawlee for Python",
+      "class": "framework",
+      "origin": "external",
+      "coverage": "full",
+      "identity": {
+        "kind": "repository",
+        "locator": "apify/crawlee-python",
+        "version": "crawlee>=0.6,<1"
+      },
+      "serious": true,
+      "disposition": "spike_required",
+      "evidence_receipts": ["crawlee-python-repository"],
+      "tradeoffs": {
+        "fitness": "Strong fit for the required HTTP plus Playwright composition path, with queues, retries, routing, storage abstractions, and browser support.",
+        "maintenance": "Maintained external framework and the leading candidate recorded by the adopter.",
+        "license": "Must remain part of the dependency and SBOM review before activation.",
+        "security": "The engine cannot own TTC policy or serve as an SSRF boundary; all egress remains mediated outside the adapter.",
+        "extensibility": "Fits behind CrawlerEnginePort without making framework internals authoritative.",
+        "integration_cost": "Requires a real adapter plus isolation/security conformance work before live activation.",
+        "performance": "Must be compared on matched fixtures and bounded real canaries rather than assumed from feature breadth.",
+        "material_reasons": [
+          "It plausibly covers the required engine capability without a custom crawler.",
+          "Selection still depends on objective bakeoff evidence and the isolation gate."
+        ]
+      }
+    },
+    {
+      "candidate_id": "scrapy",
+      "name": "Scrapy",
+      "class": "framework",
+      "origin": "external",
+      "coverage": "full",
+      "identity": {
+        "kind": "repository",
+        "locator": "scrapy/scrapy",
+        "version": "scrapy>=2.12,<3"
+      },
+      "serious": true,
+      "disposition": "spike_required",
+      "evidence_receipts": ["scrapy-repository"],
+      "tradeoffs": {
+        "fitness": "Production-mature crawler baseline with scheduler/downloader middleware, pipelines, duplicate filtering, pause/resume, and throttling.",
+        "maintenance": "Mature maintained external project and the adopter's reference baseline.",
+        "license": "Must remain part of the dependency and SBOM review before activation.",
+        "security": "As with Crawlee, framework filtering cannot replace TTC's external authorization and isolation boundary.",
+        "extensibility": "Can be adapted behind CrawlerEnginePort while preserving TTC-owned policy and provenance semantics.",
+        "integration_cost": "Requires matched adapter implementation and browser-path integration analysis.",
+        "performance": "Must be compared against Crawlee on the same correctness, recovery, security, observability, and resource cases.",
+        "material_reasons": [
+          "It is a credible mature alternative rather than a category label.",
+          "It provides an objective fallback/baseline for the engine decision."
+        ]
+      }
+    }
+  ],
+  "probes": [
+    {
+      "candidate_id": "crawlee-python",
+      "status": "not_run",
+      "evidence": [],
+      "rationale": "The adopter has a fake-engine bakeoff harness, but the real Crawlee adapter and live bakeoff remain blocked until Time to Crawl issue #4 isolation passes; issue #8 intentionally keeps engine selection open."
+    },
+    {
+      "candidate_id": "scrapy",
+      "status": "not_run",
+      "evidence": [],
+      "rationale": "The matched real Scrapy bakeoff is intentionally deferred behind the same isolation gate; selecting an engine from prose or the fake harness would violate the adopter's own acceptance rule."
+    }
+  ],
+  "decision": {
+    "disposition": "more_research",
+    "selected_candidate_ids": [],
+    "build_new_unmet_requirements": [],
+    "rationale": "Reuse is mandatory and two concrete mature engines are identified, but the adopter correctly keeps the final choice open until the matched live bakeoff can run. Building a generic crawler is not authorized.",
+    "residual_uncertainty": [
+      "Which engine better satisfies TTC's isolation, recovery, browser, provenance, and resource constraints under matched tests."
+    ],
+    "reconsideration_triggers": [
+      "Time to Crawl issue #4 isolation becomes green and the real Crawlee-vs-Scrapy bakeoff can run.",
+      "Both mature candidates fail a concrete required CrawlerEnginePort capability under matched evidence."
+    ],
+    "human_review": {
+      "status": "approved",
+      "evidence": "github:Pukujan/time-to-crawl#8"
+    }
+  }
+}
