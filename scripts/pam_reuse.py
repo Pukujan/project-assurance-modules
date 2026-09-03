@@ -106,7 +106,9 @@ def validate_reuse_assessment(
             receipt_ids.add(receipt_id)
             locator = _as_string(receipt["locator"], "receipt.locator")
             if not _is_concrete_locator(locator):
-                raise ValueError(f"search receipt {receipt_id} has non-concrete locator {locator!r}")
+                raise ValueError(
+                    f"search receipt {receipt_id} has non-concrete locator {locator!r}"
+                )
 
     required_scopes = {
         _as_string(value, "search_plan.required_scopes item")
@@ -265,6 +267,7 @@ def validate_manifest_reuse_assessments(manifest: JSONDict, project_root: Path) 
             raise TypeError("build-vs-reuse requirements must be a list")
 
         assessment_locators: set[str] = set()
+        satisfied_assessment_requirement = False
         final_disposition_satisfied = False
         for raw_requirement in raw_requirements:
             if not isinstance(raw_requirement, dict):
@@ -275,6 +278,7 @@ def validate_manifest_reuse_assessments(manifest: JSONDict, project_root: Path) 
                 continue
             if requirement.get("state") != "satisfied":
                 continue
+            satisfied_assessment_requirement = True
             if requirement_id == "REUSE_008":
                 final_disposition_satisfied = True
             evidence = requirement.get("evidence")
@@ -288,8 +292,12 @@ def validate_manifest_reuse_assessments(manifest: JSONDict, project_root: Path) 
                 ):
                     assessment_locators.add(cast(str, raw_evidence["locator"]))
 
-        if not assessment_locators:
+        if not satisfied_assessment_requirement:
             continue
+        if not assessment_locators:
+            raise ValueError(
+                "build-vs-reuse@0.2.0 satisfied requirements require a reuse assessment artifact"
+            )
         if len(assessment_locators) != 1:
             raise ValueError(
                 "build-vs-reuse@0.2.0 satisfied requirements must reference one shared reuse assessment artifact"
