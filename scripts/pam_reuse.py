@@ -133,6 +133,7 @@ def validate_reuse_assessment(
             )
 
     candidate_ids: set[str] = set()
+    candidate_by_id: dict[str, JSONDict] = {}
     serious_full_candidates: list[JSONDict] = []
     for raw_candidate in candidates:
         candidate = _as_dict(raw_candidate, "candidate")
@@ -140,6 +141,7 @@ def validate_reuse_assessment(
         if candidate_id in candidate_ids:
             raise ValueError(f"duplicate candidate_id {candidate_id}")
         candidate_ids.add(candidate_id)
+        candidate_by_id[candidate_id] = candidate
 
         name = _as_string(candidate["name"], "candidate.name").strip().lower()
         identity = _as_dict(candidate["identity"], "candidate.identity")
@@ -155,7 +157,9 @@ def validate_reuse_assessment(
         if not _is_concrete_locator(locator):
             raise ValueError(f"candidate {candidate_id} has non-concrete locator {locator!r}")
         if serious and any(term in name for term in ABSTRACT_CANDIDATE_TERMS):
-            raise ValueError(f"serious candidate {candidate_id} is an abstract category, not an identified alternative")
+            raise ValueError(
+                f"serious candidate {candidate_id} is an abstract category, not an identified alternative"
+            )
 
         evidence_receipts = {
             _as_string(value, "candidate.evidence_receipts item")
@@ -188,6 +192,13 @@ def validate_reuse_assessment(
         if status == "not_run" and not isinstance(rationale, str):
             raise ValueError(f"not-run probe for {candidate_id} requires rationale")
 
+    for candidate in serious_full_candidates:
+        candidate_id = _as_string(candidate["candidate_id"], "candidate.candidate_id")
+        if candidate.get("disposition") in {"reject", "spike_required"} and candidate_id not in probe_candidates:
+            raise ValueError(
+                f"serious full-coverage candidate {candidate_id} requires probe evidence or a not-run rationale"
+            )
+
     selected_candidate_ids = {
         _as_string(value, "decision.selected_candidate_ids item")
         for value in _as_list(decision["selected_candidate_ids"], "decision.selected_candidate_ids")
@@ -195,6 +206,13 @@ def validate_reuse_assessment(
     unknown_selected = sorted(selected_candidate_ids - candidate_ids)
     if unknown_selected:
         raise ValueError(f"decision selects unknown candidates: {unknown_selected}")
+    invalid_selected = sorted(
+        candidate_id
+        for candidate_id in selected_candidate_ids
+        if candidate_by_id[candidate_id].get("disposition") in {"reject", "spike_required"}
+    )
+    if invalid_selected:
+        raise ValueError(f"decision selects rejected or unresolved candidates: {invalid_selected}")
 
     disposition = _as_string(decision["disposition"], "decision.disposition")
     if disposition == "build_new":
@@ -231,7 +249,10 @@ def validate_manifest_reuse_assessments(manifest: JSONDict, project_root: Path) 
         if not isinstance(raw_module, dict):
             continue
         module = cast(JSONDict, raw_module)
-        if module.get("module_id") != "projectization.build-vs-reuse" or module.get("version") != "0.2.0":
+        if (
+            module.get("module_id") != "projectization.build-vs-reuse"
+            or module.get("version") != "0.2.0"
+        ):
             continue
         raw_requirements = module.get("requirements")
         if not isinstance(raw_requirements, list):
