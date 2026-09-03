@@ -1,0 +1,88 @@
+schema_version: pam-module/0.2.0
+module_id: projectization.build-vs-reuse
+version: 0.2.0
+title: Build vs reuse decision with traceable discovery
+category: projectization
+intent: >-
+  Require a project to research concrete reusable systems and relevant reusable assets before
+  authorizing bespoke implementation, with machine-valid search coverage and candidate identities
+  that prevent self-referential or abstract alternatives from satisfying the gate.
+motivation:
+  - Interview OS demonstrated that a free-form candidate register can satisfy the v0.1 wording while leaving a material bespoke capability compared only against an abstract category.
+  - Build-vs-reuse should establish that implementation has earned itself through traceable discovery, not merely that an agent authored a persuasive decision document.
+non_scope:
+  - Proving that an existing system is universally best.
+  - Requiring exhaustive web research for trivial or documentation-only work.
+  - Preventing bespoke implementation when searched candidates fail scoped requirements.
+  - Treating PAM itself as a runtime or product alternative.
+applies_when:
+  - A nontrivial software capability is about to be implemented and plausible existing systems or reusable assets may exist.
+requirements:
+  - id: REUSE_001
+    title: Define required capability and constraints
+    description: State the capability, must-have constraints, non-goals, and decision criteria before comparing implementations.
+    evidence_kinds: [file, rationale]
+    closure_rule: A durable artifact states the capability and comparison criteria without naming a preferred implementation as a foregone conclusion.
+    not_applicable_rule: Not applicable only when no implementation decision exists, such as a documentation-only change.
+  - id: REUSE_002
+    title: Execute traceable internal and external discovery
+    description: Search both plausible prior internal systems and external reusable systems using named discovery surfaces and preserve concrete search/source receipts.
+    evidence_kinds: [artifact]
+    closure_rule: A machine-valid pam-reuse-assessment/0.1.0 artifact records executed internal and external searches with concrete receipts; self-authored prose alone is insufficient.
+    not_applicable_rule: Not applicable only with reviewed rationale that no reusable implementation class can plausibly exist for the capability.
+  - id: REUSE_003
+    title: Record identifiable serious candidates
+    description: Serious candidates must be actual repositories, packages, services, standards, applications, or other concretely identifiable alternatives rather than abstract categories.
+    evidence_kinds: [artifact]
+    closure_rule: The validated reuse assessment records concrete candidate identities/locators, origin, coverage, source receipts, and dispositions; the adopting project and PAM cannot count as product alternatives.
+    not_applicable_rule: Not applicable only when the traceable searches found no serious candidates.
+  - id: REUSE_004
+    title: Search reusable data and content assets when relevant
+    description: When datasets, models, corpora, benchmarks, question banks, or similar reusable content materially affect the planned capability, search those assets before authorizing bespoke creation.
+    evidence_kinds: [artifact]
+    closure_rule: The validated reuse assessment covers every declared required asset class with traceable searches, including explicit no-candidate outcomes where appropriate.
+    not_applicable_rule: Not applicable only when no reusable data, model, corpus, benchmark, question-bank, or content-asset class is materially relevant.
+  - id: REUSE_005
+    title: Compare material trade-offs
+    description: Compare serious candidates against fitness, maintenance, license, security, extensibility, integration cost, performance, and other scoped criteria that materially affect the project.
+    evidence_kinds: [artifact]
+    closure_rule: The validated reuse assessment gives serious candidates explicit dispositions, traceable evidence, and material reasons; unknowns remain labelled rather than invented.
+    not_applicable_rule: Not applicable only when traceable discovery found no serious candidate.
+  - id: REUSE_006
+    title: Test plausible candidates where cheap evidence is available
+    description: Prefer a spike, compatibility probe, contract test, or benchmark over prose-only rejection when a material uncertainty can be tested cheaply and safely.
+    evidence_kinds: [artifact, test, benchmark]
+    closure_rule: The assessment records probe evidence for material uncertain candidates or an explicit proportionality rationale for not running a probe.
+    not_applicable_rule: Not applicable when no material candidate uncertainty is cheaply testable.
+  - id: REUSE_007
+    title: Make bespoke implementation earn itself
+    description: A build_new disposition must name concrete unmet scoped requirements or unacceptable trade-offs after traceable discovery of actual alternatives and relevant reusable assets.
+    evidence_kinds: [artifact, human_review]
+    closure_rule: The validated assessment records build_new unmet requirements, resolves or rejects serious full-coverage candidates, preserves any partial reuse, and contains no unresolved required probe that would make the decision premature.
+    not_applicable_rule: Not applicable when the final disposition is not build_new.
+  - id: REUSE_008
+    title: Record a reviewed implementation disposition
+    description: Choose reuse, configure, wrap, extend, compose, fork, build_new, or more_research and preserve residual uncertainty and reconsideration triggers.
+    evidence_kinds: [artifact, human_review]
+    closure_rule: One reviewed machine-valid reuse assessment records the final disposition, selected candidate identities where applicable, human approval evidence, residual uncertainty, and reconsideration triggers.
+    not_applicable_rule: This requirement is not optional when the module applies.
+dependencies: []
+conflicts:
+  - Counting the adopting project itself as evidence that alternatives were researched.
+  - Counting PAM methodology as a runtime, product, framework, dataset, or application alternative.
+  - Treating an abstract class such as generic quiz framework or existing library as a serious researched candidate without a concrete identity.
+  - Authorizing build_new from a self-authored decision document with no traceable internal/external search receipts.
+  - Creating bespoke datasets, question banks, or equivalent assets without searching reusable assets when those classes are materially relevant.
+compatibility:
+  impact: breaking
+  note: >-
+    Tightens build-vs-reuse closure semantics. Assessments that satisfied v0.1 using only free-form
+    candidate prose may fail v0.2 until they provide a machine-valid reuse assessment with traceable
+    discovery. Historical v0.1 module identities remain valid and are not rewritten.
+references:
+  - kind: incident
+    locator: https://github.com/Pukujan/project-assurance-modules/issues/10
+    note: Real-adopter methodology defect discovered when Interview OS could satisfy candidate research without sufficiently concrete alternative and asset discovery.
+  - kind: repository
+    locator: Pukujan/interview-os-game
+    note: First regression adopter for the self-referential and abstract-candidate loophole.

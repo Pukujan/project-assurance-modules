@@ -1,0 +1,256 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/Pukujan/project-assurance-modules/schemas/reuse-assessment.schema.json",
+  "title": "PAM Build-vs-Reuse Assessment",
+  "type": "object",
+  "additionalProperties": false,
+  "required": [
+    "schema_version",
+    "assessment_status",
+    "project",
+    "capability",
+    "search_plan",
+    "searches",
+    "candidates",
+    "probes",
+    "decision"
+  ],
+  "properties": {
+    "schema_version": {"const": "pam-reuse-assessment/0.1.0"},
+    "assessment_status": {"enum": ["draft", "reviewed"]},
+    "project": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["repository"],
+      "properties": {
+        "repository": {
+          "type": "string",
+          "pattern": "^[A-Za-z0-9_.-]+/[A-Za-z0-9_.-]+$"
+        }
+      }
+    },
+    "capability": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["id", "description", "constraints", "non_goals"],
+      "properties": {
+        "id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "description": {"type": "string", "minLength": 1},
+        "constraints": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "non_goals": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "search_plan": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["required_scopes", "required_asset_classes"],
+      "properties": {
+        "required_scopes": {
+          "type": "array",
+          "minItems": 2,
+          "uniqueItems": true,
+          "items": {"enum": ["internal", "external"]},
+          "allOf": [
+            {"contains": {"const": "internal"}},
+            {"contains": {"const": "external"}}
+          ]
+        },
+        "required_asset_classes": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {
+            "enum": ["dataset", "model", "corpus", "benchmark", "question_bank", "content_asset"]
+          }
+        }
+      }
+    },
+    "searches": {
+      "type": "array",
+      "minItems": 2,
+      "items": {"$ref": "#/$defs/search"}
+    },
+    "candidates": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/candidate"}
+    },
+    "probes": {
+      "type": "array",
+      "items": {"$ref": "#/$defs/probe"}
+    },
+    "decision": {"$ref": "#/$defs/decision"}
+  },
+  "$defs": {
+    "target_class": {
+      "enum": [
+        "framework",
+        "library",
+        "service",
+        "standard",
+        "internal_system",
+        "dataset",
+        "model",
+        "corpus",
+        "benchmark",
+        "question_bank",
+        "content_asset",
+        "application",
+        "other"
+      ]
+    },
+    "receipt": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["receipt_id", "kind", "locator", "note"],
+      "properties": {
+        "receipt_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "kind": {
+          "enum": ["repository", "url", "package_registry", "search_result", "catalog", "standard"]
+        },
+        "locator": {"type": "string", "minLength": 1},
+        "note": {"type": "string", "minLength": 1}
+      }
+    },
+    "search": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["search_id", "scope", "surface", "query", "target_classes", "outcome", "receipts", "rationale"],
+      "properties": {
+        "search_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "scope": {"enum": ["internal", "external"]},
+        "surface": {"type": "string", "minLength": 1},
+        "query": {"type": "string", "minLength": 1},
+        "target_classes": {
+          "type": "array",
+          "minItems": 1,
+          "uniqueItems": true,
+          "items": {"$ref": "#/$defs/target_class"}
+        },
+        "outcome": {"enum": ["candidates_found", "no_candidates"]},
+        "receipts": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"$ref": "#/$defs/receipt"}
+        },
+        "rationale": {"type": ["string", "null"]}
+      }
+    },
+    "identity": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["kind", "locator", "version"],
+      "properties": {
+        "kind": {
+          "enum": ["repository", "url", "package", "standard", "service", "dataset", "model", "corpus", "benchmark", "question_bank", "content_asset"]
+        },
+        "locator": {"type": "string", "minLength": 1},
+        "version": {"type": ["string", "null"]}
+      }
+    },
+    "tradeoffs": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["fitness", "maintenance", "license", "security", "extensibility", "integration_cost", "performance", "material_reasons"],
+      "properties": {
+        "fitness": {"type": "string", "minLength": 1},
+        "maintenance": {"type": "string", "minLength": 1},
+        "license": {"type": "string", "minLength": 1},
+        "security": {"type": "string", "minLength": 1},
+        "extensibility": {"type": "string", "minLength": 1},
+        "integration_cost": {"type": "string", "minLength": 1},
+        "performance": {"type": "string", "minLength": 1},
+        "material_reasons": {
+          "type": "array",
+          "minItems": 1,
+          "items": {"type": "string", "minLength": 1}
+        }
+      }
+    },
+    "candidate": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "name", "class", "origin", "coverage", "identity", "serious", "disposition", "evidence_receipts", "tradeoffs"],
+      "properties": {
+        "candidate_id": {"type": "string", "pattern": "^[a-z0-9]+(?:[._-][a-z0-9]+)*$"},
+        "name": {"type": "string", "minLength": 1},
+        "class": {"$ref": "#/$defs/target_class"},
+        "origin": {"enum": ["internal", "external"]},
+        "coverage": {"enum": ["full", "partial"]},
+        "identity": {"$ref": "#/$defs/identity"},
+        "serious": {"type": "boolean"},
+        "disposition": {"enum": ["reuse", "configure", "wrap", "extend", "compose", "fork", "reject", "spike_required"]},
+        "evidence_receipts": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1},
+          "uniqueItems": true
+        },
+        "tradeoffs": {"$ref": "#/$defs/tradeoffs"}
+      }
+    },
+    "probe": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["candidate_id", "status", "evidence", "rationale"],
+      "properties": {
+        "candidate_id": {"type": "string", "minLength": 1},
+        "status": {"enum": ["run", "not_run"]},
+        "evidence": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rationale": {"type": ["string", "null"]}
+      }
+    },
+    "human_review": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["status", "evidence"],
+      "properties": {
+        "status": {"enum": ["pending", "approved"]},
+        "evidence": {"type": ["string", "null"]}
+      }
+    },
+    "decision": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["disposition", "selected_candidate_ids", "build_new_unmet_requirements", "rationale", "residual_uncertainty", "reconsideration_triggers", "human_review"],
+      "properties": {
+        "disposition": {"enum": ["reuse", "configure", "wrap", "extend", "compose", "fork", "build_new", "more_research"]},
+        "selected_candidate_ids": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "build_new_unmet_requirements": {
+          "type": "array",
+          "uniqueItems": true,
+          "items": {"type": "string", "minLength": 1}
+        },
+        "rationale": {"type": "string", "minLength": 1},
+        "residual_uncertainty": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "reconsideration_triggers": {
+          "type": "array",
+          "items": {"type": "string", "minLength": 1}
+        },
+        "human_review": {"$ref": "#/$defs/human_review"}
+      },
+      "allOf": [
+        {
+          "if": {"properties": {"disposition": {"const": "build_new"}}},
+          "then": {"properties": {"build_new_unmet_requirements": {"minItems": 1}}}
+        }
+      ]
+    }
+  }
+}

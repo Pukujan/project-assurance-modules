@@ -1,0 +1,122 @@
+{
+  "schema_version": "pam-reuse-assessment/0.1.0",
+  "assessment_status": "reviewed",
+  "project": {
+    "repository": "Pukujan/interview-os-game"
+  },
+  "capability": {
+    "id": "interview-mission-engine",
+    "description": "Implement the Interview OS mission/game layer.",
+    "constraints": [
+      "Support typed reasoning, progressive assistance, and scenario state."
+    ],
+    "non_goals": []
+  },
+  "search_plan": {
+    "required_scopes": ["internal", "external"],
+    "required_asset_classes": ["dataset"]
+  },
+  "searches": [
+    {
+      "search_id": "known-project-repositories",
+      "scope": "internal",
+      "surface": "Known project repositories",
+      "query": "PAM Study OS Interview OS",
+      "target_classes": ["internal_system", "framework"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "study-os-repository",
+          "kind": "repository",
+          "locator": "Pukujan/Study-os",
+          "note": "Known internal repository referenced without broader external discovery."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "other-owner-repositories",
+      "scope": "internal",
+      "surface": "Owner repository inventory",
+      "query": "other study and learning repositories",
+      "target_classes": ["internal_system"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "private-study-log-repository",
+          "kind": "repository",
+          "locator": "Pukujan/private-study-log",
+          "note": "A second internal repository was considered, but no external or dataset discovery was performed."
+        }
+      ],
+      "rationale": null
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "pam",
+      "name": "Project Assurance Modules",
+      "class": "framework",
+      "origin": "internal",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "Pukujan/project-assurance-modules",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reuse",
+      "evidence_receipts": ["study-os-repository"],
+      "tradeoffs": {
+        "fitness": "Used as planning methodology rather than runtime capability.",
+        "maintenance": "Maintained.",
+        "license": "Not material to this shortcut.",
+        "security": "Not material to this shortcut.",
+        "extensibility": "Not material to this shortcut.",
+        "integration_cost": "Not material to this shortcut.",
+        "performance": "Not material to this shortcut.",
+        "material_reasons": ["Methodology was incorrectly counted in the candidate register."]
+      }
+    },
+    {
+      "candidate_id": "generic-quiz",
+      "name": "generic quiz framework",
+      "class": "framework",
+      "origin": "external",
+      "coverage": "full",
+      "identity": {
+        "kind": "url",
+        "locator": "https://example.invalid/generic-quiz-framework",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["study-os-repository"],
+      "tradeoffs": {
+        "fitness": "Asserted not to support the desired game semantics.",
+        "maintenance": "Unknown.",
+        "license": "Unknown.",
+        "security": "Unknown.",
+        "extensibility": "Unknown.",
+        "integration_cost": "Unknown.",
+        "performance": "Unknown.",
+        "material_reasons": ["Abstract category was rejected without identifying an actual researched candidate."]
+      }
+    }
+  ],
+  "probes": [],
+  "decision": {
+    "disposition": "build_new",
+    "selected_candidate_ids": [],
+    "build_new_unmet_requirements": [
+      "The abstract generic quiz category was asserted not to meet the mission-state requirements."
+    ],
+    "rationale": "Proceed with a bespoke mission engine.",
+    "residual_uncertainty": [],
+    "reconsideration_triggers": [],
+    "human_review": {
+      "status": "approved",
+      "evidence": "review:shortcut-example"
+    }
+  }
+}

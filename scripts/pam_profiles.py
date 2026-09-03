@@ -64,6 +64,20 @@ def load_profiles() -> dict[tuple[str, str], JSONDict]:
     return profiles
 
 
+def _version_key(version: str) -> tuple[int, int, int]:
+    major, minor, patch = version.split(".")
+    return int(major), int(minor), int(patch)
+
+
+def _current_profiles(profiles: dict[tuple[str, str], JSONDict]) -> list[JSONDict]:
+    current: dict[str, tuple[str, JSONDict]] = {}
+    for (profile_id, version), profile in profiles.items():
+        existing = current.get(profile_id)
+        if existing is None or _version_key(version) > _version_key(existing[0]):
+            current[profile_id] = (version, profile)
+    return [current[profile_id][1] for profile_id in sorted(current)]
+
+
 def _condition_result(condition: JSONDict, project_facts: JSONDict) -> bool | None:
     fact = condition.get("fact")
     if not isinstance(fact, str):
@@ -137,7 +151,7 @@ def _selection_for_profile(profile: JSONDict, project_facts: JSONDict) -> Profil
 def select_profiles(project_facts: JSONDict) -> list[ProfileSelection]:
     profiles = load_profiles()
     return [
-        _selection_for_profile(profile, project_facts) for _, profile in sorted(profiles.items())
+        _selection_for_profile(profile, project_facts) for profile in _current_profiles(profiles)
     ]
 
 
@@ -199,10 +213,7 @@ def validate_manifest_profile_refs(manifest: JSONDict) -> None:
     if not isinstance(raw_modules, list):
         raise TypeError("manifest modules must be a list")
 
-    selections = {
-        (selection.profile_id, selection.version): selection
-        for selection in select_profiles(cast(JSONDict, project_facts))
-    }
+    facts = cast(JSONDict, project_facts)
     seen: set[tuple[str, str]] = set()
     allowed_modules: set[tuple[str, str]] = set()
 
@@ -219,7 +230,8 @@ def validate_manifest_profile_refs(manifest: JSONDict) -> None:
         seen.add(key)
         if key not in profiles:
             raise ValueError(f"unknown profile {profile_id}@{version}")
-        if selections[key].disposition == "not_selected":
+        selection = _selection_for_profile(profiles[key], facts)
+        if selection.disposition == "not_selected":
             raise ValueError(
                 f"profile {profile_id}@{version} is contradicted by declared project facts"
             )
