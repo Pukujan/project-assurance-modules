@@ -205,13 +205,13 @@ def route_project(project_facts: JSONDict) -> list[RouteResult]:
             disposition = "conditional"
             rationale = "Reuse possibility is unresolved; do not authorize build_new by default."
         results.append(
-            RouteResult("projectization.build-vs-reuse", "0.1.0", disposition, rationale)
+            RouteResult("projectization.build-vs-reuse", "0.2.0", disposition, rationale)
         )
     elif software is False:
         results.append(
             RouteResult(
                 "projectization.build-vs-reuse",
-                "0.1.0",
+                "0.2.0",
                 "not_applicable",
                 "The declared project does not contain a software implementation decision.",
             )
@@ -220,7 +220,7 @@ def route_project(project_facts: JSONDict) -> list[RouteResult]:
         results.append(
             RouteResult(
                 "projectization.build-vs-reuse",
-                "0.1.0",
+                "0.2.0",
                 "conditional",
                 "Software/nontrivial/projectization facts are incomplete.",
             )
