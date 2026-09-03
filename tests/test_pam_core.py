@@ -27,9 +27,19 @@ def test_all_shipped_modules_validate_and_resolve() -> None:
         ("engineering.swe-ci-foundation", "0.1.0"),
         ("planning.foundation", "0.1.0"),
         ("projectization.build-vs-reuse", "0.1.0"),
+        ("projectization.build-vs-reuse", "0.2.0"),
         ("projectization.scope-boundary", "0.1.0"),
         ("provenance.decision-lineage", "0.1.0"),
     }
+
+
+def test_build_vs_reuse_v01_remains_and_v02_is_breaking_hardening() -> None:
+    modules = load_modules()
+    old = modules[("projectization.build-vs-reuse", "0.1.0")]
+    hardened = modules[("projectization.build-vs-reuse", "0.2.0")]
+    assert old["schema_version"] == "pam-module/0.1.0"
+    assert hardened["schema_version"] == "pam-module/0.2.0"
+    assert hardened["compatibility"]["impact"] == "breaking"
 
 
 def test_new_bounded_modules_record_extraction_metadata() -> None:
@@ -110,7 +120,11 @@ def test_router_requires_extracted_modules_for_nontrivial_agent_projectization()
         "consequential_decisions": False,
         "durable_provenance_and_decision_lineage": False,
     }
-    routed = {item["module_id"]: item["disposition"] for item in route_as_json(facts)}
+    routed_items = route_as_json(facts)
+    routed = {item["module_id"]: item["disposition"] for item in routed_items}
+    identities = {(item["module_id"], item["version"]) for item in routed_items}
+    assert ("projectization.build-vs-reuse", "0.2.0") in identities
+    assert ("projectization.build-vs-reuse", "0.1.0") not in identities
     assert routed == {
         "benchmark.integrity": "not_applicable",
         "continuity.structured-handoff": "required",
