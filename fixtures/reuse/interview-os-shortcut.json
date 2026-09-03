@@ -18,7 +18,7 @@
   },
   "searches": [
     {
-      "search_id": "internal-only",
+      "search_id": "known-project-repositories",
       "scope": "internal",
       "surface": "Known project repositories",
       "query": "PAM Study OS Interview OS",
@@ -26,10 +26,27 @@
       "outcome": "candidates_found",
       "receipts": [
         {
-          "receipt_id": "known-repositories",
+          "receipt_id": "study-os-repository",
           "kind": "repository",
           "locator": "Pukujan/Study-os",
-          "note": "Known internal repository referenced without broader external or asset discovery."
+          "note": "Known internal repository referenced without broader external discovery."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "other-owner-repositories",
+      "scope": "internal",
+      "surface": "Owner repository inventory",
+      "query": "other study and learning repositories",
+      "target_classes": ["internal_system"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "private-study-log-repository",
+          "kind": "repository",
+          "locator": "Pukujan/private-study-log",
+          "note": "A second internal repository was considered, but no external or dataset discovery was performed."
         }
       ],
       "rationale": null
@@ -49,7 +66,7 @@
       },
       "serious": true,
       "disposition": "reuse",
-      "evidence_receipts": ["known-repositories"],
+      "evidence_receipts": ["study-os-repository"],
       "tradeoffs": {
         "fitness": "Used as planning methodology rather than runtime capability.",
         "maintenance": "Maintained.",
@@ -74,7 +91,7 @@
       },
       "serious": true,
       "disposition": "reject",
-      "evidence_receipts": ["known-repositories"],
+      "evidence_receipts": ["study-os-repository"],
       "tradeoffs": {
         "fitness": "Asserted not to support the desired game semantics.",
         "maintenance": "Unknown.",
