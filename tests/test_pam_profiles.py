@@ -25,6 +25,7 @@ def test_shipped_profiles_validate_and_resolve_modules() -> None:
         ("benchmark.empirical-work", "0.1.0"),
         ("continuity.material-work", "0.1.0"),
         ("projectization.software", "0.1.0"),
+        ("projectization.software", "0.2.0"),
         ("provenance.material-decisions", "0.1.0"),
     }
 
