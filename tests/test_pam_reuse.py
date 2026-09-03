@@ -15,17 +15,13 @@ def valid_assessment() -> dict[str, object]:
 
 
 def test_valid_reuse_assessment_passes_with_dataset_fact() -> None:
-    validate_reuse_assessment(
-        valid_assessment(), project_facts={"benchmark_or_dataset_use": True}
-    )
+    validate_reuse_assessment(valid_assessment(), project_facts={"benchmark_or_dataset_use": True})
 
 
 def test_interview_os_shortcut_regression_fails() -> None:
     shortcut = load_json(ROOT / "fixtures" / "reuse" / "interview-os-shortcut.json")
     with pytest.raises(ValueError):
-        validate_reuse_assessment(
-            shortcut, project_facts={"benchmark_or_dataset_use": True}
-        )
+        validate_reuse_assessment(shortcut, project_facts={"benchmark_or_dataset_use": True})
 
 
 def test_adopting_project_cannot_be_its_own_candidate() -> None:
@@ -72,7 +68,9 @@ def test_internal_only_discovery_cannot_satisfy_required_external_search() -> No
     searches = assessment["searches"]
     assert isinstance(searches, list)
     assessment["searches"] = [
-        search for search in searches if isinstance(search, dict) and search.get("scope") == "internal"
+        search
+        for search in searches
+        if isinstance(search, dict) and search.get("scope") == "internal"
     ]
     with pytest.raises((ValidationError, ValueError)):
         validate_reuse_assessment(assessment)
@@ -93,9 +91,7 @@ def test_dataset_fact_requires_asset_discovery_plan() -> None:
     assert isinstance(search_plan, dict)
     search_plan["required_asset_classes"] = []
     with pytest.raises(ValueError, match="benchmark_or_dataset_use=true"):
-        validate_reuse_assessment(
-            assessment, project_facts={"benchmark_or_dataset_use": True}
-        )
+        validate_reuse_assessment(assessment, project_facts={"benchmark_or_dataset_use": True})
 
 
 def test_self_authored_relative_search_receipt_is_not_concrete_search_evidence() -> None:
@@ -121,6 +117,19 @@ def test_serious_candidate_requires_traceable_receipts() -> None:
     assert isinstance(first, dict)
     first["evidence_receipts"] = []
     with pytest.raises(ValueError, match="no search/source receipts"):
+        validate_reuse_assessment(assessment)
+
+
+def test_rejected_serious_full_candidate_requires_probe_or_rationale() -> None:
+    assessment = copy.deepcopy(valid_assessment())
+    probes = assessment["probes"]
+    assert isinstance(probes, list)
+    assessment["probes"] = [
+        probe
+        for probe in probes
+        if isinstance(probe, dict) and probe.get("candidate_id") != "moodle-quiz"
+    ]
+    with pytest.raises(ValueError, match="requires probe evidence"):
         validate_reuse_assessment(assessment)
 
 
@@ -200,6 +209,33 @@ def test_manifest_satisfied_reuse_requirements_validate_shared_artifact(tmp_path
     validate_manifest_reuse_assessments(manifest, tmp_path)
 
 
+def test_manifest_satisfied_reuse_requirement_requires_assessment_artifact(tmp_path) -> None:
+    manifest: dict[str, object] = {
+        "project_facts": {},
+        "modules": [
+            {
+                "module_id": "projectization.build-vs-reuse",
+                "version": "0.2.0",
+                "requirements": [
+                    {
+                        "requirement_id": "REUSE_008",
+                        "state": "satisfied",
+                        "evidence": [
+                            {
+                                "kind": "human_review",
+                                "locator": "review:approval-001",
+                                "note": "Human approval alone cannot replace the reuse assessment.",
+                            }
+                        ],
+                    }
+                ],
+            }
+        ],
+    }
+    with pytest.raises(ValueError, match="require a reuse assessment artifact"):
+        validate_manifest_reuse_assessments(manifest, tmp_path)
+
+
 def test_manifest_final_disposition_rejects_draft_assessment(tmp_path) -> None:
     assessment = valid_assessment()
     assessment["assessment_status"] = "draft"
@@ -209,9 +245,7 @@ def test_manifest_final_disposition_rejects_draft_assessment(tmp_path) -> None:
     assert isinstance(review, dict)
     review["status"] = "pending"
     review["evidence"] = None
-    (tmp_path / "REUSE_ASSESSMENT.json").write_text(
-        json.dumps(assessment), encoding="utf-8"
-    )
+    (tmp_path / "REUSE_ASSESSMENT.json").write_text(json.dumps(assessment), encoding="utf-8")
     manifest: dict[str, object] = {
         "project_facts": {"benchmark_or_dataset_use": True},
         "modules": [
