@@ -1,0 +1,196 @@
+{
+  "schema_version": "pam-reuse-assessment/0.1.0",
+  "assessment_status": "reviewed",
+  "project": {
+    "repository": "Example/example-learning-game"
+  },
+  "capability": {
+    "id": "interactive-mission-engine",
+    "description": "Deliver an evidence-producing interactive interview mission loop without duplicating mature reusable infrastructure or content assets.",
+    "constraints": [
+      "Support typed reasoning and progressive assistance.",
+      "Preserve a single cross-platform application codebase.",
+      "Keep hidden evaluation material out of the client."
+    ],
+    "non_goals": [
+      "Build a general-purpose learning management system.",
+      "Create a new benchmark corpus when a suitable reusable corpus exists."
+    ]
+  },
+  "search_plan": {
+    "required_scopes": ["internal", "external"],
+    "required_asset_classes": ["dataset", "question_bank"]
+  },
+  "searches": [
+    {
+      "search_id": "external-runtime-search",
+      "scope": "external",
+      "surface": "GitHub and package ecosystem search",
+      "query": "maintained open source interactive quiz interview learning framework",
+      "target_classes": ["framework", "library", "application"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "external-runtime-search-result",
+          "kind": "search_result",
+          "locator": "https://github.com/search?q=interactive+quiz+learning+framework&type=repositories",
+          "note": "External repository discovery surface used to identify concrete runtime alternatives."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "internal-repository-search",
+      "scope": "internal",
+      "surface": "Owner repository inventory",
+      "query": "existing learner evidence or interview systems owned by Example",
+      "target_classes": ["internal_system"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "internal-repository-search-result",
+          "kind": "search_result",
+          "locator": "https://github.com/Example?tab=repositories",
+          "note": "Internal repository inventory searched before creating overlapping learner-state behavior."
+        }
+      ],
+      "rationale": null
+    },
+    {
+      "search_id": "external-asset-search",
+      "scope": "external",
+      "surface": "Dataset and question-bank catalogs",
+      "query": "retrieval augmented generation interview dataset question bank",
+      "target_classes": ["dataset", "question_bank"],
+      "outcome": "candidates_found",
+      "receipts": [
+        {
+          "receipt_id": "external-asset-search-result",
+          "kind": "catalog",
+          "locator": "https://huggingface.co/datasets?search=retrieval+question+answering",
+          "note": "Reusable dataset catalog searched before authoring bespoke evaluation content."
+        }
+      ],
+      "rationale": null
+    }
+  ],
+  "candidates": [
+    {
+      "candidate_id": "moodle-quiz",
+      "name": "Moodle quiz subsystem",
+      "class": "framework",
+      "origin": "external",
+      "coverage": "full",
+      "identity": {
+        "kind": "repository",
+        "locator": "moodle/moodle",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reject",
+      "evidence_receipts": ["external-runtime-search-result"],
+      "tradeoffs": {
+        "fitness": "Strong assessment primitives but does not match the required mobile game mission state model without substantial adaptation.",
+        "maintenance": "Mature maintained project.",
+        "license": "GPL-3.0; acceptable for evaluation but would materially affect embedding decisions.",
+        "security": "Mature server product with a much larger attack and deployment surface than the bounded project requires.",
+        "extensibility": "Highly extensible but optimized around LMS concepts rather than a narrow mobile mission loop.",
+        "integration_cost": "High because adopting the subsystem would pull in a broad LMS architecture.",
+        "performance": "No blocking evidence for quiz execution itself; mobile-native interaction fit remains the material mismatch.",
+        "material_reasons": [
+          "The architecture is substantially broader than the bounded capability.",
+          "The required mission-state and mobile interaction model would still need bespoke work."
+        ]
+      }
+    },
+    {
+      "candidate_id": "study-os",
+      "name": "Study OS learner evidence contracts",
+      "class": "internal_system",
+      "origin": "internal",
+      "coverage": "partial",
+      "identity": {
+        "kind": "repository",
+        "locator": "Example/study-os",
+        "version": "0123456789abcdef0123456789abcdef01234567"
+      },
+      "serious": true,
+      "disposition": "compose",
+      "evidence_receipts": ["internal-repository-search-result"],
+      "tradeoffs": {
+        "fitness": "Fits learner-evidence semantics but does not implement the interactive mission runtime.",
+        "maintenance": "Owned internal system with active project-specific maintenance.",
+        "license": "Internal project; reuse is organizationally permitted.",
+        "security": "Reuse keeps learner-state authority centralized instead of duplicating state.",
+        "extensibility": "Can receive bounded evidence through an adapter.",
+        "integration_cost": "Moderate adapter work, lower than inventing a second learner model.",
+        "performance": "Not on the interactive rendering hot path.",
+        "material_reasons": [
+          "Avoids duplicate learner-state semantics.",
+          "Provides only partial coverage, so a mission runtime is still required."
+        ]
+      }
+    },
+    {
+      "candidate_id": "reusable-rag-dataset",
+      "name": "Reusable retrieval question-answering dataset",
+      "class": "dataset",
+      "origin": "external",
+      "coverage": "partial",
+      "identity": {
+        "kind": "url",
+        "locator": "https://huggingface.co/datasets/microsoft/ms_marco",
+        "version": null
+      },
+      "serious": true,
+      "disposition": "reuse",
+      "evidence_receipts": ["external-asset-search-result"],
+      "tradeoffs": {
+        "fitness": "Provides reusable retrieval/query material for bounded dataset-backed missions but is not itself an interview curriculum.",
+        "maintenance": "Widely mirrored and documented public dataset.",
+        "license": "Must be rechecked and pinned before production use.",
+        "security": "Public data; no secret-bearing client material implied.",
+        "extensibility": "Can be transformed into bounded mission fixtures while retaining source identity.",
+        "integration_cost": "Moderate transformation and provenance work.",
+        "performance": "Dataset size requires selecting a bounded fixture rather than shipping the full corpus to the client.",
+        "material_reasons": [
+          "Reusable source material exists, so bespoke corpus creation is not justified by default.",
+          "A bounded transformation still needs exact version and provenance before use."
+        ]
+      }
+    }
+  ],
+  "probes": [
+    {
+      "candidate_id": "moodle-quiz",
+      "status": "not_run",
+      "evidence": [],
+      "rationale": "The architectural mismatch is already material and a local spike would require adopting a disproportionate LMS stack."
+    },
+    {
+      "candidate_id": "study-os",
+      "status": "run",
+      "evidence": ["contract-review:Example/study-os@0123456789abcdef0123456789abcdef01234567"],
+      "rationale": null
+    }
+  ],
+  "decision": {
+    "disposition": "build_new",
+    "selected_candidate_ids": ["study-os", "reusable-rag-dataset"],
+    "build_new_unmet_requirements": [
+      "No searched full-coverage candidate provides the bounded interactive mission state machine without importing a substantially broader product architecture."
+    ],
+    "rationale": "Build only the narrow mission runtime while composing the existing learner-evidence system and reusing suitable dataset material.",
+    "residual_uncertainty": [
+      "The first mobile interaction spike may expose a better fitting specialized runtime candidate."
+    ],
+    "reconsideration_triggers": [
+      "A maintained full-coverage mission framework is identified with materially lower integration cost.",
+      "The selected reusable dataset cannot satisfy licensing or provenance constraints."
+    ],
+    "human_review": {
+      "status": "approved",
+      "evidence": "review:example-owner-approval-001"
+    }
+  }
+}
