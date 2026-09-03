@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import copy
 import json
+from pathlib import Path
 
 import pytest
 from jsonschema import ValidationError
@@ -170,7 +171,7 @@ def test_unknown_reuse_assessment_version_fails_closed() -> None:
         validate_reuse_assessment(assessment)
 
 
-def test_manifest_satisfied_reuse_requirements_validate_shared_artifact(tmp_path) -> None:
+def test_manifest_satisfied_reuse_requirements_validate_shared_artifact(tmp_path: Path) -> None:
     assessment_path = tmp_path / "REUSE_ASSESSMENT.json"
     assessment_path.write_text(json.dumps(valid_assessment()), encoding="utf-8")
     manifest: dict[str, object] = {
@@ -209,7 +210,9 @@ def test_manifest_satisfied_reuse_requirements_validate_shared_artifact(tmp_path
     validate_manifest_reuse_assessments(manifest, tmp_path)
 
 
-def test_manifest_satisfied_reuse_requirement_requires_assessment_artifact(tmp_path) -> None:
+def test_manifest_satisfied_reuse_requirement_requires_assessment_artifact(
+    tmp_path: Path,
+) -> None:
     manifest: dict[str, object] = {
         "project_facts": {},
         "modules": [
@@ -236,7 +239,7 @@ def test_manifest_satisfied_reuse_requirement_requires_assessment_artifact(tmp_p
         validate_manifest_reuse_assessments(manifest, tmp_path)
 
 
-def test_manifest_final_disposition_rejects_draft_assessment(tmp_path) -> None:
+def test_manifest_final_disposition_rejects_draft_assessment(tmp_path: Path) -> None:
     assessment = valid_assessment()
     assessment["assessment_status"] = "draft"
     decision = assessment["decision"]
