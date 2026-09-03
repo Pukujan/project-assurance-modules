@@ -7,7 +7,7 @@ from typing import cast
 
 from jsonschema import Draft202012Validator, FormatChecker
 
-from scripts.pam_core import JSONDict, ROOT, load_json
+from scripts.pam_core import ROOT, JSONDict, load_json
 
 REUSE_SCHEMA_PATH = ROOT / "schemas" / "reuse-assessment.schema.json"
 PAM_REPOSITORY = "Pukujan/project-assurance-modules"
@@ -126,11 +126,14 @@ def validate_reuse_assessment(
     if missing_assets:
         raise ValueError(f"required reusable asset classes were not searched: {missing_assets}")
 
-    if project_facts is not None and project_facts.get("benchmark_or_dataset_use") is True:
-        if not required_asset_classes:
-            raise ValueError(
-                "benchmark_or_dataset_use=true requires at least one reusable asset class search"
-            )
+    if (
+        project_facts is not None
+        and project_facts.get("benchmark_or_dataset_use") is True
+        and not required_asset_classes
+    ):
+        raise ValueError(
+            "benchmark_or_dataset_use=true requires at least one reusable asset class search"
+        )
 
     candidate_ids: set[str] = set()
     candidate_by_id: dict[str, JSONDict] = {}
@@ -194,7 +197,10 @@ def validate_reuse_assessment(
 
     for candidate in serious_full_candidates:
         candidate_id = _as_string(candidate["candidate_id"], "candidate.candidate_id")
-        if candidate.get("disposition") in {"reject", "spike_required"} and candidate_id not in probe_candidates:
+        if (
+            candidate.get("disposition") in {"reject", "spike_required"}
+            and candidate_id not in probe_candidates
+        ):
             raise ValueError(
                 f"serious full-coverage candidate {candidate_id} requires probe evidence or a not-run rationale"
             )
