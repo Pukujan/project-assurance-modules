@@ -193,7 +193,9 @@ def validate_reuse_assessment(
             raise ValueError(
                 f"candidate {candidate_id} references unknown receipts: {unknown_receipts}"
             )
-        if serious and not any(receipt_scopes[receipt_id] == origin for receipt_id in evidence_receipts):
+        if serious and not any(
+            receipt_scopes[receipt_id] == origin for receipt_id in evidence_receipts
+        ):
             raise ValueError(
                 f"serious candidate {candidate_id} has no evidence receipt from its declared {origin} search scope"
             )
