@@ -73,11 +73,27 @@ Execution state is tracked separately in the project manifest (`pending`, `satis
 9. Agent continuity applies when work will span sessions/agents/harnesses; it should not require checkpoint churn after trivial actions.
 10. Uncertainty must not silently route to `not_applicable`.
 
+## Assurance execution routing
+
+When a project uses agents or other automated executors for material assurance work, route the **kind of work** as well as the methodology module. See `docs/EXECUTION_TOPOLOGY.md`.
+
+Use high-reasoning review where ambiguity or judgment dominates, including product/system design, invariants, threat models, acceptance oracles, mutation/fuzz policy, semantic survivor judgment, evidence interpretation, and checkpoint acceptance.
+
+Prefer a persistent local executor where repetition and state continuity dominate, including edit/test/debug loops, targeted tests, mutation/fuzz/property runs, service/database/container work, migration rehearsal, restart/resume tests, long-running deterministic tools, log inspection, and mechanical spec-conforming fixes.
+
+Use CI or another independent environment to attest clean reproducibility at an exact candidate identity whenever the applicable module/gate requires that boundary. Do not make CI the default interactive debug loop merely because it is available, and do not replace required CI with the local executor.
+
+The executor optimizing toward a gate must not have unilateral authority to redefine, weaken, or self-approve that gate. Any material gate change returns to the authority that owns the invariant/oracle/threshold/checkpoint and is recorded separately from ordinary implementation evidence.
+
+Before material checkpoint review, require an exact candidate identity, material local/tool receipts, required independent attestation, unresolved-risk disclosure, and explicit gate-change requests if any.
+
 ## Human review boundary
 
 The router may propose the preflight. A human/project owner should review material exclusions, disputed project facts, consequential waivers, and the final transition into implementation planning.
 
 The human should not need to manually remember every module; the point of this repository is to surface them.
+
+Execution roles may be filled by humans, models, agents, or deterministic systems according to project risk and cost, but a material gate must retain an authority boundary between optimization against the gate and unilateral redefinition/approval of the gate.
 
 ## Repeatability target
 
