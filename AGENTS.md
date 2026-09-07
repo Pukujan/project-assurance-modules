@@ -8,11 +8,12 @@ This repository defines reusable project-assurance methodology. It is not itself
 2. `docs/ARCHITECTURE.md`
 3. `docs/PROJECTIZATION_GATE.md`
 4. `docs/ROUTING.md`
-5. `docs/IMPLEMENTATION_PLAN.md`
-6. active GitHub issue/PR
-7. relevant schema(s)
-8. relevant module/profile definitions
-9. `docs/MODULE_ROADMAP.md` only as candidate future scope
+5. `docs/EXECUTION_TOPOLOGY.md`
+6. `docs/IMPLEMENTATION_PLAN.md`
+7. active GitHub issue/PR
+8. relevant schema(s)
+9. relevant module/profile definitions
+10. `docs/MODULE_ROADMAP.md` only as candidate future scope
 
 For the blinded Research Assurance retrospective, the experiment-specific handoff overrides the normal read order and defines a strict allowlist/denylist.
 
@@ -22,6 +23,9 @@ For the blinded Research Assurance retrospective, the experiment-specific handof
 - Every module must state applicability, non-scope, requirements, acceptable evidence, and a not-applicable rule.
 - Do not make every module mandatory.
 - Do not use agent self-report as closure evidence when objective evidence is available.
+- An executor optimizing toward an assurance gate may not silently redefine, weaken, or self-approve that gate; material gate changes return to the authority that owns the oracle/threshold/checkpoint.
+- Prefer persistent local execution for repetitive edit/test/debug, mutation, fuzz/property, service/database/container, migration, restart, and other stateful deterministic loops when it improves convergence; do not use this to remove required independent CI attestation.
+- Before material checkpoint review, hand off the exact candidate revision plus material test/tool receipts, unresolved risks/failures, and any requested gate change.
 - Markdown checkboxes may be generated views; authoritative requirement state belongs in a validated project manifest.
 - Do not silently turn uncertainty into `not_applicable`.
 - Do not generate a large repository/issue/project backlog before reviewed projectization preflight.
